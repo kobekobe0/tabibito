@@ -1,0 +1,28 @@
+authentication
+  -USER collection
+
+
+Travels Model
+   -userID(user who posts this) : String
+   -postID (auto generated)
+   -Image/s (convert to string using a library)
+   -Budget {
+          food,
+	  tranpostation,
+ 	  itenariries,
+	  misc,
+	  total
+	}
+   - Title of the travel : String
+   - Location : String 
+   - Must do : [String array]
+   - Description : String
+   - Private : Boolean
+   - Deleted : Boolean
+
+
+News feed page
+
+Personal page
+
+on the first load, personal page will be loaded, but there's view other people travel page
