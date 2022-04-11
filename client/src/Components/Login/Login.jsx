@@ -9,10 +9,15 @@ function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        await axios.post('http://localhost:3000/api/users/login', {
+        const data = await axios.post('http://localhost:3000/api/users/login', {
             email: email,
             password: password,
         })
+
+        if (data.data.user) {
+            localStorage.setItem('user', JSON.stringify(data.data.user))
+            window.location.href = '/'
+        }
     }
 
     return (

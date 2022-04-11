@@ -1,5 +1,7 @@
 const User = require('../../models/register.model')
 
+const jwt = require('jsonwebtoken')
+
 const registerUser = async (req, res) => {
     try {
         const { name, email, password } = req.body
@@ -19,10 +21,14 @@ const loginUser = async (req, res) => {
     const user = await User.findOne({ email: req.body.email })
 
     if (user) {
-        if (user.password === req.body.password) {
-            console.log('User logged in')
-            return res.json({ user: true })
-        }
+        const token = jwt.sign(
+            {
+                name: user.name,
+                email: user.email,
+            },
+            'secretkey'
+        ) //secretkey should be super secured
+        return res.json({ status: 'OK', user: token })
     }
     return res.json({ user: false })
 }
