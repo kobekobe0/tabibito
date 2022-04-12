@@ -1,6 +1,7 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
+import jwt_decode from 'jwt-decode'
 
 function Login() {
     const [email, setEmail] = useState('')
@@ -17,8 +18,22 @@ function Login() {
         if (data.data.user) {
             localStorage.setItem('user', JSON.stringify(data.data.user))
             window.location.href = '/'
+        } else {
+            alert('Invalid email or password')
         }
     }
+
+    useEffect(() => {
+        const token = window.localStorage.getItem('user')
+        if (token) {
+            //decode jwt token
+            let user = jwt_decode(token)
+            console.log(user)
+            if (user) {
+                window.location.href = '/'
+            }
+        }
+    }, [])
 
     return (
         <div>

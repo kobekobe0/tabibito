@@ -1,6 +1,7 @@
 import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import axios from 'axios'
+import jwt_decode from 'jwt-decode'
 
 function Register() {
     const [name, setName] = useState('')
@@ -18,8 +19,25 @@ function Register() {
             }
         )
 
-        console.log(res.data)
+        console.log(res)
+        if (res.statusText === 'OK') {
+            window.location.href = '/login'
+        }
     }
+
+    useEffect(() => {
+        const token = window.localStorage.getItem('user')
+        if (token) {
+            //decode jwt token
+            let user = jwt_decode(token)
+            console.log(user)
+            if (user) {
+                window.location.href = '/'
+            } else {
+                //fetch data
+            }
+        }
+    }, [])
     return (
         <div>
             <h1>Register</h1>
