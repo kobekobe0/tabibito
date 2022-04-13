@@ -42,7 +42,7 @@ const verifyLogin = async (req, res) => {
     try {
         const decoded = jwt.verify(token, 'secretkey')
         const email = decoded.email
-        const user = await User.findOne({ email: email })\
+        const user = await User.findOne({ email: email })
 
         return res.json
     } catch (error) {

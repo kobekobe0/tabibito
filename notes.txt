@@ -26,3 +26,16 @@ News feed page
 Personal page
 
 on the first load, personal page will be loaded, but there's view other people travel page
+
+images cant be edited
+
+when updating budget object, in the FE copy the recent values then send that value with the updated one
+
+e.g. BE sends 1000,2000,3000,4000 (food, transpo, acomo, other)  -   then user updates the food value
+in req.body = 
+{
+  "food": newValue,
+  "transpo": copyOldVal,
+  "acomo": copyOldVal,
+  "other": copyOldVal,
+}
