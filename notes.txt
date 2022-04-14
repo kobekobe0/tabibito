@@ -40,5 +40,5 @@ in req.body =
   "other": copyOldVal,
 }
 
-
-for every request, send the user JWT token as headers
+IMPORTANT!!!
+for every request, send the user JWT token as headers, then pass that to the auth middleware

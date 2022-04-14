@@ -1,0 +1,19 @@
+.register_page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: blue;
+}
+
+.register_form {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    background-color: white;
+    width: 40%;
+    justify-self: baseline;
+}
