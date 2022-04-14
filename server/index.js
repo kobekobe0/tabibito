@@ -24,19 +24,18 @@ mongoose.connect('mongodb://localhost:27017/tabibito')
 
 app.use(cors())
 app.use(express.json())
-app.use('/api/travel', reqAuth)
+
 app.post('/api/users/register', registerUser)
 app.post('/api/users/login', loginUser)
 app.get('/api/users/login', verifyLogin)
 
+app.use('/api/travel', reqAuth)
+
 app.get('/api/travel/public', getPublicTravels)
-
-app.get('/api/travel/:id', getTravelById)
-
-app.post('/api/travel/', createTravel)
-
-app.put('/api/travel/:id', updateTravel)
 app.get('/api/travel/user/:id', getUserTravels)
+app.get('/api/travel/:id', getTravelById)
+app.post('/api/travel/', createTravel)
+app.put('/api/travel/:id', updateTravel)
 
 app.listen(PORT || 3000, () => {
     console.log('Server is running on port ' + PORT)

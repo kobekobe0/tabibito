@@ -12,7 +12,7 @@ const reqAuth = async (req, res, next) => {
             console.log(decoded) // bar
             if (decoded.email) {
                 const user = await User.findOne({ email: decoded.email })
-                if (user !== null) {
+                if (user === null) {
                     return res.json({
                         status: 'error',
                         message: 'User not found',
