@@ -39,3 +39,6 @@ in req.body =
   "acomo": copyOldVal,
   "other": copyOldVal,
 }
+
+
+for every request, send the user JWT token as headers
