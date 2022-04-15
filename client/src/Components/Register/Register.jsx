@@ -52,6 +52,9 @@ function Register() {
 
     return (
         <div className="register_page">
+            <div className="register_image">
+                <img src={img} />
+            </div>
             <div className="register_form">
                 <h1>REGISTER</h1>
                 <div className="register_fields">
@@ -92,9 +95,6 @@ function Register() {
                         </p>
                     </form>
                 </div>
-            </div>
-            <div className="register_image">
-                <img src={img} />
             </div>
         </div>
     )
