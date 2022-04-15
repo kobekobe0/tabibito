@@ -1,4 +1,4 @@
-.register_page {
+.Login_page {
     width: 100%;
     height: 100vh;
     display: flex;
@@ -8,7 +8,7 @@
     overflow-y: hidden;
 }
 
-.register_form {
+.Login_form {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -18,20 +18,20 @@
     flex: 45%;
 }
 
-.register_form form {
+.Login_form form {
     display: flex;
     flex-direction: column;
 }
 
-.register_form h1 {
+.Login_form h1 {
     font-family: 'Roboto', sans-serif;
     font-size: 80px;
     margin: 0;
     margin-bottom: 0.2em;
-    color: #b8b8b8;
+    color: #414141;
 }
 
-.register_form input {
+.Login_form input {
     padding: 2em;
     width: 400px;
     border-radius: 10px;
@@ -39,32 +39,32 @@
     outline: none;
     font-family: 'open sans', sans-serif;
 }
-.register_form button {
+.Login_form button {
     padding: 1.2em;
     width: 200px;
     border-radius: 10px;
     border: 1px solid black;
     align-self: flex-end;
-    background-color: #ffc34f;
+    background-color: #4fa1ff;
     border: none;
     font-size: 20px;
     color: white;
     transition: all 0.2s ease-in-out;
 }
-.register_form p {
+.Login_form p {
     align-self: end;
     font-size: 13px;
 }
-.register_form button:hover {
-    background-color: #ffdc95;
+.Login_form button:hover {
+    background-color: #95baff;
 }
-.register_image {
+.Login_image {
     flex: 55%;
     background-color: rgb(0, 0, 0);
     height: 100%;
 }
 
-.register_image img {
+.Login_image img {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -72,18 +72,18 @@
 }
 
 @media (max-width: 1200px) {
-    .register_image {
+    .Login_image {
         display: none;
     }
 }
 @media (max-width: 480px) {
-    .register_form h1 {
+    .Login_form h1 {
         font-size: 50px;
     }
-    .register_form input {
+    .Login_form input {
         width: 300px;
     }
-    .register_form button {
+    .Login_form button {
         width: 150px;
     }
 }

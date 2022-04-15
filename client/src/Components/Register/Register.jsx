@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 import './register.css'
+import img from '../../images/register2.jpg'
 
 function Register() {
     const [name, setName] = useState('')
@@ -52,12 +53,12 @@ function Register() {
     return (
         <div className="register_page">
             <div className="register_form">
-                <h1>Register</h1>
+                <h1>REGISTER</h1>
                 <div className="register_fields">
                     <form>
                         <input
                             type="text"
-                            placeholder="enter your name"
+                            placeholder="enter your username"
                             onChange={(e) => setName(e.target.value)}
                             maxLength="15"
                         />{' '}
@@ -79,14 +80,21 @@ function Register() {
                             placeholder="enter your password"
                             onChange={(e) => setConfirmPassword(e.target.value)}
                         />
+                        <br />
                         <button type="submit" onClick={handleSubmit}>
                             Register
                         </button>
+                        <p>
+                            Already have an account?{' '}
+                            <span>
+                                <a href="/login">Click here</a>
+                            </span>
+                        </p>
                     </form>
                 </div>
             </div>
             <div className="register_image">
-                <img src="../../images/register.jpg" />
+                <img src={img} />
             </div>
         </div>
     )

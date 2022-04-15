@@ -2,6 +2,8 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
+import img from '../../images/login2.jpg'
+import './login.css'
 
 function Login() {
     const [email, setEmail] = useState('')
@@ -36,23 +38,38 @@ function Login() {
     }, [])
 
     return (
-        <div>
-            <h1>Login</h1>
-            <form action="">
-                <input
-                    type="text"
-                    name="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <br />
-                <input
-                    type="password"
-                    name="password"
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <br />
-                <button onClick={handleSubmit}>Login</button>
-            </form>
+        <div className="Login_page">
+            <div className="Login_form">
+                <h1>ⓉABIBITO</h1>
+                <div className="Login_fields">
+                    <form>
+                        <input
+                            type="text"
+                            placeholder="enter your email"
+                            onChange={(e) => setEmail(e.target.value)}
+                        />{' '}
+                        <br />
+                        <input
+                            type="password"
+                            placeholder="enter your password"
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
+                        <br />
+                        <button type="submit" onClick={handleSubmit}>
+                            Login
+                        </button>
+                        <p>
+                            Don't have an account?{' '}
+                            <span>
+                                <a href="/register">Click here</a>
+                            </span>
+                        </p>
+                    </form>
+                </div>
+            </div>
+            <div className="Login_image">
+                <img src={img} />
+            </div>
         </div>
     )
 }
