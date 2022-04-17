@@ -2,8 +2,9 @@ import React, { useEffect } from 'react'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 import './home.css'
-import bg from '../../images/login2.jpg'
-import profile from '../../images/profile.jpg'
+import './travel.css'
+import TravelCards from './TravelCards'
+import ProfileBar from './ProfileBar'
 
 function Home() {
     //function for fetching data from the server
@@ -27,30 +28,8 @@ function Home() {
     return (
         <div className="home">
             <main>
-                <section className="userInfo">
-                    <div className="backgroundImg">
-                        <img src={bg} alt="" />
-                    </div>
-                    <div className="profile">
-                        <div className="profileImg">
-                            <img src={profile} alt="" />
-                        </div>
-                        <div className="profileInfo">
-                            <div className="profileTexts">
-                                <h3>Kobekoblanca</h3>
-                                <p>
-                                    “The world is a book and those who do not
-                                    travel read only one page.”
-                                </p>
-                            </div>
-                            <div className="profileButtons">
-                                <button>Edit Profile</button>
-                                <button>Logout</button>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <section></section>
+                <ProfileBar />
+                <TravelCards />
                 <section></section>
             </main>
         </div>
