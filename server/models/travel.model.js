@@ -16,9 +16,11 @@ const Travel = new mongoose.Schema({
     budget: Budget,
     title: { type: String, required: true },
     location: { type: String, required: true },
+    travelerLocation: { type: String, required: true },
     description: { type: String, required: true },
     private: { type: Boolean, required: true },
     deleted: { type: Boolean, required: true },
+    duration: { type: Number, required: true },
 })
 
 const model = mongoose.model('Traveldata', Travel)
