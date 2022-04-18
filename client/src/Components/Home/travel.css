@@ -6,6 +6,7 @@
     height: auto;
     width: 100%;
     flex: 60%;
+    padding-bottom: 5vh;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
