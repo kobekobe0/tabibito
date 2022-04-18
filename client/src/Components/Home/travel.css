@@ -9,6 +9,7 @@
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap');
+
 .travels .header {
     align-self: center;
     font-size: 2em;
@@ -36,6 +37,11 @@
     background-color: rgb(255, 255, 255);
     margin-bottom: 2em;
     overflow: hidden;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+.travelCard_img:hover {
+    transform: scale(1.01);
 }
 
 .travelCard_img img {
