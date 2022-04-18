@@ -5,6 +5,7 @@ import './home.css'
 import './travel.css'
 import TravelCards from './TravelCards'
 import ProfileBar from './ProfileBar'
+import './navbar.css'
 
 function Home() {
     //function for fetching data from the server
@@ -30,7 +31,6 @@ function Home() {
             <main>
                 <ProfileBar />
                 <TravelCards />
-                <section></section>
             </main>
         </div>
     )

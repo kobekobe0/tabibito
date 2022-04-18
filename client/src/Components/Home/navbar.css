@@ -1,0 +1,28 @@
+.navbar {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    background-color: #4b4b4b;
+    display: flex;
+    justify-content: center;
+    height: 7vh;
+    align-items: center;
+}
+
+.navbar-items {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    justify-items: center;
+}
+
+.navbar-item {
+    margin-left: 2em;
+    margin-right: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

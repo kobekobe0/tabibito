@@ -1,8 +1,13 @@
 import React from 'react'
 import bg from '../../images/login2.jpg'
+import Modal from '../Modal/Modal'
 import Card from './Card'
 
 function TravelCards() {
+    const handleNewClick = () => {
+        window.location.href = '/new'
+    }
+
     return (
         <section className="travels">
             <div className="header">
@@ -10,7 +15,7 @@ function TravelCards() {
             </div>
             <div className="travelCards">
                 <div className="travelCard">
-                    <div className="travelCard_img">
+                    <div className="travelCard_img" onClick={handleNewClick}>
                         <img src={bg} alt="travel" />
                         <h5>+ADD NEW TRAVEL</h5>
                     </div>
@@ -19,6 +24,7 @@ function TravelCards() {
                     <Card />
                 </div>
             </div>
+            <Modal />
         </section>
     )
 }
