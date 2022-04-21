@@ -3,14 +3,23 @@ import './modal.css'
 
 function Modal() {
     return (
-        <div>
+        <div className="modal-container">
             <div className="modal">
                 <div className="modal-contents">
                     <div className="modal-header">Add new travel</div>
                     <div className="modal-body">
                         <form encType="multipart/form-data">
-                            <input type="text" placeholder="Add title" />
-                            <input type="text" placeholder="Add description" />
+                            <input
+                                type="text"
+                                placeholder="Add title"
+                                id="title"
+                            />
+                            <textarea
+                                type="text"
+                                placeholder="Add description"
+                                id="description"
+                            />
+
                             <section className="budget">
                                 <div className="budget-header">
                                     <h4>Budget</h4>

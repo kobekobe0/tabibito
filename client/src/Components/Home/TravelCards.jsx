@@ -1,11 +1,10 @@
 import React from 'react'
 import bg from '../../images/login2.jpg'
-import Modal from '../Modal/Modal'
 import Card from './Card'
 
 function TravelCards() {
     const handleNewClick = () => {
-        window.location.href = '/new'
+        window.location.href = '/post'
     }
 
     return (
@@ -24,7 +23,6 @@ function TravelCards() {
                     <Card />
                 </div>
             </div>
-            <Modal />
         </section>
     )
 }

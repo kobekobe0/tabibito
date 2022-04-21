@@ -1,0 +1,77 @@
+.modal-container {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgb(44, 44, 44);
+    color: rgb(223, 223, 223);
+}
+
+.modal {
+    width: 100%;
+}
+
+.modal-contents {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    align-items: center;
+}
+.modal-header {
+    font-size: 50px;
+    font-family: 'Roboto', sans-serif;
+    padding: 1.2em;
+}
+
+.modal-body {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-body form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-body form #title {
+    padding: 1em;
+    outline: none;
+    font-weight: bold;
+    margin-bottom: 1em;
+    border-radius: 5px;
+}
+.modal-body form #description {
+    padding: 1em;
+    outline: none;
+    resize: none;
+    border-radius: 5px;
+    height: 300px;
+}
+
+.modal-body form .budget {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    justify-content: space-around;
+}
+.modal-body form .budget-header {
+    font-size: 20px;
+    font-family: 'Roboto', sans-serif;
+    margin-top: 1em;
+}
+.modal-body form .budget-body {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+.modal-body form .budget-body .budget-inputs {
+    display: flex;
+
+    flex-direction: column;
+}
+.modal-body form .budget-body .budget-inputs input {
+    padding: 5em;
+}
