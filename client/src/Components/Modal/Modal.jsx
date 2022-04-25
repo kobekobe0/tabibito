@@ -27,6 +27,9 @@ function Modal() {
 
     const [images, setImages] = useState([])
 
+    //TODO
+    // handle Image upload, Im not sure if it will be handled in FE or BE
+
     const handleSubmit = async (e) => {
         e.preventDefault()
 
@@ -60,7 +63,15 @@ function Modal() {
             duration: duration,
         }
 
-        axios.post('http://localhost:3000/api/travel', data)
+        try {
+            const response = await axios.post(
+                'http://localhost:3000/api/travel',
+                data
+            )
+            console.log(response)
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     const handleChange = (e, state) => {
