@@ -4,8 +4,8 @@ import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 
 function Modal() {
-    const [privacy, setPrivacy] = useState('Private')
-    const [privacyBool, setPrivacyBool] = useState(true)
+    const [privacy, setPrivacy] = useState(true)
+
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
 
@@ -27,20 +27,11 @@ function Modal() {
 
     const [images, setImages] = useState([])
 
-    useEffect(() => {}, [])
-
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-
-        if (privacy === 'Private') {
-            setPrivacyBool(true)
-        } else if (privacy === 'Public') {
-            setPrivacyBool(false)
-        }
 
         const userIdToken = JSON.parse(localStorage.getItem('user'))
         const userId = jwt_decode(userIdToken).id
-        console.log(userId)
 
         const data = {
             images: ['gggg', 'ggggg'], //pass 64bit encoded images
@@ -64,7 +55,7 @@ function Modal() {
                 country: locationCountryTraveler,
             },
             transportationType: transportationType,
-            private: privacyBool,
+            private: privacy,
             deleted: false,
             duration: duration,
         }
@@ -259,8 +250,8 @@ function Modal() {
                                 name="privacy"
                                 onChange={(e) => handleChange(e, setPrivacy)}
                             >
-                                <option value="Commute">Private</option>
-                                <option value="Rent">Public</option>
+                                <option value={true}>Private</option>
+                                <option value={false}>Public</option>
                             </select>
 
                             <input
