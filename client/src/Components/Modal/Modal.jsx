@@ -3,15 +3,17 @@ import './modal.css'
 import axios from 'axios'
 
 function Modal() {
-    const [disableSubmit, setDisableSubmit] = useState(true)
+    const [privacy, setPrivacy] = useState(true)
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
 
     const [food, setFood] = useState(0)
-    const [accomodation, setAccomodation] = useState(0)
+    const [accommodation, setAccommodation] = useState(0)
     const [transportation, setTransportation] = useState(0)
     const [other, setOther] = useState(0)
     const [transportationType, setTransportationType] = useState('')
+
+    const [duration, setDuration] = useState(0)
 
     const [locationTown, setLocationTown] = useState('')
     const [locationCity, setLocationCity] = useState('')
@@ -23,6 +25,41 @@ function Modal() {
 
     const [images, setImages] = useState([])
 
+    useEffect(() => {}, [])
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+
+        const data = {
+            images: ['gggg', 'ggggg'],
+            title: title,
+            userId: 1,
+            description: description,
+            budget: {
+                food: food,
+                accommodation: accommodation,
+                transportation: transportation,
+                other: other,
+            },
+            location: {
+                town: locationTown,
+                city: locationCity,
+                country: locationCountry,
+            },
+            travelerLocation: {
+                town: locationTownTraveler,
+                city: locationCityTraveler,
+                country: locationCountryTraveler,
+            },
+            transportationType: transportationType,
+            private: privacy,
+            deleted: false,
+            duration: 0,
+        }
+
+        axios.post('http://localhost:3000/api/travel', data)
+    }
+
     const handleChange = (e, state) => {
         state(e.target.value)
     }
@@ -33,10 +70,6 @@ function Modal() {
                 <div className="modal-contents">
                     <div className="modal-header">Add new travel</div>
                     <div className="modal-body">
-                        <h1>{title}</h1>
-                        <h1>{description}</h1>
-                        <h1>{food}</h1>
-                        <h1>{transportationType}</h1>
                         <form encType="multipart/form-data">
                             <input
                                 type="text"
@@ -80,7 +113,10 @@ function Modal() {
                                             type="number"
                                             placeholder="Accomodation"
                                             onChange={(e) =>
-                                                handleChange(e, setAccomodation)
+                                                handleChange(
+                                                    e,
+                                                    setAccommodation
+                                                )
                                             }
                                         />
                                         <input
@@ -113,6 +149,13 @@ function Modal() {
                                                 Owns the vehicle
                                             </option>
                                         </select>
+                                        <input
+                                            type="number"
+                                            placeholder="enter duration(in days)"
+                                            onChange={(e) =>
+                                                handleChange(e, setDuration)
+                                            }
+                                        />
                                     </div>
                                 </div>
                             </section>
@@ -203,7 +246,21 @@ function Modal() {
                                 type="submit"
                                 id="submit"
                                 name="Submit"
-                                disabled={disableSubmit}
+                                onClick={handleSubmit}
+                                disabled={
+                                    title === '' ||
+                                    description === '' ||
+                                    food === '' ||
+                                    transportationType === '' ||
+                                    locationTown === '' ||
+                                    locationCity === '' ||
+                                    locationCountry === '' ||
+                                    locationTownTraveler === '' ||
+                                    locationCityTraveler === '' ||
+                                    locationCountryTraveler === ''
+                                        ? true
+                                        : false
+                                }
                             />
                         </form>
                     </div>
