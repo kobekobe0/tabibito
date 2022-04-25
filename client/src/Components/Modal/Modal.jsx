@@ -29,6 +29,7 @@ function Modal() {
 
     //TODO
     // handle Image upload, Im not sure if it will be handled in FE or BE
+    // Styles and Loading animation
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -64,11 +65,8 @@ function Modal() {
         }
 
         try {
-            const response = await axios.post(
-                'http://localhost:3000/api/travel',
-                data
-            )
-            console.log(response)
+            await axios.post('http://localhost:3000/api/travel', data)
+            window.location.href = '/'
         } catch (err) {
             console.log(err)
         }
