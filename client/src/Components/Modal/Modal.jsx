@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import './modal.css'
 import axios from 'axios'
+import jwt_decode from 'jwt-decode'
 
 function Modal() {
-    const [privacy, setPrivacy] = useState(true)
+    const [privacy, setPrivacy] = useState('Private')
+    const [privacyBool, setPrivacyBool] = useState(true)
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
 
@@ -11,7 +13,7 @@ function Modal() {
     const [accommodation, setAccommodation] = useState(0)
     const [transportation, setTransportation] = useState(0)
     const [other, setOther] = useState(0)
-    const [transportationType, setTransportationType] = useState('')
+    const [transportationType, setTransportationType] = useState('Commute')
 
     const [duration, setDuration] = useState(0)
 
@@ -30,10 +32,20 @@ function Modal() {
     const handleSubmit = (e) => {
         e.preventDefault()
 
+        if (privacy === 'Private') {
+            setPrivacyBool(true)
+        } else if (privacy === 'Public') {
+            setPrivacyBool(false)
+        }
+
+        const userIdToken = JSON.parse(localStorage.getItem('user'))
+        const userId = jwt_decode(userIdToken).id
+        console.log(userId)
+
         const data = {
-            images: ['gggg', 'ggggg'],
+            images: ['gggg', 'ggggg'], //pass 64bit encoded images
             title: title,
-            userId: 1,
+            userId: userId,
             description: description,
             budget: {
                 food: food,
@@ -52,9 +64,9 @@ function Modal() {
                 country: locationCountryTraveler,
             },
             transportationType: transportationType,
-            private: privacy,
+            private: privacyBool,
             deleted: false,
-            duration: 0,
+            duration: duration,
         }
 
         axios.post('http://localhost:3000/api/travel', data)
@@ -241,6 +253,15 @@ function Modal() {
                                 id="image"
                                 onChange={(e) => setImages(e.target.files)}
                             />
+                            <label for="privacy">Privacy:</label>
+                            <select
+                                id="privacy"
+                                name="privacy"
+                                onChange={(e) => handleChange(e, setPrivacy)}
+                            >
+                                <option value="Commute">Private</option>
+                                <option value="Rent">Public</option>
+                            </select>
 
                             <input
                                 type="submit"

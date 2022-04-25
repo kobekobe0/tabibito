@@ -6,8 +6,8 @@ const reqAuth = async (req, res, next) => {
     const token = req.headers.authorization
 
     jwt.verify(
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoia29iZSIsImVtYWlsIjoia29iZUBrb2JlIiwiaWF0IjoxNjQ5ODU3MjgyfQ.9HQUzTfPiGhY9Ws3Hjm9bi3DxmD0D-VtD46rP9NedK8',
-        'secretkey', //just a placeholder, send a real headers from FE
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoia29iZSIsImVtYWlsIjoia29iZUBrb2JlIiwiaWQiOiI2MjU0NDgyZmQ4NzJkNjVkN2U3OTlkNmQiLCJpYXQiOjE2NTA4OTQ3MzF9.sJFAk2_GuH4TSjTZlRQi9VIZ6O99VgZf4uLuFJETYcQ',
+        'secretkey', //just a placeholder, send a real headers from FE that contains the token
         async function (err, decoded) {
             console.log(decoded) // bar
             if (decoded.email) {

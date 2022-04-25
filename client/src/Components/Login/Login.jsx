@@ -19,7 +19,7 @@ function Login() {
 
         if (data.data.user) {
             localStorage.setItem('user', JSON.stringify(data.data.user))
-            window.location.href = '/'
+            console.log(data.data)
         } else {
             alert('Invalid email or password')
         }
