@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import bg from '../../images/login2.jpg'
 import Card from './Card'
 

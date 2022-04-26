@@ -18,7 +18,7 @@ const storage = multer.diskStorage({
 })
 const upload = multer({
     storage: storage,
-}).single('images')
+})
 
 //+++++++++++++
 
@@ -34,6 +34,7 @@ const getTravelById = async (req, res) => {
 }
 
 const createTravel = async (req, res) => {
+    console.log(req.file)
     const travel = req.body
     const newTravel = await Travel.create(travel)
     res.json(newTravel)

@@ -37,36 +37,66 @@ function Modal() {
         const userIdToken = JSON.parse(localStorage.getItem('user'))
         const userId = jwt_decode(userIdToken).id
 
-        const data = {
-            images: images, //pass 64bit encoded images
-            title: title,
-            userId: userId,
-            description: description,
-            budget: {
-                food: food,
-                accommodation: accommodation,
-                transportation: transportation,
-                other: other,
-            },
-            location: {
-                town: locationTown,
-                city: locationCity,
-                country: locationCountry,
-            },
-            travelerLocation: {
-                town: locationTownTraveler,
-                city: locationCityTraveler,
-                country: locationCountryTraveler,
-            },
-            transportationType: transportationType,
-            private: privacy,
-            deleted: false,
-            duration: duration,
+        const formData = new FormData()
+
+        const budget = {
+            food: food,
+            accommodation: accommodation,
+            transportation: transportation,
+            other: other,
         }
 
+        const location = {
+            town: locationTown,
+            city: locationCity,
+            country: locationCountry,
+        }
+        const locationTraveler = {
+            town: locationTownTraveler,
+            city: locationCityTraveler,
+            country: locationCountryTraveler,
+        }
+
+        formData.append('title', title)
+        formData.append('description', description)
+        formData.append('budget', budget)
+        formData.append('duration', duration)
+        formData.append('location', location)
+        formData.append('privacy', privacy)
+        formData.append('images', images)
+        formData.append('userId', userId)
+        formData.append('deleted', false)
+
+        // const data = {
+        //     images: images, //pass 64bit encoded images
+        //     title: title,
+        //     userId: userId,
+        //     description: description,
+        //     budget: {
+        //         food: food,
+        //         accommodation: accommodation,
+        //         transportation: transportation,
+        //         other: other,
+        //     },
+        //     location: {
+        //         town: locationTown,
+        //         city: locationCity,
+        //         country: locationCountry,
+        //     },
+        //     travelerLocation: {
+        //         town: locationTownTraveler,
+        //         city: locationCityTraveler,
+        //         country: locationCountryTraveler,
+        //     },
+        //     transportationType: transportationType,
+        //     private: privacy,
+        //     deleted: false,
+        //     duration: duration,
+        // }
+
+        console.log(JSON.parse(formData.get('budget')))
         try {
-            await axios.post('http://localhost:3000/api/travel', data)
-            console.log(data)
+            await axios.post('http://localhost:3000/api/travel', formData)
         } catch (err) {
             console.log(err)
         }
@@ -82,7 +112,10 @@ function Modal() {
                 <div className="modal-contents">
                     <div className="modal-header">Add new travel</div>
                     <div className="modal-body">
-                        <form encType="multipart/form-data">
+                        <form
+                            encType="multipart/form-data"
+                            action="../../../../server/uploads"
+                        >
                             <input
                                 type="text"
                                 placeholder="Add title"
