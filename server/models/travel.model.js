@@ -20,7 +20,7 @@ const TravelerLocation = new mongoose.Schema({
 const Travel = new mongoose.Schema({
     userId: { type: String, required: true },
     images: {
-        type: [String],
+        type: [Object],
         required: true,
     },
     budget: Budget,

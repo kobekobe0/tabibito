@@ -25,7 +25,7 @@ function Modal() {
     const [locationCityTraveler, setLocationCityTraveler] = useState('')
     const [locationCountryTraveler, setLocationCountryTraveler] = useState('')
 
-    const [images, setImages] = useState([])
+    const [images, setImages] = useState(Array)
 
     //TODO
     // handle Image upload, Im not sure if it will be handled in FE or BE
@@ -38,7 +38,7 @@ function Modal() {
         const userId = jwt_decode(userIdToken).id
 
         const data = {
-            images: ['gggg', 'ggggg'], //pass 64bit encoded images
+            images: images, //pass 64bit encoded images
             title: title,
             userId: userId,
             description: description,
@@ -66,7 +66,7 @@ function Modal() {
 
         try {
             await axios.post('http://localhost:3000/api/travel', data)
-            window.location.href = '/'
+            console.log(data)
         } catch (err) {
             console.log(err)
         }
@@ -250,8 +250,15 @@ function Modal() {
                             <label for="image">Upload images: </label>
                             <input
                                 type="file"
+                                multiple
                                 id="image"
-                                onChange={(e) => setImages(e.target.files)}
+                                name="images"
+                                onChange={async (e) => {
+                                    await setImages((images) => [
+                                        ...images,
+                                        e.target.files[0],
+                                    ])
+                                }}
                             />
                             <label for="privacy">Privacy:</label>
                             <select
@@ -278,7 +285,9 @@ function Modal() {
                                     locationCountry === '' ||
                                     locationTownTraveler === '' ||
                                     locationCityTraveler === '' ||
-                                    locationCountryTraveler === ''
+                                    locationCountryTraveler === '' ||
+                                    duration === '' ||
+                                    images.length === 0
                                         ? true
                                         : false
                                 }

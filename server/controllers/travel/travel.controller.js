@@ -1,6 +1,26 @@
 const Travel = require('../../models/travel.model')
+const multer = require('multer')
 
 const jwt = require('jsonwebtoken')
+
+//storage engine
+const storage = multer.diskStorage({
+    destination: '../../uploads/',
+    filename: function (req, file, cb) {
+        cb(
+            null,
+            file.originalname +
+                '-' +
+                Date.now() +
+                path.extname(file.originalname)
+        )
+    },
+})
+const upload = multer({
+    storage: storage,
+}).single('images')
+
+//+++++++++++++
 
 const getPublicTravels = async (req, res) => {
     const travels = await Travel.find({ private: false })
@@ -50,6 +70,7 @@ const getUserTravels = async (req, res) => {
     const travels = await Travel.find({
         userId: userId,
     })
+    //only return image and title
     res.json(travels)
 }
 
