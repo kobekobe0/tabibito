@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React from 'react'
 import bg from '../../images/login2.jpg'
 import Card from './Card'
@@ -6,6 +7,10 @@ function TravelCards() {
     const handleNewClick = () => {
         window.location.href = '/post'
     }
+
+    useEffect(() => {
+        axios.get('/api/travel/user/:id').then((res) => {})
+    }, [])
 
     return (
         <section className="travels">
