@@ -66,7 +66,24 @@ function Modal() {
             duration: duration,
         }
 
-        formData.append('data', data)
+        formData.append('userId', userId)
+        formData.append('title', title)
+        formData.append('description', description)
+        formData.append('food', food)
+        formData.append('accommodation', accommodation)
+        formData.append('transportation', transportation)
+        formData.append('other', other)
+        formData.append('transportationType', transportationType)
+        formData.append('duration', duration)
+        formData.append('locationTown', locationTown)
+        formData.append('locationCity', locationCity)
+        formData.append('locationCountry', locationCountry)
+        formData.append('travelerTown', locationTownTraveler)
+        formData.append('travelerCity', locationCityTraveler)
+        formData.append('travelerCountry', locationCountryTraveler)
+        formData.append('private', privacy)
+        formData.append('deleted', false)
+        formData.append('imageUpload', images)
 
         const config = {
             headers: {
@@ -76,7 +93,11 @@ function Modal() {
         console.log(formData.values)
 
         try {
-            await axios.post('http://localhost:3000/api/travel', formData)
+            await axios
+                .post('http://localhost:3000/api/travel', formData)
+                .then((res) => {
+                    console.log(res)
+                })
         } catch (err) {
             console.log(err)
         }
