@@ -25,7 +25,7 @@ function Modal() {
     const [locationCityTraveler, setLocationCityTraveler] = useState('')
     const [locationCountryTraveler, setLocationCountryTraveler] = useState('')
 
-    const [images, setImages] = useState(Array)
+    const [images, setImages] = useState('')
 
     //TODO
     // handle Image upload, Im not sure if it will be handled in FE or BE
@@ -39,62 +39,42 @@ function Modal() {
 
         const formData = new FormData()
 
-        const budget = {
-            food: food,
-            accommodation: accommodation,
-            transportation: transportation,
-            other: other,
+        const data = {
+            images: images, //pass 64bit encoded images
+            title: title,
+            userId: userId,
+            description: description,
+            budget: {
+                food: food,
+                accommodation: accommodation,
+                transportation: transportation,
+                other: other,
+            },
+            location: {
+                town: locationTown,
+                city: locationCity,
+                country: locationCountry,
+            },
+            travelerLocation: {
+                town: locationTownTraveler,
+                city: locationCityTraveler,
+                country: locationCountryTraveler,
+            },
+            transportationType: transportationType,
+            private: privacy,
+            deleted: false,
+            duration: duration,
         }
 
-        const location = {
-            town: locationTown,
-            city: locationCity,
-            country: locationCountry,
+        formData.append('data', data)
+
+        const config = {
+            headers: {
+                'content-type': 'multipart/form-data',
+            },
         }
-        const locationTraveler = {
-            town: locationTownTraveler,
-            city: locationCityTraveler,
-            country: locationCountryTraveler,
-        }
+        console.log(formData.values)
 
-        formData.append('title', title)
-        formData.append('description', description)
-        formData.append('budget', budget)
-        formData.append('duration', duration)
-        formData.append('location', location)
-        formData.append('privacy', privacy)
-        formData.append('images', images)
-        formData.append('userId', userId)
-        formData.append('deleted', false)
-
-        // const data = {
-        //     images: images, //pass 64bit encoded images
-        //     title: title,
-        //     userId: userId,
-        //     description: description,
-        //     budget: {
-        //         food: food,
-        //         accommodation: accommodation,
-        //         transportation: transportation,
-        //         other: other,
-        //     },
-        //     location: {
-        //         town: locationTown,
-        //         city: locationCity,
-        //         country: locationCountry,
-        //     },
-        //     travelerLocation: {
-        //         town: locationTownTraveler,
-        //         city: locationCityTraveler,
-        //         country: locationCountryTraveler,
-        //     },
-        //     transportationType: transportationType,
-        //     private: privacy,
-        //     deleted: false,
-        //     duration: duration,
-        // }
-
-        console.log(JSON.parse(formData.get('budget')))
         try {
             await axios.post('http://localhost:3000/api/travel', formData)
         } catch (err) {
@@ -113,8 +93,8 @@ function Modal() {
                     <div className="modal-header">Add new travel</div>
                     <div className="modal-body">
                         <form
-                            encType="multipart/form-data"
-                            action="../../../../server/uploads"
+                            encType="multiple/form-data"
+                            onSubmit={handleSubmit}
                         >
                             <input
                                 type="text"
@@ -285,12 +265,9 @@ function Modal() {
                                 type="file"
                                 multiple
                                 id="image"
-                                name="images"
-                                onChange={async (e) => {
-                                    await setImages((images) => [
-                                        ...images,
-                                        e.target.files[0],
-                                    ])
+                                filename="images"
+                                onChange={(e) => {
+                                    setImages(e.target.files[0])
                                 }}
                             />
                             <label for="privacy">Privacy:</label>
@@ -307,7 +284,6 @@ function Modal() {
                                 type="submit"
                                 id="submit"
                                 name="Submit"
-                                onClick={handleSubmit}
                                 disabled={
                                     title === '' ||
                                     description === '' ||

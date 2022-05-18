@@ -1,5 +1,8 @@
 const Travel = require('../../models/travel.model')
 const multer = require('multer')
+const crypto = require('crypto')
+const GridFsStorage = require('multer-gridfs-storage')
+const path = require('path')
 
 const jwt = require('jsonwebtoken')
 
@@ -34,10 +37,15 @@ const getTravelById = async (req, res) => {
 }
 
 const createTravel = async (req, res) => {
-    console.log(req.file)
     const travel = req.body
-    const newTravel = await Travel.create(travel)
-    res.json(newTravel)
+    const image = req.file.path
+    console.log(image)
+    const newTravel = await Travel.create({
+        ...travel,
+        images: image,
+    })
+
+    res.json({ message: 'success', newTravel })
 }
 
 const updateTravel = async (req, res) => {

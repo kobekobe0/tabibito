@@ -17,22 +17,18 @@ const TravelerLocation = new mongoose.Schema({
     town: { type: String, required: true },
 })
 
-const Travel = new mongoose.Schema({
-    userId: { type: String, required: true },
-    images: {
-        type: [Object],
-        required: true,
+//FUCKING IMAGES
+const Travel = new mongoose.Schema(
+    {
+        userId: { type: String, required: true },
+        images: {
+            type: String,
+            trim: true,
+            required: true,
+        },
     },
-    budget: Budget,
-    title: { type: String, required: true },
-    location: Location,
-    transportationType: { type: String, required: true },
-    travelerLocation: TravelerLocation,
-    description: { type: String, required: true },
-    private: { type: Boolean, required: true },
-    deleted: { type: Boolean, required: true },
-    duration: { type: Number, required: true },
-})
+    { timestamps: true }
+)
 
 const model = mongoose.model('Traveldata', Travel)
 
