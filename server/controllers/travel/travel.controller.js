@@ -39,7 +39,7 @@ const getTravelById = async (req, res) => {
 const createTravel = async (req, res) => {
     const travel = req.body
     const image = req.file.path
-    console.log(image)
+    console.log(req.file)
     const newTravel = await Travel.create({
         ...travel,
         images: image,

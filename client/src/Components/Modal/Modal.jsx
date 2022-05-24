@@ -110,13 +110,19 @@ function Modal() {
 
     const uploadHandler = (e) => {
         let files = e.target.files[0]
+
+        files.id = `${Date.now()}-${files.name}`
         console.log(files)
         setImages(files)
+
+        //TODO
+        //change file name to unique
+        //so that you can pass the file to the backend with unique identifier
 
         // formdata is required to upload images, set the name to imageUplaod
         const imageData = new FormData()
         imageData.append('imageUpload', files)
-        //setImages([...images, file])   this is for when I make image uploads an array
+        // **setImages([...images, file])   this is for when I make image uploads an array
 
         axios
             .post('http://localhost:3000/api/travel/image', imageData)
