@@ -39,32 +39,32 @@ function Modal() {
 
         const formData = new FormData()
 
-        const data = {
-            images: images, //pass 64bit encoded images
-            title: title,
-            userId: userId,
-            description: description,
-            budget: {
-                food: food,
-                accommodation: accommodation,
-                transportation: transportation,
-                other: other,
-            },
-            location: {
-                town: locationTown,
-                city: locationCity,
-                country: locationCountry,
-            },
-            travelerLocation: {
-                town: locationTownTraveler,
-                city: locationCityTraveler,
-                country: locationCountryTraveler,
-            },
-            transportationType: transportationType,
-            private: privacy,
-            deleted: false,
-            duration: duration,
-        }
+        // const data = {
+        //     images: images, //pass 64bit encoded images
+        //     title: title,
+        //     userId: userId,
+        //     description: description,
+        //     budget: {
+        //         food: food,
+        //         accommodation: accommodation,
+        //         transportation: transportation,
+        //         other: other,
+        //     },
+        //     location: {
+        //         town: locationTown,
+        //         city: locationCity,
+        //         country: locationCountry,
+        //     },
+        //     travelerLocation: {
+        //         town: locationTownTraveler,
+        //         city: locationCityTraveler,
+        //         country: locationCountryTraveler,
+        //     },
+        //     transportationType: transportationType,
+        //     private: privacy,
+        //     deleted: false,
+        //     duration: duration,
+        // }
 
         formData.append('userId', userId)
         formData.append('title', title)
@@ -84,14 +84,15 @@ function Modal() {
         formData.append('private', privacy)
         formData.append('deleted', false)
         formData.append('imageUpload', images)
-
+        // for(let i=0, len=images.length; i<len; i++) {
+        //     formData.append(`imageUpload${i}`, images[i])
+        // }  make the image uploads an array
+        console.log(images)
         const config = {
             headers: {
                 'content-type': 'multipart/form-data',
             },
         }
-        console.log(formData.values)
-
         try {
             await axios
                 .post('http://localhost:3000/api/travel', formData)
@@ -106,6 +107,27 @@ function Modal() {
     const handleChange = (e, state) => {
         state(e.target.value)
     }
+
+    const uploadHandler = (e) => {
+        let files = e.target.files[0]
+        console.log(files)
+        setImages(files)
+
+        // formdata is required to upload images, set the name to imageUplaod
+        const imageData = new FormData()
+        imageData.append('imageUpload', files)
+        //setImages([...images, file])   this is for when I make image uploads an array
+
+        axios
+            .post('http://localhost:3000/api/travel/image', imageData)
+            .then((res) => {
+                console.log(res)
+            })
+    }
+    // TODO
+    // put a styled div on top of the upload button,
+    // set upload button to opacity: 0 then make the styled div
+    // accept the click for the upload button
 
     return (
         <div className="modal-container">
@@ -287,9 +309,7 @@ function Modal() {
                                 multiple
                                 id="image"
                                 filename="images"
-                                onChange={(e) => {
-                                    setImages(e.target.files[0])
-                                }}
+                                onChange={(e) => uploadHandler(e)}
                             />
                             <label for="privacy">Privacy:</label>
                             <select

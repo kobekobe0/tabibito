@@ -48,6 +48,10 @@ app.get('/api/travel/:id', getTravelById)
 
 //upload
 app.post('/api/travel/', uploadMulter, createTravel)
+app.post('/api/travel/image', uploadMulter, (req, res) => {
+    console.log(req.file)
+    res.send('success image')
+})
 
 app.put('/api/travel/:id', updateTravel)
 

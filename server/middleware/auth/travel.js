@@ -23,4 +23,6 @@ let upload = multer({
     fileFilter: fileFilter,
 })
 
-module.exports = upload.single('imageUpload')
+console.log('success upload to server')
+
+module.exports = upload.single('imageUpload') //make this array if you want to upload multiple images
