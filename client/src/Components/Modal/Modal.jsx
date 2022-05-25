@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import './modal.css'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
@@ -30,10 +30,6 @@ function Modal() {
     const [images, setImages] = useState([])
     const [imgName, setImgName] = useState('')
 
-    //TODO
-    // handle Image upload, Im not sure if it will be handled in FE or BE
-    // Styles and Loading animation
-
     const handleSubmit = async (e) => {
         e.preventDefault()
 
@@ -41,33 +37,6 @@ function Modal() {
         const userId = jwt_decode(userIdToken).id
 
         const formData = new FormData()
-
-        // const data = {
-        //     images: images, //pass 64bit encoded images
-        //     title: title,
-        //     userId: userId,
-        //     description: description,
-        //     budget: {
-        //         food: food,
-        //         accommodation: accommodation,
-        //         transportation: transportation,
-        //         other: other,
-        //     },
-        //     location: {
-        //         town: locationTown,
-        //         city: locationCity,
-        //         country: locationCountry,
-        //     },
-        //     travelerLocation: {
-        //         town: locationTownTraveler,
-        //         city: locationCityTraveler,
-        //         country: locationCountryTraveler,
-        //     },
-        //     transportationType: transportationType,
-        //     private: privacy,
-        //     deleted: false,
-        //     duration: duration,
-        // }
 
         formData.append('userId', userId)
         formData.append('title', title)
@@ -119,49 +88,16 @@ function Modal() {
 
         setImgName(files.name)
         setImages(tempArr)
-        // setImages([...images, files]) // this is for when I make image uploads an array
-
-        //NOTE
-        // if image exists in upload folder, it will be overwritten
-        // if image is not in upload folder, it will be uploaded
-
-        //if image already exists in upload folder even before changing the file,
-        //when deleting the image before uploading, don't delete the image from the upload folder
-        //if image is not in upload folder, it will be uploaded
-
-        // formdata is required to upload images, set the name to imageUplaod
-        const imageData = new FormData()
-
-        // for (let i = 0, len = files.length; i < len; i++) {
-        //     imageData.append('imageUpload', files[i])
-        //     await axios
-        //         .post('http://localhost:3000/api/travel/image', imageData)
-        //         .then((res) => {
-        //             console.log(res.data)
-        //             // if res.data.exists === true, do not delete the image from the upload folder
-        //             // if res.data.exists === false, delete the image from the upload folder
-        //             if (res.data.exists === true) {
-        //                 console.log('image already exists')
-        //             }
-        //         })
-        // }
     }
 
     const deleteUpload = (filename) => {
-        //delete image from the server every time user delete one image
-        //setImages([])
-        const arr = [] // this is temporary because you cant filter value that is not an array
-        arr.push(images)
-        const temp = arr.filter((image) => image.name !== filename)
-        setImages(temp)
-
-        axios
-            .delete(`http://localhost:3000/api/travel/image/${filename}`)
-            .then((res) => {
-                console.log(res)
-            })
-        // **setImages(images.filter((image) => image !== file))   this is for when I make image uploads an array
+        //delete self from array
+        let tempArr = images
+        //use filter method
+        tempArr = tempArr.filter((image) => image.name !== filename)
+        setImages(tempArr)
     }
+
     // TODO
     // put a styled div on top of the upload button,
     // set upload button to opacity: 0 then make the styled div
