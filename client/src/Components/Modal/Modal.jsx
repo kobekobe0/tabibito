@@ -3,6 +3,8 @@ import './modal.css'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 
+import Preview from './Preview'
+
 function Modal() {
     const [privacy, setPrivacy] = useState(true)
 
@@ -25,7 +27,8 @@ function Modal() {
     const [locationCityTraveler, setLocationCityTraveler] = useState('')
     const [locationCountryTraveler, setLocationCountryTraveler] = useState('')
 
-    const [images, setImages] = useState('')
+    const [images, setImages] = useState([])
+    const [imgName, setImgName] = useState('')
 
     //TODO
     // handle Image upload, Im not sure if it will be handled in FE or BE
@@ -83,10 +86,10 @@ function Modal() {
         formData.append('travelerCountry', locationCountryTraveler)
         formData.append('private', privacy)
         formData.append('deleted', false)
-        formData.append('imageUpload', images)
-        // for(let i=0, len=images.length; i<len; i++) {
-        //     formData.append(`imageUpload${i}`, images[i])
-        // }  make the image uploads an array
+        //formData.append('imageUpload', images)
+        for (let i = 0, len = images.length; i < len; i++) {
+            formData.append(`imageUpload`, images[i])
+        } //make the image uploads an array
         console.log(images)
         const config = {
             headers: {
@@ -108,27 +111,56 @@ function Modal() {
         state(e.target.value)
     }
 
-    const uploadHandler = (e) => {
+    const uploadHandler = async (e) => {
+        //upload image to the server every time user add one image
         let files = e.target.files[0]
+        let tempArr = images
+        tempArr.push(files)
 
-        files.id = `${Date.now()}-${files.name}`
-        console.log(files)
-        setImages(files)
+        setImgName(files.name)
+        setImages(tempArr)
+        // setImages([...images, files]) // this is for when I make image uploads an array
 
-        //TODO
-        //change file name to unique
-        //so that you can pass the file to the backend with unique identifier
+        //NOTE
+        // if image exists in upload folder, it will be overwritten
+        // if image is not in upload folder, it will be uploaded
+
+        //if image already exists in upload folder even before changing the file,
+        //when deleting the image before uploading, don't delete the image from the upload folder
+        //if image is not in upload folder, it will be uploaded
 
         // formdata is required to upload images, set the name to imageUplaod
         const imageData = new FormData()
-        imageData.append('imageUpload', files)
-        // **setImages([...images, file])   this is for when I make image uploads an array
+
+        // for (let i = 0, len = files.length; i < len; i++) {
+        //     imageData.append('imageUpload', files[i])
+        //     await axios
+        //         .post('http://localhost:3000/api/travel/image', imageData)
+        //         .then((res) => {
+        //             console.log(res.data)
+        //             // if res.data.exists === true, do not delete the image from the upload folder
+        //             // if res.data.exists === false, delete the image from the upload folder
+        //             if (res.data.exists === true) {
+        //                 console.log('image already exists')
+        //             }
+        //         })
+        // }
+    }
+
+    const deleteUpload = (filename) => {
+        //delete image from the server every time user delete one image
+        //setImages([])
+        const arr = [] // this is temporary because you cant filter value that is not an array
+        arr.push(images)
+        const temp = arr.filter((image) => image.name !== filename)
+        setImages(temp)
 
         axios
-            .post('http://localhost:3000/api/travel/image', imageData)
+            .delete(`http://localhost:3000/api/travel/image/${filename}`)
             .then((res) => {
                 console.log(res)
             })
+        // **setImages(images.filter((image) => image !== file))   this is for when I make image uploads an array
     }
     // TODO
     // put a styled div on top of the upload button,
@@ -317,6 +349,11 @@ function Modal() {
                                 filename="images"
                                 onChange={(e) => uploadHandler(e)}
                             />
+                            <Preview
+                                deletePreview={deleteUpload}
+                                images={images}
+                            />
+
                             <label for="privacy">Privacy:</label>
                             <select
                                 id="privacy"

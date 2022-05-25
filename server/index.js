@@ -47,10 +47,29 @@ app.get('/api/travel/user/:id', getUserTravels)
 app.get('/api/travel/:id', getTravelById)
 
 //upload
+
+const fs = require('fs')
+
 app.post('/api/travel/', uploadMulter, createTravel)
 app.post('/api/travel/image', uploadMulter, (req, res) => {
     console.log(req.file, 'req.file')
-    res.send('success image')
+    const path = './uploads/' + req.file.filename
+    console.log(path, 'path')
+
+    res.json({
+        message: 'success',
+    })
+})
+
+app.delete('/api/travel/image/:name', (req, res) => {
+    // in FE, send image's name as params
+    const path = './uploads/' + req.params.name
+    try {
+        fs.unlinkSync(path)
+        //file removed
+    } catch (err) {
+        console.error(err)
+    }
 })
 
 app.put('/api/travel/:id', updateTravel)

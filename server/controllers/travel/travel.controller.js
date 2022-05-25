@@ -38,11 +38,16 @@ const getTravelById = async (req, res) => {
 
 const createTravel = async (req, res) => {
     const travel = req.body
-    const image = req.file.path
+    console.log(req.files)
+    const image = req.files
+    let tempArr = []
+    for (let i = 0; i < image.length; i++) {
+        tempArr.push(image[i].path)
+    }
     console.log(req.file)
     const newTravel = await Travel.create({
         ...travel,
-        images: image,
+        images: tempArr,
     })
 
     res.json({ message: 'success', newTravel })

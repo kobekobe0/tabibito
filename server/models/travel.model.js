@@ -22,7 +22,7 @@ const Travel = new mongoose.Schema(
     {
         userId: { type: String, required: true },
         images: {
-            type: String,
+            type: [String],
             trim: true,
             required: true,
         },

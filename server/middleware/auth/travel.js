@@ -6,7 +6,11 @@ const storage = multer.diskStorage({
         cb(null, 'uploads/')
     },
     filename: function (req, file, cb) {
-        cb(null, file.originalname) //change the name in frontend for it to be unique
+        //unique name
+        cb(
+            null,
+            file.fieldname + '-' + Date.now() + path.extname(file.originalname)
+        )
     },
 })
 
@@ -25,4 +29,4 @@ let upload = multer({
 
 console.log('success upload to server')
 
-module.exports = upload.single('imageUpload') //make this array if you want to upload multiple images
+module.exports = upload.array('imageUpload') //make this array if you want to upload multiple images
