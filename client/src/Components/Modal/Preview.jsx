@@ -8,7 +8,7 @@ function Preview({ images, deletePreview }) {
                       return (
                           <div key={index}>
                               <p>{image.name}</p>
-                              <button onClick={() => deletePreview(index)}>
+                              <button onClick={() => deletePreview(image.name)}>
                                   Delete
                               </button>
                           </div>

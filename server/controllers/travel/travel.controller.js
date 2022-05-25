@@ -79,6 +79,31 @@ const updateTravel = async (req, res) => {
     res.json(updatedTravel)
 }
 
+const deleteTravel = async (req, res) => {
+    const travelId = req.params.id
+
+    //delete images in upload folder in the server
+    await Travel.findById(travelId).then((travel) => {
+        travel.images.forEach((image) => {
+            fs.unlink(path.join(__dirname, image), (err) => {
+                if (err) {
+                    console.log(err)
+                }
+            })
+        })
+    })
+
+    await Travel.findByIdAndDelete(travelId)
+        .then((travel) => {
+            res.json({
+                message: 'successfully deleted',
+            })
+        })
+        .catch((err) => {
+            console.log(err)
+        })
+}
+
 const getUserTravels = async (req, res) => {
     const userId = req.params.id
     const travels = await Travel.find({
@@ -94,4 +119,5 @@ module.exports = {
     createTravel,
     updateTravel,
     getUserTravels,
+    deleteTravel,
 }
