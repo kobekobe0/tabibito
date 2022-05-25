@@ -49,6 +49,9 @@ app.get('/api/travel/:id', getTravelById)
 
 //upload
 
+//TODO
+//Send the image to the client every request
+
 const fs = require('fs')
 
 app.post('/api/travel/', uploadMulter, createTravel)

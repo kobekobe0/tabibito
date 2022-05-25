@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 import './home.css'
@@ -9,14 +9,16 @@ import './navbar.css'
 
 function Home() {
     //function for fetching data from the server
-
+    const [user, setUser] = useState({})
     useEffect(() => {
         const token = window.localStorage.getItem('user')
         if (token) {
             //decode jwt token
-            let user = jwt_decode(token)
+            let userData = jwt_decode(token)
+            console.log(userData)
+            setUser(userData)
             console.log(user)
-            if (!user) {
+            if (!userData) {
                 window.localStorage.removeItem('user')
                 window.location.href = '/login'
             } else {
@@ -30,7 +32,7 @@ function Home() {
         <div className="home">
             <main>
                 <ProfileBar />
-                <TravelCards />
+                <TravelCards id={user.id} />
             </main>
         </div>
     )

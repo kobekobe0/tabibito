@@ -31,6 +31,7 @@ const getPublicTravels = async (req, res) => {
 }
 
 const getTravelById = async (req, res) => {
+    //use fs to send images from upload folder to client
     const travelId = req.params.id
     const travel = await Travel.findById(travelId)
     res.json(travel)
@@ -105,6 +106,10 @@ const deleteTravel = async (req, res) => {
 }
 
 const getUserTravels = async (req, res) => {
+    //send images from the server to the client
+    //using the identifier from travels
+    //only send the first image, title, town, city, and country
+
     const userId = req.params.id
     const travels = await Travel.find({
         userId: userId,
