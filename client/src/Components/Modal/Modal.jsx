@@ -39,7 +39,7 @@ function Modal() {
         const formData = new FormData()
 
         formData.append('userId', userId)
-        formData.append('title', title)
+        formData.append('title', title.toUpperCase())
         formData.append('description', description)
         formData.append('food', food)
         formData.append('accommodation', accommodation)
@@ -87,7 +87,8 @@ function Modal() {
         tempArr.push(files)
 
         setImgName(files.name)
-        setImages(tempArr)
+        await setImages(tempArr)
+        console.log(images)
     }
 
     const deleteUpload = (filename) => {
@@ -107,7 +108,7 @@ function Modal() {
         <div className="modal-container">
             <div className="modal">
                 <div className="modal-contents">
-                    <div className="modal-header">Add new travel</div>
+                    <div className="modal-header">Add New Travel</div>
                     <div className="modal-body">
                         <form
                             encType="multiple/form-data"
@@ -118,6 +119,7 @@ function Modal() {
                                 placeholder="Add title"
                                 id="title"
                                 onChange={(e) => handleChange(e, setTitle)}
+                                value={title.toUpperCase()}
                             />
                             <textarea
                                 type="text"
@@ -130,7 +132,7 @@ function Modal() {
 
                             <section className="budget">
                                 <div className="budget-header">
-                                    <h4>Budget</h4>
+                                    <h5>Budget</h5>
                                 </div>
                                 <div className="budget-body">
                                     <div className="budget_inputs">
@@ -140,6 +142,8 @@ function Modal() {
                                             onChange={(e) =>
                                                 handleChange(e, setFood)
                                             }
+                                            className="budget_input"
+                                            id="budget-food"
                                         />
                                         <input
                                             type="number"
@@ -150,6 +154,7 @@ function Modal() {
                                                     setTransportation
                                                 )
                                             }
+                                            className="budget_input"
                                         />
                                         <input
                                             type="number"
@@ -160,6 +165,7 @@ function Modal() {
                                                     setAccommodation
                                                 )
                                             }
+                                            className="budget_input"
                                         />
                                         <input
                                             type="number"
@@ -167,6 +173,7 @@ function Modal() {
                                             onChange={(e) =>
                                                 handleChange(e, setOther)
                                             }
+                                            className="budget_input"
                                         />
                                     </div>
                                     <div className="budget_Dropdown">
@@ -277,18 +284,27 @@ function Modal() {
                                     </div>
                                 </div>
                             </section>
-                            <label for="image">Upload images: </label>
-                            <input
-                                type="file"
-                                multiple
-                                id="image"
-                                filename="images"
-                                onChange={(e) => uploadHandler(e)}
-                            />
-                            <Preview
-                                deletePreview={deleteUpload}
-                                images={images}
-                            />
+
+                            <div className="upload-images">
+                                <div className="upload-button">
+                                    <label for="image">Upload images</label>
+                                    <input
+                                        type="file"
+                                        multiple
+                                        id="image"
+                                        filename="images"
+                                        onChange={(e) => uploadHandler(e)}
+                                    />
+                                </div>
+                                <p className="accpeted-files">
+                                    Accepted files: .jpg | .png | .gif
+                                </p>
+
+                                <Preview
+                                    deletePreview={deleteUpload}
+                                    images={images}
+                                />
+                            </div>
 
                             <label for="privacy">Privacy:</label>
                             <select

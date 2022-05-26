@@ -1,17 +1,21 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+import PreviewCard from './PreviewCard'
 
 function Preview({ images, deletePreview }) {
+    const reader = new FileReader()
+    const [imagePrev, setImagePrev] = useState([])
+
     return (
-        <div>
+        <div className="preview-wrapper">
             {images != null
                 ? images.map((image, index) => {
                       return (
-                          <div key={index}>
-                              <p>{image.name}</p>
-                              <button onClick={() => deletePreview(image.name)}>
-                                  Delete
-                              </button>
-                          </div>
+                          <PreviewCard
+                              image={image}
+                              index={index}
+                              key={index}
+                              deletePreview={deletePreview}
+                          />
                       )
                   })
                 : null}
