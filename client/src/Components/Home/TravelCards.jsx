@@ -34,9 +34,9 @@ function TravelCards({ id }) {
                         <img src={bg} alt="travel" />
                         <h5>+ADD NEW TRAVEL</h5>
                     </div>
-                    <Card />
-                    <Card />
-                    <Card />
+                    {travels.map((travel, index) => {
+                        return <Card key={index} data={travel} />
+                    })}
                 </div>
             </div>
         </section>

@@ -1,10 +1,22 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import bg from '../../images/login2.jpg'
-function Card() {
+import axios from 'axios'
+function Card({ data }) {
+    //download image from sever using path from data
+    const [image, setImage] = useState('')
+    useEffect(() => {
+        if (data) {
+            const imagePath = data.images[0].replace('uploads', '')
+            setImage(imagePath)
+        }
+    }, [data])
+
     return (
         <div className="travelCard_img">
-            <img src={bg} alt="travel" />
-            <h5>+ADD NEW TRAVEL</h5>
+            <img src={`http://localhost:3000/${image}`} alt="travel" />
+            <h5>
+                {data.locationTown}, {data.locationCity}
+            </h5>
         </div>
     )
 }

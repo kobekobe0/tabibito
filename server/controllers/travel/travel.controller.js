@@ -1,5 +1,6 @@
 const Travel = require('../../models/travel.model')
 const path = require('path')
+const fs = require('fs')
 
 const getPublicTravels = async (req, res) => {
     const travels = await Travel.find({ private: false })
@@ -12,6 +13,8 @@ const getTravelById = async (req, res) => {
     const travel = await Travel.findById(travelId)
     res.json(travel)
 }
+
+// Where fileName is name of the file and response is Node.js Reponse.
 
 const createTravel = async (req, res) => {
     const travel = req.body
@@ -87,11 +90,18 @@ const getUserTravels = async (req, res) => {
     //only send the first image, title, town, city, and country
 
     const userId = req.params.id
+    //only return fields of locationTown and locationCity
     const travels = await Travel.find({
         userId: userId,
     })
     //only return image and title
     res.json(travels)
+}
+
+const getPreviewImage = async (req, res) => {
+    const PATH = path.join(__dirname, `../../${req.body.image}`)
+    console.log(req.body)
+    res.download(PATH)
 }
 
 module.exports = {
@@ -101,4 +111,5 @@ module.exports = {
     updateTravel,
     getUserTravels,
     deleteTravel,
+    getPreviewImage,
 }

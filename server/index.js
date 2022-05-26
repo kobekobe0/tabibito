@@ -21,11 +21,12 @@ const {
     updateTravel,
     getUserTravels,
     deleteTravel,
+    getPreviewImage,
 } = require('./controllers/travel/travel.controller')
 mongoose.connect('mongodb://localhost:27017/tabibito')
 
 const bodyParser = require('body-parser')
-
+const path = require('path')
 const uploadMulter = require('./middleware/auth/travel')
 
 app.use('/uploads', express.static('uploads'))
@@ -42,8 +43,10 @@ app.get('/api/users/login', verifyLogin)
 
 app.use('/api/travel', reqAuth)
 
+app.use(express.static('uploads'))
 app.get('/api/travel/public', getPublicTravels)
 app.get('/api/travel/user/:id', getUserTravels)
+app.post('/api/travel/preview/', getPreviewImage)
 app.get('/api/travel/:id', getTravelById)
 
 //upload
