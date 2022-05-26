@@ -25,7 +25,6 @@ const {
 mongoose.connect('mongodb://localhost:27017/tabibito')
 
 const bodyParser = require('body-parser')
-const path = require('path')
 
 const uploadMulter = require('./middleware/auth/travel')
 
