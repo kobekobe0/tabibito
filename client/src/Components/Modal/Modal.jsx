@@ -28,7 +28,7 @@ function Modal() {
     const [locationCountryTraveler, setLocationCountryTraveler] = useState('')
 
     const [images, setImages] = useState([])
-    const [imgName, setImgName] = useState('')
+    const [selectedImages, setSelectedImages] = useState([])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -80,14 +80,11 @@ function Modal() {
         state(e.target.value)
     }
 
-    const uploadHandler = async (e) => {
-        //upload image to the server every time user add one image
+    const uploadHandler = (e) => {
         let files = e.target.files[0]
         let tempArr = images
         tempArr.push(files)
-
-        setImgName(files.name)
-        await setImages(tempArr)
+        setImages(tempArr)
         console.log(images)
     }
 
@@ -99,6 +96,22 @@ function Modal() {
         setImages(tempArr)
     }
 
+    const handleOnChange = (e) => {
+        const selectedFiles = e.target.files
+        const selectedFilesArray = Array.from(selectedFiles)
+
+        const imagesArray = selectedFilesArray.map((file) => {
+            return URL.createObjectURL(file)
+        })
+        setImages((prevState) => prevState.concat(selectedFilesArray))
+        setSelectedImages((previousImages) =>
+            previousImages.concat(imagesArray)
+        )
+    }
+
+    const handleDelete = (image) => {
+        setSelectedImages(selectedImages.filter((e) => e !== image))
+    }
     // TODO
     // put a styled div on top of the upload button,
     // set upload button to opacity: 0 then make the styled div
@@ -130,6 +143,29 @@ function Modal() {
                                 }
                             />
 
+                            {selectedImages &&
+                                selectedImages.map((image, index) => {
+                                    return (
+                                        <>
+                                            <img
+                                                src={image}
+                                                alt=""
+                                                style={{ width: '400px' }}
+                                            />
+                                            <button
+                                                onClick={() =>
+                                                    setSelectedImages(
+                                                        selectedImages.filter(
+                                                            (e) => e !== image
+                                                        )
+                                                    )
+                                                }
+                                            >
+                                                delete
+                                            </button>
+                                        </>
+                                    )
+                                })}
                             <section className="budget">
                                 <div className="budget-header">
                                     <h5>Budget</h5>
@@ -293,7 +329,7 @@ function Modal() {
                                         multiple
                                         id="image"
                                         filename="images"
-                                        onChange={(e) => uploadHandler(e)}
+                                        onChange={handleOnChange}
                                     />
                                 </div>
                                 <p className="accpeted-files">
@@ -303,6 +339,8 @@ function Modal() {
                                 <Preview
                                     deletePreview={deleteUpload}
                                     images={images}
+                                    selectedImages={selectedImages}
+                                    handleDelete={handleDelete}
                                 />
                             </div>
 

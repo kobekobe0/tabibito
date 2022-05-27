@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import PreviewCard from './PreviewCard'
 
-function Preview({ images, deletePreview }) {
+function Preview({ images, deletePreview, handleDelete, selectedImages }) {
     const reader = new FileReader()
     const [imagePrev, setImagePrev] = useState([])
 
@@ -15,6 +15,8 @@ function Preview({ images, deletePreview }) {
                               index={index}
                               key={index}
                               deletePreview={deletePreview}
+                              selectedImages={selectedImages[index]}
+                              handleDelete={handleDelete}
                           />
                       )
                   })
