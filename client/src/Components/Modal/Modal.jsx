@@ -131,29 +131,6 @@ function Modal() {
                                 }
                             />
 
-                            {selectedImages &&
-                                selectedImages.map((image, index) => {
-                                    return (
-                                        <>
-                                            <img
-                                                src={image}
-                                                alt=""
-                                                style={{ width: '400px' }}
-                                            />
-                                            <button
-                                                onClick={() =>
-                                                    setSelectedImages(
-                                                        selectedImages.filter(
-                                                            (e) => e !== image
-                                                        )
-                                                    )
-                                                }
-                                            >
-                                                delete
-                                            </button>
-                                        </>
-                                    )
-                                })}
                             <section className="budget">
                                 <div className="budget-header">
                                     <h5>Budget</h5>

@@ -1,4 +1,5 @@
 import React from 'react'
+import { RiDeleteBin6Line } from 'react-icons/ri'
 
 function PreviewCard({
     image,
@@ -13,9 +14,17 @@ function PreviewCard({
     }
     return (
         <div key={index} className="preview-card">
-            <p>{image.name}</p>
-            <button onClick={deleteCard}>Delete</button>
             <img src={selectedImages} alt="" id="imagePreviewCard" />
+            <div className="card-info">
+                <p>
+                    {image.name.length > 20
+                        ? image.name.substring(0, 20) + '...'
+                        : image.name}
+                </p>
+                <p id="button" onClick={deleteCard}>
+                    <RiDeleteBin6Line color="red" size={20} />
+                </p>
+            </div>
         </div>
     )
 }

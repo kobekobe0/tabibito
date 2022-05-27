@@ -191,10 +191,24 @@
     flex-direction: column;
     align-items: center;
     margin-top: 1em;
+    width: 100%;
 }
 .modal-body form .upload-images .preview-wrapper .preview-card img {
     width: 400px;
-    height: 200px;
-    object-fit: cover;
+    object-fit: contain;
     border-radius: 5px;
+}
+.modal-body form .upload-images .preview-wrapper .preview-card .card-info {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.modal-body
+    form
+    .upload-images
+    .preview-wrapper
+    .preview-card
+    .card-info
+    #button {
+    cursor: pointer;
 }
