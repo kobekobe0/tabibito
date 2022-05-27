@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import PreviewCard from './PreviewCard'
 
 function Preview({ images, deletePreview, handleDelete, selectedImages }) {
-    const reader = new FileReader()
-    const [imagePrev, setImagePrev] = useState([])
-
     return (
         <div className="preview-wrapper">
             {images != null

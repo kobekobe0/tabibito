@@ -60,11 +60,7 @@ function Modal() {
             formData.append(`imageUpload`, images[i])
         } //make the image uploads an array
         console.log(images)
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data',
-            },
-        }
+
         try {
             await axios
                 .post('http://localhost:3000/api/travel', formData)
@@ -78,14 +74,6 @@ function Modal() {
 
     const handleChange = (e, state) => {
         state(e.target.value)
-    }
-
-    const uploadHandler = (e) => {
-        let files = e.target.files[0]
-        let tempArr = images
-        tempArr.push(files)
-        setImages(tempArr)
-        console.log(images)
     }
 
     const deleteUpload = (filename) => {

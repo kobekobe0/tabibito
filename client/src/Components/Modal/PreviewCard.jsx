@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react'
+import React from 'react'
 
 function PreviewCard({
     image,
@@ -7,14 +7,6 @@ function PreviewCard({
     selectedImages,
     handleDelete,
 }) {
-    const [file, setFile] = useState(image)
-    const [imagePrev, setImagePrev] = useState('')
-    const [trigger, setTrigger] = useState(false)
-
-    useEffect(() => {
-        setFile(image)
-    }, [image])
-
     const deleteCard = () => {
         handleDelete(selectedImages)
         deletePreview(image.name)
