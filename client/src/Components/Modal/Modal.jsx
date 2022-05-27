@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import './modal.css'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
-
+import { MdPublic, MdOutlineLock } from 'react-icons/md'
 import Preview from './Preview'
 
 function Modal() {
-    const [privacy, setPrivacy] = useState(true)
+    const [privacy, setPrivacy] = useState(null)
 
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
@@ -309,15 +309,32 @@ function Modal() {
                                 />
                             </div>
 
-                            <label for="privacy">Privacy:</label>
-                            <select
-                                id="privacy"
-                                name="privacy"
-                                onChange={(e) => handleChange(e, setPrivacy)}
-                            >
-                                <option value={true}>Private</option>
-                                <option value={false}>Public</option>
-                            </select>
+                            <div id="privacy">
+                                <input
+                                    id="public"
+                                    type="radio"
+                                    name="privacy"
+                                    value={false}
+                                    onChange={(e) =>
+                                        handleChange(e, setPrivacy)
+                                    }
+                                />
+                                <label for="public">
+                                    <MdPublic size={30} />
+                                </label>
+                                <input
+                                    id="public"
+                                    type="radio"
+                                    name="privacy"
+                                    value={true}
+                                    onChange={(e) =>
+                                        handleChange(e, setPrivacy)
+                                    }
+                                />
+                                <label for="public">
+                                    <MdOutlineLock size={30} />
+                                </label>
+                            </div>
 
                             <input
                                 type="submit"

@@ -212,3 +212,13 @@
     #button {
     cursor: pointer;
 }
+
+.modal-body form #privacy {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    color: white;
+    margin-bottom: 1.5em;
+    margin-top: 1.5em;
+}
