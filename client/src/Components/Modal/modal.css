@@ -222,3 +222,18 @@
     margin-bottom: 1.5em;
     margin-top: 1.5em;
 }
+
+.modal-body form #submit {
+    background-color: rgb(42, 29, 119);
+    color: white;
+    border: none;
+    padding: 1em;
+    border-radius: 5px;
+    font-size: 20px;
+    font-family: sans-serif;
+    margin-top: 1em;
+}
+.modal-body form #submit:disabled {
+    background-color: rgb(79, 75, 105);
+    color: rgb(141, 141, 141);
+}
