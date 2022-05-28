@@ -11,8 +11,11 @@ function Card({ data }) {
         }
     }, [data])
 
+    const handleOpenTravel = () => {
+        window.location.href = `/travel/${data._id}`
+    }
     return (
-        <div className="travelCard_img">
+        <div className="travelCard_img" onClick={handleOpenTravel}>
             <img src={`http://localhost:3000/${image}`} alt="travel" />
             <h5>
                 {data.locationTown}, {data.locationCity}
