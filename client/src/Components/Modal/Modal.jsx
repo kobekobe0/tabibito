@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './modal.css'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
@@ -30,6 +30,8 @@ function Modal() {
     const [images, setImages] = useState([])
     const [selectedImages, setSelectedImages] = useState([])
 
+    const [user, setUser] = useState({})
+
     const handleSubmit = async (e) => {
         e.preventDefault()
 
@@ -55,6 +57,8 @@ function Modal() {
         formData.append('travelerCountry', locationCountryTraveler)
         formData.append('private', privacy)
         formData.append('deleted', false)
+        formData.append('likes', [])
+        formData.append('username', user.name)
         //formData.append('imageUpload', images)
         for (let i = 0, len = images.length; i < len; i++) {
             formData.append(`imageUpload`, images[i])
@@ -72,6 +76,12 @@ function Modal() {
         }
     }
 
+    useEffect(() => {
+        const token = window.localStorage.getItem('user')
+        let userData = jwt_decode(token)
+
+        setUser(userData)
+    }, [])
     const handleChange = (e, state) => {
         state(e.target.value)
     }
@@ -119,6 +129,7 @@ function Modal() {
                                 type="text"
                                 placeholder="Add title"
                                 id="title"
+                                maxLength={18}
                                 onChange={(e) => handleChange(e, setTitle)}
                                 value={title.toUpperCase()}
                             />
@@ -126,10 +137,18 @@ function Modal() {
                                 type="text"
                                 placeholder="Add description"
                                 id="description"
+                                maxLength={300}
                                 onChange={(e) =>
                                     handleChange(e, setDescription)
                                 }
                             />
+                            <p
+                                style={{
+                                    alignSelf: 'flex-end',
+                                }}
+                            >
+                                {description.length}/300
+                            </p>
 
                             <section className="budget">
                                 <div className="budget-header">
@@ -352,6 +371,7 @@ function Modal() {
                                     locationCityTraveler === '' ||
                                     locationCountryTraveler === '' ||
                                     duration === '' ||
+                                    privacy === null ||
                                     images.length === 0
                                         ? true
                                         : false

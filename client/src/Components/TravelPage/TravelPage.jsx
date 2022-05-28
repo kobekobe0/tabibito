@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import './travelpage.css'
 import { useParams } from 'react-router-dom'
+import { BsBookmark } from 'react-icons/bs'
 function TravelPage() {
     const { id } = useParams()
     const [data, setData] = useState({})
@@ -68,6 +69,8 @@ function TravelPage() {
                                                       counter === index
                                                           ? '1'
                                                           : '0',
+                                                  objectFit:
+                                                      index === 0 && 'cover',
                                               }}
                                               id={`image${index}`}
                                               className="image"
@@ -99,8 +102,23 @@ function TravelPage() {
                                   ))
                                 : null}
                         </div>
-                        <div>
-                            <h2>{data.title}</h2>
+                        <div className="travelpage-info">
+                            <div className="travel-header">
+                                <div className="travel-title">
+                                    <h2>{data.title}</h2>
+                                    <div id="user-info">
+                                        <h3 id="username">{data.username}</h3>
+                                        <h4 id="date">{data.Date}</h4>
+                                    </div>
+
+                                    <h3>
+                                        {data.locationTown}, {data.locationCity}
+                                    </h3>
+                                </div>
+                                <div className="travel-like">
+                                    <BsBookmark color="gold" size={30} />
+                                </div>
+                            </div>
                         </div>
                     </section>
                     <section className="post-description"></section>

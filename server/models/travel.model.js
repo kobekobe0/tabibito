@@ -27,6 +27,9 @@ const Travel = new mongoose.Schema(
         private: { type: Boolean, required: true },
         deleted: { type: Boolean, required: true },
         duration: { type: Number, required: true },
+        likes: { type: [String], required: true },
+        username: { type: String, required: true },
+        Date: { type: Date, default: Date.now },
     },
     { timestamps: true }
 )

@@ -32,7 +32,7 @@ function Home() {
         <div className="home">
             <main>
                 <ProfileBar />
-                <TravelCards id={user.id} />
+                <TravelCards id={user.id} username={user.name} />
             </main>
         </div>
     )
