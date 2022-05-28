@@ -101,7 +101,8 @@
     padding: 1em;
     background-color: rgb(31, 31, 31, 0.9);
     outline: none;
-    border: 1px solid rgb(31, 31, 31);
+    border: none;
+    border-radius: 5px;
     color: white;
     margin-bottom: 0.5em;
 }
@@ -113,9 +114,10 @@
 .modal-body form .budget-body .budget_Dropdown select {
     background-color: rgb(31, 31, 31, 0.9);
     color: white;
-    border: 1px solid rgb(31, 31, 31);
+    border: none;
     outline: none;
     margin-right: 1em;
+    border-radius: 5px;
 }
 .modal-body form .budget-body .budget_Dropdown label {
     font-size: 15px;
@@ -124,8 +126,9 @@
 .modal-body form .budget-body .budget_Dropdown input {
     background-color: rgb(31, 31, 31, 0.9);
     color: white;
-    border: 1px solid rgb(31, 31, 31);
+    border: none;
     outline: none;
+    border-radius: 5px;
 }
 
 .modal-body form .location {
@@ -152,6 +155,7 @@
     color: white;
     border: none;
     padding: 0.5em;
+    border-radius: 5px;
 }
 
 .modal-body form .upload-images {
@@ -236,4 +240,91 @@
 .modal-body form #submit:disabled {
     background-color: rgb(79, 75, 105);
     color: rgb(141, 141, 141);
+}
+
+@media (max-width: 680px) {
+    .modal-body form .budget-body .budget_inputs {
+        grid-template-columns: 1fr;
+    }
+    .modal-body form .budget-body .budget_Dropdown {
+        justify-self: center;
+    }
+    .modal-body form .budget-body .budget_Dropdown select {
+        margin-right: 0;
+    }
+    .modal-body form .budget-body .budget_Dropdown label {
+        margin-right: 0;
+    }
+    .modal-body form .budget-body .budget_Dropdown input {
+        margin-right: 0;
+    }
+}
+
+@media (max-width: 580px) {
+    .modal-body {
+        width: 90%;
+    }
+    .modal-body form .location-body {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        align-items: center;
+    }
+    .modal-body form .location_inputs {
+        width: 100%;
+    }
+    .modal-body form .destination {
+        display: flex;
+        flex-direction: column;
+    }
+    .modal-body form .destination input {
+        padding: 1em;
+        margin-bottom: 0.5em;
+    }
+    .modal-body form .traveler {
+        display: flex;
+        flex-direction: column;
+    }
+    .modal-body form .traveler input {
+        padding: 1em;
+        margin-bottom: 0.5em;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-header {
+        font-size: 30px;
+    }
+    .modal-body form input {
+        margin-left: 1em;
+        margin-right: 1em;
+    }
+    .modal-body form textarea {
+        margin-left: 1em;
+        margin-right: 1em;
+    }
+    .modal-body form .budget {
+        display: flex;
+        align-items: center;
+    }
+    .modal-body form .budget_Dropdown {
+        display: flex;
+        width: auto;
+        margin-top: 1em;
+        flex-direction: column;
+    }
+    .modal-body form .budget_Dropdown select {
+        padding: 1em;
+        margin-top: 1em;
+    }
+
+    .modal-body form .budget_Dropdown input {
+        margin: 0;
+        padding: 1em;
+        margin-top: 1em;
+    }
+
+    .modal-body form .upload-images .preview-wrapper .preview-card img {
+        width: 280px;
+    }
 }
