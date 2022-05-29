@@ -137,7 +137,7 @@ function Modal() {
                                 type="text"
                                 placeholder="Add description"
                                 id="description"
-                                maxLength={300}
+                                maxLength={2000}
                                 onChange={(e) =>
                                     handleChange(e, setDescription)
                                 }
@@ -147,7 +147,7 @@ function Modal() {
                                     alignSelf: 'flex-end',
                                 }}
                             >
-                                {description.length}/300
+                                {description.length}/2000
                             </p>
 
                             <section className="budget">
