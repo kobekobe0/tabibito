@@ -258,6 +258,21 @@
     .modal-body form .budget-body .budget_Dropdown input {
         margin-right: 0;
     }
+    .modal-body form .budget_Dropdown {
+        display: flex;
+        width: auto;
+        margin-top: 1em;
+        flex-direction: column;
+    }
+    .modal-body form .budget_Dropdown input {
+        margin: 0;
+        padding: 1em;
+        margin-top: 1em;
+    }
+    .modal-body form .budget_Dropdown select {
+        padding: 1em;
+        margin-top: 1em;
+    }
 }
 
 @media (max-width: 580px) {
@@ -312,16 +327,6 @@
         width: auto;
         margin-top: 1em;
         flex-direction: column;
-    }
-    .modal-body form .budget_Dropdown select {
-        padding: 1em;
-        margin-top: 1em;
-    }
-
-    .modal-body form .budget_Dropdown input {
-        margin: 0;
-        padding: 1em;
-        margin-top: 1em;
     }
 
     .modal-body form .upload-images .preview-wrapper .preview-card img {

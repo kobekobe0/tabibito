@@ -8,6 +8,7 @@ import {
     BsFillArrowLeftCircleFill,
 } from 'react-icons/bs'
 import { AiOutlineClose } from 'react-icons/ai'
+import { BsFillPeopleFill } from 'react-icons/bs'
 import pfp from '../../images/profile.jpg' //placeholder profile picture
 function TravelPage() {
     const { id } = useParams()
@@ -188,6 +189,7 @@ function TravelPage() {
                                 style={{
                                     width: '25px',
                                     alignSelf: 'center',
+                                    cursor: 'pointer',
                                     border:
                                         counter === index
                                             ? '2px solid white'
@@ -296,6 +298,17 @@ function TravelPage() {
                                 <p>
                                     {data.travelerTown}, {data.travelerCity},{' '}
                                     {data.travelerCountry}
+                                </p>
+                                <h4>Head count</h4>
+                                <p>
+                                    <BsFillPeopleFill size={20} />{' '}
+                                    {data.travelerCount} ={' '}
+                                    {(data.accommodation +
+                                        data.food +
+                                        data.other +
+                                        data.transportation) /
+                                        data.travelerCount}
+                                    {'/person'}
                                 </p>
                             </div>
                         </div>

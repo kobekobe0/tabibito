@@ -30,6 +30,7 @@ const Travel = new mongoose.Schema(
         likes: { type: [String], required: true },
         username: { type: String, required: true },
         Date: { type: Date, default: Date.now },
+        travelerCount: { type: Number, required: true },
     },
     { timestamps: true }
 )

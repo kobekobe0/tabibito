@@ -27,6 +27,8 @@ function Modal() {
     const [locationCityTraveler, setLocationCityTraveler] = useState('')
     const [locationCountryTraveler, setLocationCountryTraveler] = useState('')
 
+    const [travelerCount, setTravelerCount] = useState(1)
+
     const [images, setImages] = useState([])
     const [selectedImages, setSelectedImages] = useState([])
 
@@ -59,6 +61,7 @@ function Modal() {
         formData.append('deleted', false)
         formData.append('likes', [])
         formData.append('username', user.name)
+        formData.append('travelerCount', travelerCount)
         //formData.append('imageUpload', images)
         for (let i = 0, len = images.length; i < len; i++) {
             formData.append(`imageUpload`, images[i])
@@ -145,6 +148,7 @@ function Modal() {
                             <p
                                 style={{
                                     alignSelf: 'flex-end',
+                                    color: description.length === 2000 && 'red',
                                 }}
                             >
                                 {description.length}/2000
@@ -223,6 +227,17 @@ function Modal() {
                                             placeholder="enter duration(in days)"
                                             onChange={(e) =>
                                                 handleChange(e, setDuration)
+                                            }
+                                        />
+
+                                        <input
+                                            type="number"
+                                            placeholder="how many travelers?"
+                                            onChange={(e) =>
+                                                handleChange(
+                                                    e,
+                                                    setTravelerCount
+                                                )
                                             }
                                         />
                                     </div>
