@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 import './home.css'
 import './travel.css'
@@ -10,8 +9,18 @@ import './navbar.css'
 function Home() {
     //function for fetching data from the server
     const [user, setUser] = useState({})
+    const [id, setId] = useState('')
     useEffect(() => {
         const token = window.localStorage.getItem('user')
+        const url = window.location.href
+        console.log(url)
+        if (url.includes('profile')) {
+            //extract id in url
+            const id = url.split('/')
+            const length = id.length - 1
+            console.log(id[length])
+            setId(id[length])
+        }
         if (token) {
             //decode jwt token
             let userData = jwt_decode(token)
@@ -28,11 +37,13 @@ function Home() {
             window.location.href = '/login'
         }
     }, [])
+
+    //supply data to the profile bar  -  placeholder
     return (
         <div className="home">
             <main>
-                <ProfileBar />
-                <TravelCards id={user.id} username={user.name} />
+                <ProfileBar id={id !== '' ? id : user.id} />
+                <TravelCards id={id !== '' ? id : user.id} />
             </main>
         </div>
     )

@@ -5,6 +5,7 @@ import {
     BsFillArrowLeftCircleFill,
 } from 'react-icons/bs'
 import { AiOutlineClose } from 'react-icons/ai'
+import jwt_decode from 'jwt-decode'
 
 function Images({
     image,
@@ -18,6 +19,18 @@ function Images({
     date,
     setCounter,
 }) {
+    const handleClickUser = () => {
+        // const token = localStorage.getItem('user')
+        // const decoded = jwt_decode(token)
+        // console.log(decoded)
+        // if (data.userId === decoded.id) {
+        //     window.location.href = '/'
+        // } else {
+        //     window.location.href = `/profile/${data.userId}`
+        // }
+        window.location.href = `/profile/${data.userId}`
+    }
+
     return (
         <>
             <section className="image-holder">
@@ -146,7 +159,14 @@ function Images({
                                     />
                                 </div>
                                 <div className="texts">
-                                    <h3 id="username">{data.username}</h3>
+                                    <h3
+                                        id="username"
+                                        onClick={() =>
+                                            handleClickUser(data.userId)
+                                        }
+                                    >
+                                        {data.username}
+                                    </h3>
                                     <h4 id="date">{date}</h4>
                                 </div>
                             </div>

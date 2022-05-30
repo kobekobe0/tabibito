@@ -41,7 +41,7 @@ app.post('/api/users/register', registerUser)
 app.post('/api/users/login', loginUser)
 app.get('/api/users/login', verifyLogin)
 
-app.use('/api/travel', reqAuth)
+app.use('/api/travel', reqAuth) //adds verification to all routes below
 
 app.use(express.static('uploads'))
 app.get('/api/travel/public', getPublicTravels)

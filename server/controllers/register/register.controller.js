@@ -32,7 +32,7 @@ const loginUser = async (req, res) => {
             },
             'secretkey'
         ) //secretkey should be super secured
-        return res.json({ status: 'OK', user: token })
+        return res.json({ status: 'OK', user: token }) // after login, token is sent
     }
     return res.json({ user: false })
 }

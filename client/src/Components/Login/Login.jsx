@@ -11,6 +11,11 @@ function Login() {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        // let config = {
+        //     headers: {
+        //         authorization: token,
+        //     },
+        // }
 
         const data = await axios.post('http://localhost:3000/api/users/login', {
             email: email,
@@ -19,6 +24,7 @@ function Login() {
 
         if (data.data.user) {
             localStorage.setItem('user', JSON.stringify(data.data.user))
+            console.log(data.data.user)
             window.location.href = '/'
         } else {
             alert('Invalid email or password')

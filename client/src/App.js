@@ -1,6 +1,4 @@
 import './App.css'
-import { useState } from 'react'
-import axios from 'axios'
 import Register from './Components/Register/Register.jsx'
 import Login from './Components/Login/Login.jsx'
 import Home from './Components/Home/Home'
@@ -19,6 +17,7 @@ function App() {
                     <Route exact path="/login" element={<Login />} />
                     <Route exact path="/post" element={<Modal />} />
                     <Route exact path="/travel/:id" element={<TravelPage />} />
+                    <Route exact path="/profile/:id" element={<Home />} />
                     <Route exact path="/" element={<Home />} />
                 </Routes>
                 <section>

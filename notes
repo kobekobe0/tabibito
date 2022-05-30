@@ -1,0 +1,14 @@
+NOTES
+
+-Lookup 'placeholder's and query necessary data for import
+-set link of profile to '/profile/:userID' = HOME.jsx
+
+-in verification, store the jwt in cookie then in every request, send that cookie as a header
+
+-DO NOT USE 'profile' in any other params other than visiting someone's page
+
+TODOS
+
+-add pfp and background in user model
+-send token as headers in all request in fe
+-fix headers being unidentified in reqAuth

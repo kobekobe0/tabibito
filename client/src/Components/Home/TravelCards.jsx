@@ -13,9 +13,13 @@ function TravelCards({ id }) {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:3000/api/travel/user/${userId}`)
+            .get(`travel/user/${userId}`, {
+                headers: {
+                    authorization: window.localStorage.getItem('user'),
+                },
+            })
             .then((res) => {
-                console.log(res.data)
+                console.log(res)
                 setTravels(res.data)
             })
     }, [userId])

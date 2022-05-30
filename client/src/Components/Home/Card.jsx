@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import bg from '../../images/login2.jpg'
-import axios from 'axios'
 function Card({ data }) {
     //download image from sever using path from data
     const [image, setImage] = useState('')
