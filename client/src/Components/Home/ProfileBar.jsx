@@ -2,6 +2,7 @@ import React from 'react'
 import bg from '../../images/login2.jpg'
 import profile from '../../images/profile.jpg'
 
+//placeholder for profile bar
 function ProfileBar() {
     return (
         <section className="userInfo">
