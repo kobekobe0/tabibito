@@ -8,7 +8,9 @@ NOTES
 -DO NOT USE 'profile' in any other params other than visiting someone's page
 
 TODOS
-
+-add following, followers, saves is profile info
 -add pfp and background in user model
 -send token as headers in all request in fe
+
+Completed
 -fix headers being unidentified in reqAuth
