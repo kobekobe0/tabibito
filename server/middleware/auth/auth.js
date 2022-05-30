@@ -3,17 +3,26 @@ const User = require('../../models/register.model')
 
 const reqAuth = async (req, res, next) => {
     console.log('reqAuth')
-    const token = await req.config.headers.authorization
-    console.log('token', token)
+    let repeat = true
 
+    let token = ''
+    while (repeat) {
+        token = await req.headers.authorization
+        if (token) {
+            repeat = false
+        }
+    }
+
+    const toDecode = token.replace(/"/g, '')
+    console.log('toDecode', toDecode)
     //for every request in the fe, send the token in headers
     if (token) {
         jwt.verify(
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoia29iZSIsImVtYWlsIjoia29iZUBrb2JlIiwiaWQiOiI2MjU0NDgyZmQ4NzJkNjVkN2U3OTlkNmQiLCJpYXQiOjE2NTM4OTA3Nzh9.iAaz98cYXMZ58EPE3go2at6XMk3Cw_H2RUBOIgvjO5A',
+            toDecode,
             'secretkey', //just a placeholder, send a real headers from FE that contains the token
             async function (err, decoded) {
-                console.log(decoded) // bar
-                if (decoded.email) {
+                console.log('decoded', decoded)
+                if (decoded) {
                     const user = await User.findOne({ email: decoded.email })
                     if (user === null) {
                         return res.json({
@@ -23,6 +32,7 @@ const reqAuth = async (req, res, next) => {
                     }
                     return next()
                 }
+                console.log('err', err)
             }
         )
     }
