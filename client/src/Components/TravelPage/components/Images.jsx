@@ -148,7 +148,7 @@ function Images({
                             <div id="user-info">
                                 <div className="pfp">
                                     <img
-                                        src={pfp}
+                                        src={`http://localhost:3000/${pfp}`}
                                         alt=""
                                         style={{
                                             width: '50px',
@@ -164,6 +164,7 @@ function Images({
                                         onClick={() =>
                                             handleClickUser(data.userId)
                                         }
+                                        style={{ cursor: 'pointer' }}
                                     >
                                         {data.username}
                                     </h3>

@@ -10,6 +10,7 @@ function Home() {
     //function for fetching data from the server
     const [user, setUser] = useState({})
     const [id, setId] = useState('')
+
     useEffect(() => {
         const token = window.localStorage.getItem('user')
         const url = window.location.href
@@ -42,7 +43,16 @@ function Home() {
     return (
         <div className="home">
             <main>
-                <ProfileBar id={id !== '' ? id : user.id} />
+                <ProfileBar
+                    id={id !== '' ? id : user.id}
+                    pfp={user.pfp}
+                    bg={user.background}
+                    username={user.name}
+                    bio={user.bio}
+                    following={user.following}
+                    followers={user.followers}
+                    saves={user.saves}
+                />
                 <TravelCards id={id !== '' ? id : user.id} />
             </main>
         </div>

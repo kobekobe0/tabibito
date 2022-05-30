@@ -1,25 +1,41 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useEffect } from 'react'
 import bg from '../../images/login2.jpg'
 import profile from '../../images/profile.jpg'
 
-//placeholder for profile bar
-function ProfileBar() {
+//add following, followers, saves
+function ProfileBar({
+    id,
+    pfp,
+    bg,
+    username,
+    bio,
+    following,
+    followers,
+    saves,
+}) {
     return (
         <section className="userInfo">
             <div className="backgroundImg">
-                <img src={bg} alt="" />
+                <img
+                    src={`http://localhost:3000/${bg.replace(
+                        'background',
+                        ''
+                    )}`}
+                    alt=""
+                />
             </div>
             <div className="profile">
                 <div className="profileImg">
-                    <img src={profile} alt="" />
+                    <img
+                        src={`http://localhost:3000/${pfp.replace('pfp', '')}`}
+                        alt=""
+                    />
                 </div>
                 <div className="profileInfo">
                     <div className="profileTexts">
-                        <h3>Kobekoblanca</h3>
-                        <p>
-                            “The world is a book and those who do not travel
-                            read only one page.”
-                        </p>
+                        <h3>{username}</h3>
+                        <p>{bio}</p>
                     </div>
                     <div className="profileButtons">
                         <button>Edit Profile</button>

@@ -2,8 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import './travelpage.css'
 import { useParams } from 'react-router-dom'
-
-import pfp from '../../images/profile.jpg' //placeholder profile picture
+import jwtDecode from 'jwt-decode'
 
 import Images from './components/Images'
 import Description from './components/Description'
@@ -28,7 +27,7 @@ function TravelPage() {
         'Dec',
     ]
     const [show, setShow] = useState(false)
-
+    const [pfp, setPfp] = useState('')
     useEffect(() => {
         setData({})
         axios
@@ -51,14 +50,19 @@ function TravelPage() {
             })
         }
         let dateObj = new Date('2021-09-16T10:20:00.000Z')
-        console.log(dateObj)
         let year = dateObj.getFullYear()
-        console.log(year)
         let month = dateObj.getMonth()
-        console.log(month)
         let dt = dateObj.getDate()
 
         setDate(months[month] + ' ' + dt + ', ' + year)
+
+        const pfp = jwtDecode(localStorage.getItem('user')).pfp.replace(
+            'pfp',
+            ''
+        )
+
+        setPfp(pfp)
+        console.log(pfp)
     }, [data])
 
     const next = async (i) => {

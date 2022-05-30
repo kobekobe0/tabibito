@@ -33,8 +33,8 @@ function Register() {
             if (res.statusText === 'OK') {
                 window.location.href = '/login'
             }
-        } catch {
-            alert('Error registering user')
+        } catch (e) {
+            alert(e)
         }
     }
 
@@ -50,6 +50,19 @@ function Register() {
         }
     }, [])
 
+    const removeEmptySpaces = (stringVal) => {
+        let str = /\s/g.test(stringVal)
+        if (str) {
+            return stringVal.replace(/\s/g, '')
+        }
+        return stringVal
+    }
+
+    const changestringVal = (event) => {
+        setName(removeEmptySpaces(event.target.value))
+        console.log(name)
+    }
+
     return (
         <div className="register_page">
             <div className="register_image">
@@ -61,8 +74,10 @@ function Register() {
                     <form>
                         <input
                             type="text"
+                            id="username_field"
                             placeholder="enter your username"
-                            onChange={(e) => setName(e.target.value)}
+                            value={name}
+                            onChange={(e) => setName(() => changestringVal(e))}
                             maxLength="15"
                         />{' '}
                         <br />
