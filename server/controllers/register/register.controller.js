@@ -9,7 +9,7 @@ const registerUser = async (req, res) => {
         await User.create(user)
         res.json(user)
     } catch (error) {
-        console.log(error)
+        console.log('error', error)
         res.status(500).json({
             error: error.message,
             message: 'Duplicate email',
@@ -23,12 +23,15 @@ const loginUser = async (req, res) => {
         password: req.body.password,
     })
 
+    console.log(user)
     if (user) {
         const token = jwt.sign(
             {
                 name: user.name,
                 email: user.email,
                 id: user._id,
+                pfp: user.pfp,
+                background: user.background,
             },
             'secretkey'
         ) //secretkey should be super secured
