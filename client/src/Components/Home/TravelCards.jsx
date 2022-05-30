@@ -12,16 +12,10 @@ function TravelCards({ id }) {
     const [travels, setTravels] = useState([])
 
     useEffect(() => {
-        axios
-            .get(`travel/user/${userId}`, {
-                headers: {
-                    authorization: window.localStorage.getItem('user'),
-                },
-            })
-            .then((res) => {
-                console.log(res)
-                setTravels(res.data)
-            })
+        axios.get(`travel/user/${userId}`).then((res) => {
+            console.log(res)
+            setTravels(res.data)
+        })
     }, [userId])
     useEffect(() => {
         setUserId(id)

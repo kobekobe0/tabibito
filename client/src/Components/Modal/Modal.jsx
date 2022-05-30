@@ -69,11 +69,9 @@ function Modal() {
         console.log(images)
 
         try {
-            await axios
-                .post('http://localhost:3000/api/travel', formData)
-                .then((res) => {
-                    console.log(res)
-                })
+            await axios.post('travel', formData).then((res) => {
+                console.log(res)
+            })
         } catch (err) {
             console.log(err)
         }

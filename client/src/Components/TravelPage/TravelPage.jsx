@@ -32,7 +32,7 @@ function TravelPage() {
     useEffect(() => {
         setData({})
         axios
-            .get(`http://localhost:3000/api/travel/${id}`)
+            .get(`travel/${id}`)
             .then((res) => {
                 console.log(res.data)
                 setData(res.data)

@@ -17,7 +17,7 @@ function Login() {
         //     },
         // }
 
-        const data = await axios.post('http://localhost:3000/api/users/login', {
+        const data = await axios.post('users/login', {
             email: email,
             password: password,
         })

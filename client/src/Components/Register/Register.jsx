@@ -23,18 +23,18 @@ function Register() {
             return
         }
 
-        const res = await axios.post(
-            'http://localhost:3000/api/users/register',
-            {
+        try {
+            const res = await axios.post('users/register', {
                 name: name,
                 email: email,
                 password: password,
+            })
+            console.log(res)
+            if (res.statusText === 'OK') {
+                window.location.href = '/login'
             }
-        )
-
-        console.log(res)
-        if (res.statusText === 'OK') {
-            window.location.href = '/login'
+        } catch {
+            alert('Error registering user')
         }
     }
 
