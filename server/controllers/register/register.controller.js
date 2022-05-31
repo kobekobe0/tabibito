@@ -32,6 +32,10 @@ const loginUser = async (req, res) => {
                 id: user._id,
                 pfp: user.pfp,
                 background: user.background,
+                bio: user.bio,
+                saves: user.saves,
+                following: user.following,
+                followers: user.followers,
             },
             'secretkey'
         ) //secretkey should be super secured

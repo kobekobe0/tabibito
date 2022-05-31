@@ -1,6 +1,8 @@
 const Travel = require('../../models/travel.model')
+const Userdata = require('../../models/register.model')
 const path = require('path')
 const fs = require('fs')
+const jwt = require('jsonwebtoken')
 
 const getPublicTravels = async (req, res) => {
     const travels = await Travel.find({ private: false })
@@ -31,6 +33,38 @@ const createTravel = async (req, res) => {
     })
 
     res.json({ message: 'success', newTravel })
+}
+
+const updateUser = async (req, res) => {
+    const userId = req.params.id
+    const user = req.body
+    console.log(user)
+    const updatedUser = await Userdata.findByIdAndUpdate(userId, {
+        $set: {
+            name: user.name,
+            pfp: user.pfp,
+            background: user.background,
+            bio: user.bio,
+        },
+    })
+
+    const userData = await Userdata.findById(userId)
+
+    const token = jwt.sign(
+        {
+            name: userData.name,
+            email: userData.email,
+            id: userData._id,
+            pfp: userData.pfp,
+            background: userData.background,
+            bio: userData.bio,
+            saves: userData.saves,
+            following: userData.following,
+            followers: userData.followers,
+        },
+        'secretkey'
+    )
+    res.json(token)
 }
 
 const updateTravel = async (req, res) => {
@@ -112,4 +146,5 @@ module.exports = {
     getUserTravels,
     deleteTravel,
     getPreviewImage,
+    updateUser,
 }

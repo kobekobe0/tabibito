@@ -22,6 +22,7 @@ const {
     getUserTravels,
     deleteTravel,
     getPreviewImage,
+    updateUser,
 } = require('./controllers/travel/travel.controller')
 mongoose.connect('mongodb://localhost:27017/tabibito')
 
@@ -45,6 +46,7 @@ app.use('/api/travel', reqAuth) //adds verification to all routes below
 app.use(express.static('uploads'))
 app.use(express.static('pfp'))
 app.use(express.static('background'))
+app.put('/api/user/:id', updateUser)
 app.get('/api/travel/public', getPublicTravels)
 app.get('/api/travel/user/:id', getUserTravels)
 app.post('/api/travel/preview/', getPreviewImage)
