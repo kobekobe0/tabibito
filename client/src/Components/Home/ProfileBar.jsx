@@ -16,6 +16,7 @@ const EditProfile = ({
     handleChange,
     usernameChange,
     bioChange,
+    handleUpdate,
 }) => {
     return (
         <section className="userInfo">
@@ -57,7 +58,7 @@ const EditProfile = ({
                         />
                     </div>
                     <div className="profileButtons">
-                        <button onClick={editProfile}>Edit Profile</button>
+                        <button onClick={handleUpdate}>Update Profile</button>
                         <button>Logout</button>
                     </div>
                 </div>
@@ -80,6 +81,7 @@ function ProfileBar({
     handleChange,
     usernameChange,
     bioChange,
+    handleUpdate,
 }) {
     if (!edit) {
         return (
@@ -134,6 +136,7 @@ function ProfileBar({
                 handleChange={handleChange}
                 usernameChange={usernameChange}
                 bioChange={bioChange}
+                handleUpdate={handleUpdate}
             />
         )
     }

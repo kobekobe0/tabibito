@@ -5,6 +5,7 @@ import './travel.css'
 import TravelCards from './TravelCards'
 import ProfileBar from './ProfileBar'
 import './navbar.css'
+import axios from 'axios'
 
 function Home() {
     //function for fetching data from the server
@@ -43,6 +44,24 @@ function Home() {
         }
     }, [])
 
+    const handleUpdate = () => {
+        axios
+            .put(`/user/${user.id}`, {
+                name: username,
+                bio: bio,
+                pfp: user.pfp,
+                background: user.background,
+            })
+            .then((res) => {
+                console.log(res)
+                setEdit(false)
+
+                //update user in local storage
+                window.localStorage.setItem('user', res.data)
+                window.location.reload()
+            })
+    }
+
     useEffect(() => {
         setUsername(user.name)
         setBio(user.bio)
@@ -78,6 +97,7 @@ function Home() {
                     handleChange={handleChange}
                     usernameChange={username}
                     bioChange={bio}
+                    handleUpdate={handleUpdate}
                 />
                 <TravelCards id={id !== '' ? id : user.id} />
             </main>
