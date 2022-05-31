@@ -194,11 +194,11 @@
     font-family: sans-serif;
     font-weight: 500;
     font-size: 1.5em;
-    padding-bottom: 2px;
+    padding-bottom: 1px;
 }
 .travel-page .travelpage-info .travel-header #username:hover {
     padding: 0;
-    border-bottom: solid 2px white;
+    border-bottom: solid 0.1px white;
 }
 .travel-page .post-description {
     display: flex;

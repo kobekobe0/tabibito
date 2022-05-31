@@ -10,6 +10,10 @@ function Home() {
     //function for fetching data from the server
     const [user, setUser] = useState({})
     const [id, setId] = useState('')
+    const [edit, setEdit] = useState(false)
+
+    const [username, setUsername] = useState(user.name)
+    const [bio, setBio] = useState('')
 
     useEffect(() => {
         const token = window.localStorage.getItem('user')
@@ -39,6 +43,23 @@ function Home() {
         }
     }, [])
 
+    useEffect(() => {
+        setUsername(user.name)
+        setBio(user.bio)
+    }, [user])
+
+    const editProfile = () => {
+        setEdit(!edit)
+    }
+
+    const handleChange = (e) => {
+        if (e.target.id === 'edit-username') {
+            setUsername(e.target.value)
+        } else if (e.target.id === 'edit-bio') {
+            setBio(e.target.value)
+        }
+    }
+
     //supply data to the profile bar  -  placeholder
     return (
         <div className="home">
@@ -52,6 +73,11 @@ function Home() {
                     following={user.following}
                     followers={user.followers}
                     saves={user.saves}
+                    editProfile={editProfile}
+                    edit={edit}
+                    handleChange={handleChange}
+                    usernameChange={username}
+                    bioChange={bio}
                 />
                 <TravelCards id={id !== '' ? id : user.id} />
             </main>

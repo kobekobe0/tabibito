@@ -77,6 +77,25 @@
     font-family: sans-serif;
     font-weight: lighter;
 }
+.home main .profileInfo #edit-username {
+    background-color: inherit;
+    color: white;
+    outline: none;
+    border: white solid 1px;
+    font-size: 1.8em;
+    width: 50%;
+}
+.home main .profileInfo #edit-bio {
+    background-color: inherit;
+    color: white;
+    outline: none;
+    border: white solid 1px;
+    font-size: 0.8em;
+    width: 80%;
+    height: auto;
+    margin-top: 10px;
+    resize: none;
+}
 .home main .profileInfo p {
     font-size: 1em;
     margin: 0;
@@ -96,6 +115,7 @@
         font-family: sans-serif;
         font-weight: lighter;
     }
+
     .home main .profileInfo p {
         font-size: 0.9em;
         margin: 0;
@@ -121,6 +141,26 @@
         margin: 0;
         font-family: sans-serif;
         font-weight: lighter;
+    }
+    .home main .profileInfo #edit-username {
+        background-color: inherit;
+        color: white;
+        outline: none;
+        border: white solid 1px;
+        font-size: 1.5em;
+        font-family: sans-serif;
+        font-weight: lighter;
+        width: 90%;
+    }
+    .home main .profileInfo #edit-bio {
+        background-color: inherit;
+        color: white;
+        outline: none;
+        border: white solid 1px;
+        font-size: 0.65em;
+        width: 90%;
+        height: auto;
+        margin-top: 10px;
     }
     .home main .profileInfo p {
         font-size: 0.75em;
@@ -151,6 +191,25 @@
         margin: 0;
         font-family: sans-serif;
         font-weight: lighter;
+    }
+    .home main .profileInfo #edit-username {
+        background-color: inherit;
+        color: white;
+        outline: none;
+        border: white solid 1px;
+        font-size: 1.25em;
+        font-family: sans-serif;
+        font-weight: lighter;
+        width: 90%;
+    }
+    .home main .profileInfo #edit-bio {
+        background-color: inherit;
+        color: white;
+        outline: none;
+        border: white solid 1px;
+        font-size: 0.55em;
+        height: auto;
+        margin-top: 10px;
     }
     .home main .profileInfo p {
         font-size: 0.625em;
