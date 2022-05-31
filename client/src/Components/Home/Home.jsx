@@ -45,37 +45,53 @@ function Home() {
     }, [])
 
     const handleUpdate = () => {
-        axios
-            .put(`/user/${user.id}`, {
-                name: username,
-                bio: bio,
-                pfp: user.pfp,
-                background: user.background,
-            })
-            .then((res) => {
-                console.log(res)
-                setEdit(false)
+        //confirmation
+        if (window.confirm('Are you sure you want to update your profile?')) {
+            axios
+                .put(`/user/${user.id}`, {
+                    name: username,
+                    bio: bio,
+                    pfp: user.pfp,
+                    background: user.background,
+                })
+                .then((res) => {
+                    console.log(res)
+                    //ask user if he/she's sure
 
-                //update user in local storage
-                window.localStorage.setItem('user', res.data)
-                window.location.reload()
-            })
+                    //update user in local storage
+                    window.localStorage.setItem('user', res.data)
+                    window.location.reload()
+                })
+        }
     }
 
     useEffect(() => {
-        setUsername(user.name)
+        //limit the length of bio
+
         setBio(user.bio)
+
+        setUsername(user.name)
     }, [user])
 
     const editProfile = () => {
         setEdit(!edit)
     }
-
+    const removeEmptySpaces = (stringVal) => {
+        let str = /\s/g.test(stringVal)
+        if (str) {
+            return stringVal.replace(/\s/g, '')
+        }
+        return stringVal
+    }
     const handleChange = (e) => {
         if (e.target.id === 'edit-username') {
-            setUsername(e.target.value)
+            if (username.length <= 15) {
+                setUsername(removeEmptySpaces(e.target.value))
+            }
         } else if (e.target.id === 'edit-bio') {
-            setBio(e.target.value)
+            if (bio.length <= 80) {
+                setBio(e.target.value)
+            }
         }
     }
 
