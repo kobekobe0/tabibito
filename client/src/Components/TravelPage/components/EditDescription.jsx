@@ -1,53 +1,4 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { BsFillPeopleFill } from 'react-icons/bs'
-import jwt_decode from 'jwt-decode'
-import { AiOutlineEdit } from 'react-icons/ai'
-import { BsBookmark } from 'react-icons/bs'
-
-function Description({ data, date }) {
-    console.log(data)
-    const handleClickUser = () => {
-        // const token = localStorage.getItem('user')
-        // const decoded = jwt_decode(token)
-        // console.log(decoded)
-        // if (data.userId === decoded.id) {
-        //     window.location.href = '/'
-        // } else {
-        //     window.location.href = `/profile/${data.userId}`
-        // }
-        if (own) {
-            return (window.location.href = '/')
-        }
-        window.location.href = `/profile/${data.userId}`
-    }
-
-    const [userData, setUserData] = useState({ name: '', pfp: '' })
-    const [own, setOwn] = useState(false)
-    const [edit, setEdit] = useState(false)
-    //send getRequest to server to get userById
-    useEffect(() => {
-        if (data.userId) {
-            axios
-                .get(`/user/${data.userId}`)
-                .then((res) => {
-                    console.log({ name: res.data.name, pfp: res.data.pfp })
-                    setUserData({
-                        name: res.data.name,
-                        pfp: res.data.pfp,
-                    })
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-        } else {
-            console.log('no user id')
-        }
-        if (data.userId === jwt_decode(localStorage.getItem('user')).id) {
-            setOwn(true)
-        }
-    }, [data.userId])
-
+function EditDescription() {
     return (
         <>
             <section className="post-description">
@@ -188,4 +139,4 @@ function Description({ data, date }) {
     )
 }
 
-export default Description
+export default EditDescription

@@ -1,12 +1,10 @@
-import React from 'react'
-import { BsBookmark } from 'react-icons/bs'
 import {
     BsFillArrowRightCircleFill,
     BsFillArrowLeftCircleFill,
 } from 'react-icons/bs'
 import { AiOutlineClose } from 'react-icons/ai'
 import jwt_decode from 'jwt-decode'
-
+import axios from 'axios'
 function Images({
     image,
     counter,
@@ -19,18 +17,6 @@ function Images({
     date,
     setCounter,
 }) {
-    const handleClickUser = () => {
-        // const token = localStorage.getItem('user')
-        // const decoded = jwt_decode(token)
-        // console.log(decoded)
-        // if (data.userId === decoded.id) {
-        //     window.location.href = '/'
-        // } else {
-        //     window.location.href = `/profile/${data.userId}`
-        // }
-        window.location.href = `/profile/${data.userId}`
-    }
-
     return (
         <>
             <section className="image-holder">
@@ -137,46 +123,6 @@ function Images({
                         onClick={() => setCounter(index)}
                     />
                 ))}
-                <div className="travelpage-info">
-                    <div className="travel-header">
-                        <div className="travel-title">
-                            <h2>{data.title}</h2>
-                            <h3>
-                                {data.locationTown}, {data.locationCity},{' '}
-                                {data.locationCountry}
-                            </h3>
-                            <div id="user-info">
-                                <div className="pfp">
-                                    <img
-                                        src={`http://localhost:3000/${pfp}`}
-                                        alt=""
-                                        style={{
-                                            width: '50px',
-                                            height: '50px',
-                                            objectFit: 'cover',
-                                            borderRadius: '50%',
-                                        }}
-                                    />
-                                </div>
-                                <div className="texts">
-                                    <h3
-                                        id="username"
-                                        onClick={() =>
-                                            handleClickUser(data.userId)
-                                        }
-                                        style={{ cursor: 'pointer' }}
-                                    >
-                                        {data.username}
-                                    </h3>
-                                    <h4 id="date">{date}</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="travel-like">
-                            <BsBookmark color="gold" size={30} />
-                        </div>
-                    </div>
-                </div>
             </section>
         </>
     )

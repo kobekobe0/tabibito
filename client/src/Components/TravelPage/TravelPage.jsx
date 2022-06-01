@@ -101,7 +101,12 @@ function TravelPage() {
                         date={date}
                         setCounter={setCounter}
                     />
-                    <Description data={data} />
+                    <Description
+                        data={data}
+                        pfp={pfp}
+                        date={date}
+                        setCounter={setCounter}
+                    />
                 </div>
             </div>
         </>
