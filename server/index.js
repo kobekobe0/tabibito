@@ -23,6 +23,7 @@ const {
     deleteTravel,
     getPreviewImage,
     updateUser,
+    getUserById,
 } = require('./controllers/travel/travel.controller')
 mongoose.connect('mongodb://localhost:27017/tabibito')
 
@@ -47,6 +48,7 @@ app.use(express.static('uploads'))
 app.use(express.static('pfp'))
 app.use(express.static('background'))
 app.put('/api/user/:id', updateUser)
+app.get('/api/user/:id', getUserById)
 app.get('/api/travel/public', getPublicTravels)
 app.get('/api/travel/user/:id', getUserTravels)
 app.post('/api/travel/preview/', getPreviewImage)
@@ -56,8 +58,6 @@ app.get('/api/travel/:id', getTravelById)
 
 //TODO
 //Send the image to the client every request
-
-const fs = require('fs')
 
 app.post('/api/travel/', uploadMulter, createTravel)
 

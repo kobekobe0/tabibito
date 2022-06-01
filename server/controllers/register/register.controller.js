@@ -45,6 +45,7 @@ const loginUser = async (req, res) => {
 }
 
 const verifyLogin = async (req, res) => {
+    // doesn't do anything for now
     const token = req.headers['token']
 
     try {
