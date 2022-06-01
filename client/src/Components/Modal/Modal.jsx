@@ -27,7 +27,7 @@ function Modal() {
     const [locationCityTraveler, setLocationCityTraveler] = useState('')
     const [locationCountryTraveler, setLocationCountryTraveler] = useState('')
 
-    const [travelerCount, setTravelerCount] = useState(1)
+    const [travelerCount, setTravelerCount] = useState(0)
 
     const [images, setImages] = useState([])
     const [selectedImages, setSelectedImages] = useState([])
@@ -37,9 +37,10 @@ function Modal() {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        const userIdToken = JSON.parse(localStorage.getItem('user'))
-        const userId = jwt_decode(userIdToken).id
+        const userIdToken = localStorage.getItem('user')
 
+        const userId = jwt_decode(userIdToken).id
+        console.log(userId)
         const formData = new FormData()
 
         formData.append('userId', userId)
@@ -384,6 +385,7 @@ function Modal() {
                                     locationCityTraveler === '' ||
                                     locationCountryTraveler === '' ||
                                     duration === '' ||
+                                    travelerCount === 0 ||
                                     privacy === null ||
                                     images.length === 0
                                         ? true
