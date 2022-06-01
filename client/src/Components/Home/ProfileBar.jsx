@@ -1,7 +1,5 @@
-import axios from 'axios'
-import React, { useEffect } from 'react'
-import bg from '../../images/login2.jpg'
-import profile from '../../images/profile.jpg'
+import React from 'react'
+import { AiFillEdit, AiOutlineLogout } from 'react-icons/ai'
 
 const EditProfile = ({
     id,
@@ -83,6 +81,13 @@ function ProfileBar({
     bioChange,
     handleUpdate,
 }) {
+    const logout = () => {
+        if (window.confirm('Are you sure you want to logout?')) {
+            //placeholder, change to real modal
+            localStorage.removeItem('user')
+            window.location.href = '/login'
+        }
+    }
     if (!edit) {
         return (
             <section className="userInfo">
@@ -113,8 +118,17 @@ function ProfileBar({
                             <p>{bio}</p>
                         </div>
                         <div className="profileButtons">
-                            <button onClick={editProfile}>Edit Profile</button>
-                            <button>Logout</button>
+                            <AiFillEdit
+                                onClick={editProfile}
+                                size="2em"
+                                color="skyblue"
+                            />
+
+                            <AiOutlineLogout
+                                onClick={logout}
+                                size="2em"
+                                color="tomato"
+                            />
                         </div>
                     </div>
                 </div>

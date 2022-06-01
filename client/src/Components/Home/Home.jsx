@@ -26,7 +26,7 @@ function Home() {
             const length = id.length - 1
             console.log(id[length])
             setId(id[length])
-        }
+        } // change Home component's route to profile/:id
         if (token) {
             //decode jwt token
             let userData = jwt_decode(token)
