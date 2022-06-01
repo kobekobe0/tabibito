@@ -16,6 +16,17 @@ const getTravelById = async (req, res) => {
     res.json(travel)
 }
 
+const getUserById = async (req, res) => {
+    const userId = req.params.id
+    console.log('userID', userId)
+    const user = await Userdata.findById(userId)
+    if (user) {
+        res.json(user)
+    } else {
+        res.json({ message: 'user not found' })
+    }
+}
+
 // Where fileName is name of the file and response is Node.js Reponse.
 
 const createTravel = async (req, res) => {
@@ -147,4 +158,5 @@ module.exports = {
     deleteTravel,
     getPreviewImage,
     updateUser,
+    getUserById,
 }
