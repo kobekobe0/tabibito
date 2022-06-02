@@ -8,13 +8,9 @@ NOTES
 -DO NOT USE 'profile' in any other params other than visiting someone's page
 
 TODOS
--change buttons in profilebar
 -change alert to modal in updateProfile confirmation
 -add update pfp and bg. After selecting the file, show the make the image as a blob file then replace the img to that blob file
 -use multer to store pfp and bg in separate folder. Follow uploads pattern
 -add following, followers, saves in profile info
 -add pfp and background in user model
 -send token as headers in all request in fe
-
-Completed
--fix headers being unidentified in reqAuth
