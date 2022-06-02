@@ -80,25 +80,38 @@ const updateUser = async (req, res) => {
 
 const updateTravel = async (req, res) => {
     const travel = req.params.id
-    const budget = req.body.budget
-    if (budget) {
-        const updatedTravel = await Travel.findByIdAndUpdate(travel, {
-            $set: {
-                budget: {
-                    food: budget.food,
-                    accommodation: budget.accommodation,
-                    transportation: budget.transportation,
-                    other: budget.other,
-                },
-            },
-        })
-    }
+    const {
+        title,
+        description,
+        locationTown,
+        locationCity,
+        locationCountry,
+        accommodation,
+        transportation,
+        food,
+        other,
+        transportationType,
+        travelerTown,
+        travelerCity,
+        travelerCountry,
+        travelerCount,
+    } = req.body
     const updatedTravel = await Travel.findByIdAndUpdate(travel, {
         $set: {
-            title: req.body.title,
-            location: req.body.location,
-            description: req.body.description,
-            private: req.body.private,
+            title: title,
+            description: description,
+            locationTown: locationTown,
+            locationCity: locationCity,
+            locationCountry: locationCountry,
+            accommodation: accommodation,
+            transportation: transportation,
+            food: food,
+            other: other,
+            transportationType: transportationType,
+            travelerTown: travelerTown,
+            travelerCity: travelerCity,
+            travelerCountry: travelerCountry,
+            travelerCount: travelerCount,
         },
     })
     res.json(updatedTravel)

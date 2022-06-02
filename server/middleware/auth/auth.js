@@ -3,14 +3,16 @@ const User = require('../../models/register.model')
 
 const reqAuth = async (req, res, next) => {
     console.log('reqAuth')
-    let repeat = true
+    let repeat = 0
 
     let token = ''
-    while (repeat) {
+    while (repeat !== 25) {
         token = await req.headers.authorization
         if (token) {
-            repeat = false
+            repeat = 24
         }
+        repeat++
+        console.log(repeat)
     }
 
     const toDecode = token.replace(/"/g, '')
