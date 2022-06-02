@@ -4,6 +4,7 @@ import { BsFillPeopleFill } from 'react-icons/bs'
 import jwt_decode from 'jwt-decode'
 import { AiOutlineEdit } from 'react-icons/ai'
 import { BsBookmark } from 'react-icons/bs'
+import EditDescription from './EditDescription'
 
 function Description({ data, date }) {
     console.log(data)
@@ -184,6 +185,7 @@ function Description({ data, date }) {
                     </div>
                 </div>
             </section>
+            <EditDescription userData={userData} date={date} data={data} />
         </>
     )
 }
