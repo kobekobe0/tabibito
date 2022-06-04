@@ -56,9 +56,11 @@ function EditDescription({ userData, date, data }) {
                 })
                 .then((res) => {
                     console.log(res.data)
+                    window.location.reload()
                 })
                 .catch((err) => {
                     console.log(err)
+                    alert(err)
                 })
     }
     return (
@@ -69,6 +71,7 @@ function EditDescription({ userData, date, data }) {
                         <div className="travel-title">
                             <input
                                 type="text"
+                                id="edit-title"
                                 value={title}
                                 onChange={(e) =>
                                     setTitle(e.target.value.toUpperCase())
@@ -140,7 +143,7 @@ function EditDescription({ userData, date, data }) {
                 <div className="description">
                     <textarea
                         name=""
-                        id=""
+                        id="textarea"
                         value={description}
                         onChange={(e) => setDescription(e.target.value)}
                     />

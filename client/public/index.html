@@ -44,5 +44,16 @@
 
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
-    --></body>
+      
+
+    -->
+
+        <script type="text/javascript">
+            function setHeight(fieldId) {
+                document.getElementById(fieldId).style.height =
+                    document.getElementById(fieldId).scrollHeight + 'px'
+            }
+            setHeight('textarea')
+        </script>
+    </body>
 </html>
