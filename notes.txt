@@ -21,6 +21,12 @@ Travels Model
    - Deleted : Boolean
 
 
+
+In BE check data that are being sent before saving to DB
+- POST and PUT request mostly
+
+
+
 News feed page
 
 Personal page

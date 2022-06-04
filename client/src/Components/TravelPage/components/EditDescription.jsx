@@ -73,6 +73,7 @@ function EditDescription({ userData, date, data }) {
                                 onChange={(e) =>
                                     setTitle(e.target.value.toUpperCase())
                                 }
+                                maxLength={18}
                             />
                             <div className="location-edit">
                                 <input
