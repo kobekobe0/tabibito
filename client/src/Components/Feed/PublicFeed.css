@@ -37,6 +37,10 @@
 .public-feed main .feed-header h1 {
     color: white;
     margin-left: 2em;
+    transition: all 0.3s ease-in-out;
+    font-family: 'Nunito', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
 }
 .public-feed main .feed-header img {
     width: 50px;
@@ -50,4 +54,23 @@
 }
 .public-feed main .feed-header img:hover {
     border: solid rgb(78, 78, 78) 10px;
+}
+
+@media screen and (max-width: 900px) {
+    .public-feed main {
+        max-width: 100%;
+    }
+}
+@media screen and (max-width: 600px) {
+    .public-feed main .feed-header h1 {
+        margin-left: 1em;
+    }
+    .public-feed main .feed-header img {
+        margin-right: 1em;
+    }
+}
+@media screen and (max-width: 450px) {
+    .public-feed main .feed-header {
+        height: 8em;
+    }
 }
