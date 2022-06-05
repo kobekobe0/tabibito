@@ -13,7 +13,41 @@
     height: 100vh;
     width: 1000px;
     max-width: 90%;
-
+    background-color: #242424;
     display: flex;
     flex-direction: column;
+}
+
+.public-feed main .feed-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
+    height: 10em;
+    width: 100%;
+    background-color: #303030;
+    border-bottom-left-radius: 50px;
+    border-bottom-right-radius: 50px;
+    box-shadow: 2px 10px 65px 0px rgba(28, 28, 28, 0.75);
+    -webkit-box-shadow: 2px 10px 65px 0px rgba(28, 28, 28, 0.75);
+    -moz-box-shadow: 2px 10px 65px 0px rgba(28, 28, 28, 0.75);
+}
+.public-feed main .feed-header h1 {
+    color: white;
+    margin-left: 2em;
+}
+.public-feed main .feed-header img {
+    width: 50px;
+    height: 50px;
+    margin-right: 2em;
+    border-radius: 50%;
+    cursor: pointer;
+    border: solid transparent 10px;
+    transition: all 0.3s ease-in-out;
+    outline: 1px solid rgba(190, 190, 190, 0.281);
+}
+.public-feed main .feed-header img:hover {
+    border: solid rgb(78, 78, 78) 10px;
 }
