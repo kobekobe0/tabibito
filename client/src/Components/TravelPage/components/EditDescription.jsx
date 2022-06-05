@@ -36,32 +36,34 @@ function EditDescription({ userData, date, data }) {
     }, [data])
     const handleSave = () => {
         console.log(data._id)
-        data._id &&
-            axios
-                .put(`travel/${data._id}`, {
-                    title: title.trim(),
-                    locationTown: locationTown.trim(),
-                    locationCity: locationCity.trim(),
-                    locationCountry: locationCountry.trim(),
-                    description: description,
-                    accommodation: accommodation,
-                    transportation: transportation,
-                    food: food,
-                    other: other,
-                    transportationType: transportationType,
-                    travelerTown: travelerTown.trim(),
-                    travelerCity: travelerCity.trim(),
-                    travelerCountry: travelerCountry.trim(),
-                    travelerCount: headCount,
-                })
-                .then((res) => {
-                    console.log(res.data)
-                    window.location.reload()
-                })
-                .catch((err) => {
-                    console.log(err)
-                    alert(err)
-                })
+        if (window.confirm('Are you sure you want to save these changes?')) {
+            data._id &&
+                axios
+                    .put(`travel/${data._id}`, {
+                        title: title.trim(),
+                        locationTown: locationTown.trim(),
+                        locationCity: locationCity.trim(),
+                        locationCountry: locationCountry.trim(),
+                        description: description,
+                        accommodation: accommodation,
+                        transportation: transportation,
+                        food: food,
+                        other: other,
+                        transportationType: transportationType,
+                        travelerTown: travelerTown.trim(),
+                        travelerCity: travelerCity.trim(),
+                        travelerCountry: travelerCountry.trim(),
+                        travelerCount: headCount,
+                    })
+                    .then((res) => {
+                        console.log(res.data)
+                        window.location.reload()
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                        alert(err)
+                    })
+        }
     }
     return (
         <>

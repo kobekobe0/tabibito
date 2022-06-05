@@ -7,6 +7,7 @@ import './Components/Home/navbar.css'
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
 import TravelPage from './Components/TravelPage/TravelPage'
 import { MdPublic } from 'react-icons/md'
+import PublicFeed from './Components/Feed/PublicFeed'
 
 function App() {
     return (
@@ -18,6 +19,7 @@ function App() {
                     <Route exact path="/post" element={<Modal />} />
                     <Route exact path="/travel/:id" element={<TravelPage />} />
                     <Route exact path="/profile/:id" element={<Home />} />
+                    <Route exact path="/public" element={<PublicFeed />} />
                     <Route exact path="/" element={<Home />} />
                 </Routes>
                 <section>
@@ -29,7 +31,7 @@ function App() {
                                 </Link>
                             </div>
                             <div className="navbar-item">
-                                <Link to="/">Public</Link>
+                                <Link to="/public">Public</Link>
                             </div>
                         </div>
                     </div>

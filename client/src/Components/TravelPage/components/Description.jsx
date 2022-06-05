@@ -28,6 +28,7 @@ function Description({ data, date }) {
     const [edit, setEdit] = useState(false)
     //send getRequest to server to get userById
     useEffect(() => {
+        console.log(`http://localhost:3000/bg.jpg`)
         if (data.userId) {
             axios
                 .get(`/user/${data.userId}`)
