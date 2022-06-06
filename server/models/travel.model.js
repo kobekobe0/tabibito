@@ -28,6 +28,7 @@ const Travel = new mongoose.Schema(
         deleted: { type: Boolean, required: true },
         duration: { type: Number, required: true },
         likes: { type: [String], required: true },
+        saves: { type: [String], default: [] },
         username: { type: String, required: true },
         Date: { type: Date, default: Date.now },
         travelerCount: { type: Number, required: true },
