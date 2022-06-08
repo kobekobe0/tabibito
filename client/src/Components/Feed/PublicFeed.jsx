@@ -1,32 +1,54 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import './PublicFeed.css'
 import jwt_decode from 'jwt-decode'
-import { AiOutlineHeart, AiOutlineHeartFill } from 'react-icons/ai'
-import { BsBookmark, BsBookmarksFill } from 'react-icons/bs'
+
 import axios from 'axios'
+import Card from './Components/Card'
 
 function PublicFeed() {
+    const [data, setData] = useState([])
+    const [loading, setLoading] = useState(true)
     const [profileImg, setProfileImg] = useState('')
-    const [limit, setLimit] = useState(10)
+    const [limit, setLimit] = useState(4)
     const [page, setPage] = useState(1)
-    useEffect(() => {
-        //get token from localStorage
-        const token = window.localStorage.getItem('user')
-        if (token) {
-            //decode token
-            let userData = jwt_decode(token)
-            console.log(userData)
-            setProfileImg(userData.pfp.replace('pfp', ''))
-        }
+    const [hasMore, setHasMore] = useState(false)
 
-        axios.get('travel/public?limit=2&page=1').then((res) => {
-            console.log(res.data)
-        })
-    }, [])
+    const observer = useRef()
+    const lastTravelCard = useCallback(
+        (node) => {
+            if (loading) return
+            if (observer.current) observer.current.disconnect()
+            observer.current = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    setPage((prevPage) => prevPage + 1)
+                }
+            })
+            if (node) observer.current.observe(node)
+        },
+        [loading]
+    )
 
     const goToProfile = () => {
         window.location.href = '/'
     }
+
+    useEffect(() => {
+        try {
+            axios
+                .get(`/travel/public?page=${page}&limit=${limit}`)
+                .then((res) => {
+                    setData((prev) => [...prev, ...res.data.result])
+                    console.log(res.data)
+                    setLoading(false)
+
+                    if (res.data.lengthData > page) {
+                        setHasMore(true)
+                    } else {
+                        setHasMore(false)
+                    }
+                })
+        } catch (e) {}
+    }, [page])
     return (
         <>
             {' '}
@@ -34,133 +56,35 @@ function PublicFeed() {
                 <main>
                     <div className="feed-header">
                         <h1>TABIBITO 🏴‍☠️</h1>
+
                         <img
                             onClick={goToProfile}
-                            src={`http://localhost:3000/${profileImg}`}
+                            src={`http://localhost:3000/\anya.jpg`}
                             alt=""
                         />
                     </div>
                     <div className="feed-content">
-                        <div className="feed-card">
-                            <div className="card-header">
-                                <img
-                                    style={{ width: '100%' }}
-                                    src={`http://localhost:3000/imageUpload-1653806035576.jpg`}
-                                />
-                            </div>
-                            <div className="feed-description">
-                                <div className="feed-description-header">
-                                    <div className="feed-description-header-user">
-                                        <img
-                                            src={`http://localhost:3000/${profileImg}`}
-                                            alt=""
-                                            width={'50px'}
+                        {data &&
+                            data.map((item, i) => {
+                                if (data.length === i + 1) {
+                                    return (
+                                        <Card
+                                            innerRef={lastTravelCard}
+                                            key={item._id}
+                                            data={item}
+                                            profileImg={profileImg}
                                         />
-                                        <div className="feed-description-header-text">
-                                            <h3>Kobekoblanca</h3>
-                                            <h5>Sept. 5, 2022</h5>
-                                        </div>
-                                    </div>
-                                    <div className="feed-description-header-buttons">
-                                        <AiOutlineHeart
-                                            color="tomato"
-                                            size={30}
+                                    )
+                                } else {
+                                    return (
+                                        <Card
+                                            key={item._id}
+                                            data={item}
+                                            profileImg={profileImg}
                                         />
-                                        <BsBookmark color="gold" size={25} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="feed-card">
-                            <div className="card-header">
-                                <img
-                                    style={{ width: '100%' }}
-                                    src={`http://localhost:3000/imageUpload-1653806035576.jpg`}
-                                />
-                            </div>
-                            <div className="feed-description">
-                                <div className="feed-description-header">
-                                    <div className="feed-description-header-user">
-                                        <img
-                                            src={`http://localhost:3000/${profileImg}`}
-                                            alt=""
-                                            width={'50px'}
-                                        />
-                                        <div className="feed-description-header-text">
-                                            <h3>Kobekoblanca</h3>
-                                            <h5>Sept. 5, 2022</h5>
-                                        </div>
-                                    </div>
-                                    <div className="feed-description-header-buttons">
-                                        <AiOutlineHeart
-                                            color="tomato"
-                                            size={30}
-                                        />
-                                        <BsBookmark color="gold" size={25} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="feed-card">
-                            <div className="card-header">
-                                <img
-                                    style={{ width: '100%' }}
-                                    src={`http://localhost:3000/imageUpload-1653806035576.jpg`}
-                                />
-                            </div>
-                            <div className="feed-description">
-                                <div className="feed-description-header">
-                                    <div className="feed-description-header-user">
-                                        <img
-                                            src={`http://localhost:3000/${profileImg}`}
-                                            alt=""
-                                            width={'50px'}
-                                        />
-                                        <div className="feed-description-header-text">
-                                            <h3>Kobekoblanca</h3>
-                                            <h5>Sept. 5, 2022</h5>
-                                        </div>
-                                    </div>
-                                    <div className="feed-description-header-buttons">
-                                        <AiOutlineHeart
-                                            color="tomato"
-                                            size={30}
-                                        />
-                                        <BsBookmark color="gold" size={25} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="feed-card">
-                            <div className="card-header">
-                                <img
-                                    style={{ width: '100%' }}
-                                    src={`http://localhost:3000/imageUpload-1653806035576.jpg`}
-                                />
-                            </div>
-                            <div className="feed-description">
-                                <div className="feed-description-header">
-                                    <div className="feed-description-header-user">
-                                        <img
-                                            src={`http://localhost:3000/${profileImg}`}
-                                            alt=""
-                                            width={'50px'}
-                                        />
-                                        <div className="feed-description-header-text">
-                                            <h3>Kobekoblanca</h3>
-                                            <h5>Sept. 5, 2022</h5>
-                                        </div>
-                                    </div>
-                                    <div className="feed-description-header-buttons">
-                                        <AiOutlineHeart
-                                            color="tomato"
-                                            size={30}
-                                        />
-                                        <BsBookmark color="gold" size={25} />
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                    )
+                                }
+                            })}
                     </div>
                 </main>
             </div>
