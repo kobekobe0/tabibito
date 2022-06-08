@@ -34,6 +34,13 @@ const getPublicTravels = async (req, res) => {
         }
     }
 
+    let lengthTravel =
+        (await Travel.countDocuments({
+            private: false,
+        })) / limit
+
+    results.lengthData = Math.ceil(lengthTravel)
+
     results.result = await Travel.find({ private: false })
         .limit(limit)
         .skip(startIndex)
