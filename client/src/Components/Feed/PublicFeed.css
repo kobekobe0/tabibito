@@ -73,7 +73,6 @@
     color: white;
     border: solid rgba(255, 255, 255, 0.548) 0.5px;
     border-radius: 10px;
-    z-index: 10;
     margin-bottom: 3em;
 }
 .public-feed .feed-content .feed-description {

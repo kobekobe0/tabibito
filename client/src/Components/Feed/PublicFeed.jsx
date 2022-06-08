@@ -3,9 +3,12 @@ import './PublicFeed.css'
 import jwt_decode from 'jwt-decode'
 import { AiOutlineHeart, AiOutlineHeartFill } from 'react-icons/ai'
 import { BsBookmark, BsBookmarksFill } from 'react-icons/bs'
+import axios from 'axios'
 
 function PublicFeed() {
     const [profileImg, setProfileImg] = useState('')
+    const [limit, setLimit] = useState(10)
+    const [page, setPage] = useState(1)
     useEffect(() => {
         //get token from localStorage
         const token = window.localStorage.getItem('user')
@@ -15,7 +18,11 @@ function PublicFeed() {
             console.log(userData)
             setProfileImg(userData.pfp.replace('pfp', ''))
         }
-    })
+
+        axios.get('travel/public?limit=2&page=1').then((res) => {
+            console.log(res.data)
+        })
+    }, [])
 
     const goToProfile = () => {
         window.location.href = '/'
@@ -26,7 +33,7 @@ function PublicFeed() {
             <div className="public-feed">
                 <main>
                     <div className="feed-header">
-                        <h1>TABIBITO 🧭</h1>
+                        <h1>TABIBITO 🏴‍☠️</h1>
                         <img
                             onClick={goToProfile}
                             src={`http://localhost:3000/${profileImg}`}
