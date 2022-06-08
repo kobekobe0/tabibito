@@ -5,8 +5,40 @@ const fs = require('fs')
 const jwt = require('jsonwebtoken')
 
 const getPublicTravels = async (req, res) => {
-    const travels = await Travel.find({ private: false })
-    res.json(travels)
+    //?page=2&limit=3
+
+    const page = parseInt(req.query.page)
+    const limit = parseInt(req.query.limit)
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
+
+    let results = {}
+
+    if (startIndex > 0) {
+        results.prev = {
+            page: page - 1,
+            limit: limit,
+        }
+    }
+    if (
+        endIndex <
+        (await Travel.countDocuments({
+            //public === false
+            //private === true
+            private: false,
+        }))
+    ) {
+        results.next = {
+            page: page + 1,
+            limit: limit,
+        }
+    }
+
+    results.result = await Travel.find({ private: false })
+        .limit(limit)
+        .skip(startIndex)
+
+    return res.json(results)
 }
 
 const getTravelById = async (req, res) => {
