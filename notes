@@ -14,4 +14,4 @@ TODOS
 -add following, followers, saves in profile info
 -add pfp and background in user model
 -send token as headers in all request in fe
--PROTECTEVERY ROUTES
+-PROTECT EVERY ROUTES
