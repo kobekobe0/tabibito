@@ -54,7 +54,7 @@ function PublicFeed() {
             <div className="public-feed">
                 <main>
                     <div className="feed-header">
-                        <h1>TABIBITO 🏴‍☠️</h1>
+                        <h1>TABIBITO</h1>
 
                         <img
                             onClick={goToProfile}

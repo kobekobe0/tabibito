@@ -1,4 +1,4 @@
-import { AiOutlineHeart, AiOutlineHeartFill } from 'react-icons/ai'
+import { AiOutlineHeart, AiFillHeart } from 'react-icons/ai'
 import { BsBookmark, BsBookmarksFill } from 'react-icons/bs'
 import {
     BsFillArrowRightCircleFill,
@@ -13,17 +13,27 @@ function Card({ innerRef, data }) {
     const [pfp, setPfp] = useState('')
     const [username, setUsername] = useState('')
     const [own, setOwn] = useState(false)
+    const [ID, setID] = useState('')
+    const [liked, setLiked] = useState(false)
+    const [saved, setSaved] = useState(false)
 
     useEffect(() => {
+        const USER = jwt_decode(localStorage.getItem('user'))
         axios.get(`/user/${data.userId}`).then((res) => {
             console.log(res.data)
             setPfp(res.data.pfp.replace('pfp', ''))
             setUsername(res.data.name)
+            setID(USER.id)
+            console.log(USER.id)
 
             if (res.data._id === jwt_decode(localStorage.getItem('user')).id) {
                 setOwn(true)
             }
         })
+
+        if (data.likes.includes(USER.id)) {
+            setLiked(true)
+        }
     }, [])
 
     const handleTitleClick = () => {
@@ -35,6 +45,55 @@ function Card({ innerRef, data }) {
             return (window.location.href = '/')
         }
         window.location.href = `/profile/${data.userId}`
+    }
+
+    const handleLike = () => {
+        console.log(ID)
+        axios
+            .put(`/travel/${data._id}/like`, {
+                userId: ID,
+                method: 'like',
+            })
+            .then((res) => {
+                console.log(res.data)
+                setLiked(true)
+            })
+    }
+    const handleUnLike = () => {
+        console.log(ID)
+        axios
+            .put(`/travel/${data._id}/like`, {
+                userId: ID,
+                method: 'unlike',
+            })
+            .then((res) => {
+                console.log(res.data)
+                setLiked(false)
+            })
+    }
+
+    const handleSave = () => {
+        axios
+            .put(`/travel/${data._id}/save`, {
+                userId: ID,
+                method: 'save',
+            })
+            .then((res) => {
+                console.log(res.data)
+                setSaved(true)
+            })
+    }
+
+    const handleUnSave = () => {
+        axios
+            .put(`/travel/${data._id}/save`, {
+                userId: ID,
+                method: 'unsave',
+            })
+            .then((res) => {
+                console.log(res.data)
+                setSaved(false)
+            })
     }
 
     return (
@@ -89,8 +148,33 @@ function Card({ innerRef, data }) {
                         </div>
                     </div>
                     <div className="feed-description-header-buttons">
-                        <AiOutlineHeart color="tomato" size={30} />
-                        <BsBookmark color="gold" size={25} />
+                        {liked ? (
+                            <AiFillHeart
+                                onClick={handleUnLike}
+                                color="tomato"
+                                size={30}
+                            />
+                        ) : (
+                            <AiOutlineHeart
+                                onClick={handleLike}
+                                color="tomato"
+                                size={30}
+                            />
+                        )}
+
+                        {saved ? (
+                            <BsBookmarksFill
+                                color="gold"
+                                size={25}
+                                onClick={handleUnSave}
+                            />
+                        ) : (
+                            <BsBookmark
+                                color="gold"
+                                size={25}
+                                onClick={handleSave}
+                            />
+                        )}
                     </div>
                 </div>
             </div>
