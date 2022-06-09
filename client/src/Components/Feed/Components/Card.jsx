@@ -4,14 +4,43 @@ import {
     BsFillArrowRightCircleFill,
     BsFillArrowLeftCircleFill,
 } from 'react-icons/bs'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import jwt_decode from 'jwt-decode'
+
 function Card({ innerRef, data }) {
     const [index, setIndex] = useState(0)
+    const [pfp, setPfp] = useState('')
+    const [username, setUsername] = useState('')
+    const [own, setOwn] = useState(false)
+
+    useEffect(() => {
+        axios.get(`/user/${data.userId}`).then((res) => {
+            console.log(res.data)
+            setPfp(res.data.pfp.replace('pfp', ''))
+            setUsername(res.data.name)
+
+            if (res.data._id === jwt_decode(localStorage.getItem('user')).id) {
+                setOwn(true)
+            }
+        })
+    }, [])
+
+    const handleTitleClick = () => {
+        window.location.href = `/travel/${data._id}`
+    }
+
+    const handleClickUser = () => {
+        if (own) {
+            return (window.location.href = '/')
+        }
+        window.location.href = `/profile/${data.userId}`
+    }
 
     return (
         <div className="feed-card" ref={innerRef}>
             <div className="card-header">
-                <div className="carousel" style={{ height: '600px' }}>
+                <div className="carousel">
                     {index !== 0 && (
                         <BsFillArrowLeftCircleFill
                             className="prev"
@@ -37,19 +66,26 @@ function Card({ innerRef, data }) {
                             onClick={() => setIndex(index + 1)}
                         />
                     )}
+                    {index == 0 && (
+                        <div className="feed-card-overlay">
+                            <p>
+                                {data.locationTown}, {data.locationCity}
+                            </p>
+                        </div>
+                    )}
                 </div>
             </div>
             <div className="feed-description">
                 <div className="feed-description-header">
                     <div className="feed-description-header-user">
                         <img
-                            src={`http://localhost:3000/anya.jpg`}
+                            src={`http://localhost:3000/${pfp}`}
                             alt=""
-                            width={'50px'}
+                            width={'40px'}
                         />
                         <div className="feed-description-header-text">
-                            <h3>{data.title}</h3>
-                            <h5>Sept. 5, 2022</h5>
+                            <h3 onClick={handleTitleClick}>{data.title}</h3>
+                            <h5 onClick={handleClickUser}>{username}</h5>
                         </div>
                     </div>
                     <div className="feed-description-header-buttons">

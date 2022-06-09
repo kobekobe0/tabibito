@@ -44,6 +44,7 @@ const getPublicTravels = async (req, res) => {
     results.result = await Travel.find({ private: false })
         .limit(limit)
         .skip(startIndex)
+        .sort({ createdAt: -1 })
 
     return res.json(results)
 }
