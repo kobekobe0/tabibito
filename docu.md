@@ -7,12 +7,14 @@ AUTHORIZATION:
 
 ROUTES:
 
+PUBLIC FEED ROUTE
 /travel/public?limit=N&page=N :
+
 PARAMS:
 -limit
 -page
 
-    RETURNS:
+RETURNS:
 
     {
     "prev": {
@@ -61,3 +63,33 @@ PARAMS:
             }
         ]
     }
+
+LIKE ROUTE
+PUT /api/travel/:id/like
+
+PARAMS:
+id
+
+BODY:
+userId
+method ("like"/"unlike")
+
+RETURNS:
+{
+message: 'status' = either success or already liked/unliked
+}
+
+SAVE ROUTE
+PUT /api/travel/:id/save
+
+PARAMS:
+id
+
+BODY:
+userId
+method ("save","unsave")
+
+RETURNS:
+{
+message: 'status' = either success or already save/unsaved
+}
