@@ -1,14 +1,43 @@
 import { AiOutlineHeart, AiOutlineHeartFill } from 'react-icons/ai'
 import { BsBookmark, BsBookmarksFill } from 'react-icons/bs'
-
+import {
+    BsFillArrowRightCircleFill,
+    BsFillArrowLeftCircleFill,
+} from 'react-icons/bs'
+import { useState } from 'react'
 function Card({ innerRef, data }) {
+    const [index, setIndex] = useState(0)
+
     return (
         <div className="feed-card" ref={innerRef}>
             <div className="card-header">
-                <img
-                    style={{ width: '100%' }}
-                    src={`http://localhost:3000/imageUpload-1653806035576.jpg`}
-                />
+                <div className="carousel" style={{ height: '600px' }}>
+                    {index !== 0 && (
+                        <BsFillArrowLeftCircleFill
+                            className="prev"
+                            onClick={() => setIndex(index - 1)}
+                        />
+                    )}
+
+                    {data &&
+                        data.images.map((item, i) =>
+                            i == index ? (
+                                <img
+                                    key={i}
+                                    src={`http://localhost:3000/${item.replace(
+                                        'uploads',
+                                        ''
+                                    )}`}
+                                />
+                            ) : null
+                        )}
+                    {index !== data.images.length - 1 && (
+                        <BsFillArrowRightCircleFill
+                            className="next"
+                            onClick={() => setIndex(index + 1)}
+                        />
+                    )}
+                </div>
             </div>
             <div className="feed-description">
                 <div className="feed-description-header">

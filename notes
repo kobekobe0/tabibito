@@ -15,3 +15,4 @@ TODOS
 -add pfp and background in user model
 -send token as headers in all request in fe
 -PROTECT EVERY ROUTES
+-decrese image quality in FE, in BE, check if image size is less than 10mb after upload, in FE, check images size before putting it at image list to be upload

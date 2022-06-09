@@ -9,7 +9,7 @@ function PublicFeed() {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [profileImg, setProfileImg] = useState('')
-    const [limit, setLimit] = useState(4)
+    const [limit, setLimit] = useState(2)
     const [page, setPage] = useState(1)
     const [hasMore, setHasMore] = useState(false)
 
@@ -20,7 +20,7 @@ function PublicFeed() {
             if (observer.current) observer.current.disconnect()
             observer.current = new IntersectionObserver((entries) => {
                 if (entries[0].isIntersecting) {
-                    setPage((prevPage) => prevPage + 1)
+                    if (hasMore) setPage((prevPage) => prevPage + 1)
                 }
             })
             if (node) observer.current.observe(node)
@@ -41,11 +41,10 @@ function PublicFeed() {
                     console.log(res.data)
                     setLoading(false)
 
-                    if (res.data.lengthData > page) {
-                        setHasMore(true)
-                    } else {
-                        setHasMore(false)
+                    if (res.data.lengthData === page) {
+                        return setHasMore(false)
                     }
+                    setHasMore(true)
                 })
         } catch (e) {}
     }, [page])
