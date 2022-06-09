@@ -24,6 +24,8 @@ const {
     getPreviewImage,
     updateUser,
     getUserById,
+    likeTravel,
+    saveTravel,
 } = require('./controllers/travel/travel.controller')
 mongoose.connect('mongodb://localhost:27017/tabibito')
 
@@ -64,6 +66,9 @@ app.post('/api/travel/', uploadMulter, createTravel)
 app.delete('/api/travel/:id', deleteTravel)
 
 app.put('/api/travel/:id', updateTravel)
+
+app.put('/api/travel/:id/like', likeTravel)
+app.put('/api/travel/:id/save', saveTravel)
 
 app.listen(PORT || 3000, () => {
     console.log('Server is running on port ' + PORT)

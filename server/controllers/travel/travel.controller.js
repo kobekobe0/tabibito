@@ -118,6 +118,90 @@ const updateUser = async (req, res) => {
     res.json(token)
 }
 
+const likeTravel = async (req, res) => {
+    const travelId = req.params.id
+    const userId = req.body.userId
+    const method = req.body.method
+    const user = await Userdata.findById(userId)
+    const travel = await Travel.findById(travelId)
+    console.log(user)
+    console.log(travel)
+
+    if (method === 'like') {
+        if (user.likes.includes(travelId)) {
+            console.log('already liked')
+            res.json({
+                message: 'already liked',
+            })
+        } else {
+            user.likes.push(travelId)
+            user.save()
+            travel.likes.push(userId)
+            travel.save()
+            res.json({
+                message: 'success',
+            })
+        }
+    } else if (method === 'unlike') {
+        if (!user.likes.includes(travelId)) {
+            console.log('not liked')
+            res.json({
+                message: 'not liked',
+            })
+        } else {
+            user.likes.pull(travelId)
+            user.save()
+            travel.likes.pull(userId)
+            travel.save()
+            res.json({
+                message: 'success',
+            })
+        }
+    }
+}
+
+const saveTravel = async (req, res) => {
+    const travelId = req.params.id
+    const userId = req.body.userId
+    const method = req.body.method
+    const user = await Userdata.findById(userId)
+    const travel = await Travel.findById(travelId)
+    console.log(user)
+    console.log(travel)
+
+    if (method === 'save') {
+        if (user.saves.includes(travelId)) {
+            console.log('already saved')
+            res.json({
+                message: 'already saved',
+            })
+        } else {
+            user.saves.push(travelId)
+            user.save()
+            travel.saves.push(userId)
+            travel.save()
+            res.json({
+                message: 'success',
+            })
+        }
+    } else if (method === 'unsave') {
+        if (!user.saves.includes(travelId)) {
+            console.log('not saved')
+            res.json({
+                message: 'not saved',
+            })
+        } else {
+            user.saves.pull(travelId)
+            user.save()
+            travel.saves.pull(userId)
+            travel.save()
+            res.json({
+                message: 'success',
+            })
+        }
+    }
+}
+
 const updateTravel = async (req, res) => {
     const travel = req.params.id
     const {
@@ -212,4 +296,6 @@ module.exports = {
     getPreviewImage,
     updateUser,
     getUserById,
+    likeTravel,
+    saveTravel,
 }
