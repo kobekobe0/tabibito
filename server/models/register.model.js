@@ -18,6 +18,10 @@ const User = new mongoose.Schema(
             type: [String],
             default: [],
         },
+        likes: {
+            type: [String],
+            default: [],
+        },
         following: {
             type: [String],
             default: [],
