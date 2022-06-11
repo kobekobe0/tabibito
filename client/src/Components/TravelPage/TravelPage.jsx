@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import './travelpage.css'
 import { useParams } from 'react-router-dom'
 import jwtDecode from 'jwt-decode'
-
+import '../Feed/PublicFeed.css'
 import Images from './components/Images'
 import Description from './components/Description'
 function TravelPage() {
@@ -85,8 +85,25 @@ function TravelPage() {
         console.log(counter)
     }
 
+    const goToProfile = () => {
+        window.location.href = `/`
+    }
+
+    const goToFeed = () => {
+        window.location.href = `/public`
+    }
+
     return (
         <>
+            <div className="feed-header">
+                <h1 onClick={goToFeed}>TABIBITO</h1>
+
+                <img
+                    onClick={goToProfile}
+                    src={`http://localhost:3000/\anya.jpg`}
+                    alt=""
+                />
+            </div>
             <div className="travel-page">
                 <div className="main">
                     <Images

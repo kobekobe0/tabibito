@@ -48,13 +48,17 @@ function PublicFeed() {
                 })
         } catch (e) {}
     }, [page])
+
+    const goToPublic = () => {
+        window.location.href = '/public'
+    }
     return (
         <>
             {' '}
             <div className="public-feed">
                 <main>
                     <div className="feed-header">
-                        <h1>TABIBITO</h1>
+                        <h1 onClick={goToPublic}>TABIBITO</h1>
 
                         <img
                             onClick={goToProfile}

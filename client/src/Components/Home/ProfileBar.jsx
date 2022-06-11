@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { AiFillEdit, AiOutlineLogout } from 'react-icons/ai'
-
+import axios from 'axios'
 const EditProfile = ({
     id,
     pfp,
@@ -64,6 +64,63 @@ const EditProfile = ({
         </section>
     )
 }
+
+const VisitProfile = () => {
+    const [pfp, setPfp] = useState('')
+    const [bg, setBg] = useState('')
+    const [username, setUsername] = useState('')
+    const [bio, setBio] = useState('')
+    const [following, setFollowing] = useState([])
+    const [followers, setFollowers] = useState([])
+    //extract id from url
+
+    useEffect(() => {
+        const id = window.location.pathname.split('/')[2]
+        console.log(id)
+
+        axios.get(`/user/${id}`).then((res) => {
+            setPfp(res.data.pfp)
+            setBg(res.data.background)
+            setUsername(res.data.name)
+            setBio(res.data.bio)
+            setFollowing(res.data.following)
+            setFollowers(res.data.followers)
+        })
+    }, [])
+
+    return (
+        <section className="userInfo">
+            <div className="backgroundImg">
+                <img
+                    src={`http://localhost:3000/${
+                        bg && bg.replace('background', '')
+                    }`}
+                />
+            </div>
+            <div className="profile">
+                <div className="profileImg">
+                    <img
+                        src={`http://localhost:3000/${
+                            pfp && pfp.replace('pfp', '')
+                        }`}
+                        alt=""
+                    />
+                </div>
+                <div className="profileInfo">
+                    <div className="profileTexts">
+                        <h3>{username}</h3>
+                        <p>{bio}</p>
+                    </div>
+                    <div className="profileButtons">
+                        <button>follow</button>
+                        <button>unfollow</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    )
+}
+
 //add following, followers, saves
 function ProfileBar({
     id,
@@ -88,52 +145,59 @@ function ProfileBar({
             window.location.href = '/login'
         }
     }
+
+    const [visit, setVisit] = React.useState(false)
+
     if (!edit) {
-        return (
-            <section className="userInfo">
-                <div className="backgroundImg">
-                    <img
-                        src={
-                            bg &&
-                            `http://localhost:3000/${bg.replace(
-                                'background',
-                                ''
-                            )}`
-                        }
-                        alt=""
-                    />
-                </div>
-                <div className="profile">
-                    <div className="profileImg">
+        if (visit) {
+            return (
+                <section className="userInfo">
+                    <div className="backgroundImg">
                         <img
-                            src={`http://localhost:3000/${
-                                pfp && pfp.replace('pfp', '')
-                            }`}
+                            src={
+                                bg &&
+                                `http://localhost:3000/${bg.replace(
+                                    'background',
+                                    ''
+                                )}`
+                            }
                             alt=""
                         />
                     </div>
-                    <div className="profileInfo">
-                        <div className="profileTexts">
-                            <h3>{username}</h3>
-                            <p>{bio}</p>
+                    <div className="profile">
+                        <div className="profileImg">
+                            <img
+                                src={`http://localhost:3000/${
+                                    pfp && pfp.replace('pfp', '')
+                                }`}
+                                alt=""
+                            />
                         </div>
-                        <div className="profileButtons">
-                            <AiFillEdit
-                                onClick={editProfile}
-                                size="2em"
-                                color="skyblue"
-                            />
+                        <div className="profileInfo">
+                            <div className="profileTexts">
+                                <h3>{username}</h3>
+                                <p>{bio}</p>
+                            </div>
+                            <div className="profileButtons">
+                                <AiFillEdit
+                                    onClick={editProfile}
+                                    size="2em"
+                                    color="skyblue"
+                                />
 
-                            <AiOutlineLogout
-                                onClick={logout}
-                                size="2em"
-                                color="tomato"
-                            />
+                                <AiOutlineLogout
+                                    onClick={logout}
+                                    size="2em"
+                                    color="tomato"
+                                />
+                            </div>
                         </div>
                     </div>
-                </div>
-            </section>
-        )
+                </section>
+            )
+        } else {
+            return <VisitProfile />
+        }
     } else if (edit) {
         return (
             <EditProfile

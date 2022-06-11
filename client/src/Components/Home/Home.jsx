@@ -6,6 +6,8 @@ import TravelCards from './TravelCards'
 import ProfileBar from './ProfileBar'
 import './navbar.css'
 import axios from 'axios'
+import { Link } from 'react-router-dom'
+import { MdPublic } from 'react-icons/md'
 
 function Home() {
     //function for fetching data from the server
@@ -97,27 +99,43 @@ function Home() {
 
     //supply data to the profile bar  -  placeholder
     return (
-        <div className="home">
-            <main>
-                <ProfileBar
-                    id={id !== '' ? id : user.id}
-                    pfp={user.pfp}
-                    bg={user.background}
-                    username={user.name}
-                    bio={user.bio}
-                    following={user.following}
-                    followers={user.followers}
-                    saves={user.saves}
-                    editProfile={editProfile}
-                    edit={edit}
-                    handleChange={handleChange}
-                    usernameChange={username}
-                    bioChange={bio}
-                    handleUpdate={handleUpdate}
-                />
-                <TravelCards id={id !== '' ? id : user.id} />
-            </main>
-        </div>
+        <>
+            <div className="home">
+                <main>
+                    <ProfileBar
+                        id={id !== '' ? id : user.id}
+                        pfp={user.pfp}
+                        bg={user.background}
+                        username={user.name}
+                        bio={user.bio}
+                        following={user.following}
+                        followers={user.followers}
+                        saves={user.saves}
+                        editProfile={editProfile}
+                        edit={edit}
+                        handleChange={handleChange}
+                        usernameChange={username}
+                        bioChange={bio}
+                        handleUpdate={handleUpdate}
+                    />
+                    <TravelCards id={id !== '' ? id : user.id} />
+                </main>
+            </div>
+            <section>
+                <div className="navbar">
+                    <div className="navbar-items">
+                        <div className="navbar-item">
+                            <Link to="/">
+                                <MdPublic size={50} />
+                            </Link>
+                        </div>
+                        <div className="navbar-item">
+                            <Link to="/public">Public</Link>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </>
     )
 }
 

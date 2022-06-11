@@ -30,20 +30,6 @@ function App() {
                         <Route exact path="/public" element={<PublicFeed />} />
                         <Route exact path="/" element={<Home />} />
                     </Routes>
-                    <section>
-                        <div className="navbar">
-                            <div className="navbar-items">
-                                <div className="navbar-item">
-                                    <Link to="/">
-                                        <MdPublic size={50} />
-                                    </Link>
-                                </div>
-                                <div className="navbar-item">
-                                    <Link to="/public">Public</Link>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
                 </Router>
             </QueryClientProvider>
         </>
