@@ -14,7 +14,7 @@ function Home() {
     const [user, setUser] = useState({})
     const [id, setId] = useState('')
     const [edit, setEdit] = useState(false)
-
+    const [visit, setVisit] = useState(false)
     const [username, setUsername] = useState(user.name)
     const [bio, setBio] = useState('')
 
@@ -28,6 +28,7 @@ function Home() {
             const length = id.length - 1
             console.log(id[length])
             setId(id[length])
+            setVisit(true)
         } // change Home component's route to profile/:id
         if (token) {
             //decode jwt token
@@ -38,8 +39,6 @@ function Home() {
             if (!userData) {
                 window.localStorage.removeItem('user')
                 window.location.href = '/login'
-            } else {
-                //fetch data
             }
         } else {
             window.location.href = '/login'
@@ -117,6 +116,7 @@ function Home() {
                         usernameChange={username}
                         bioChange={bio}
                         handleUpdate={handleUpdate}
+                        visit={visit}
                     />
                     <TravelCards id={id !== '' ? id : user.id} />
                 </main>

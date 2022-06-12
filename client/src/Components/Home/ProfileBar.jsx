@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { AiFillEdit, AiOutlineLogout } from 'react-icons/ai'
 import axios from 'axios'
+import jwt_decode from 'jwt-decode'
 const EditProfile = ({
     id,
     pfp,
@@ -65,29 +66,39 @@ const EditProfile = ({
     )
 }
 
-const VisitProfile = () => {
-    const [pfp, setPfp] = useState('')
-    const [bg, setBg] = useState('')
-    const [username, setUsername] = useState('')
-    const [bio, setBio] = useState('')
-    const [following, setFollowing] = useState([])
-    const [followers, setFollowers] = useState([])
-    //extract id from url
+const VisitProfile = ({ pfp, bg, username, bio, following, followers, id }) => {
+    const follow = () => {
+        //decode user token in local Storage
+        const userToken = localStorage.getItem('user')
 
-    useEffect(() => {
-        const id = window.location.pathname.split('/')[2]
-        console.log(id)
+        const follower = jwt_decode(userToken)
+        console.log(follower)
+        axios
+            .post('/user/follow', {
+                follower: follower.id,
+                following: id,
+                method: 'follow',
+            })
+            .then((res) => {
+                console.log(res.data)
+            })
+    }
+    const unfollow = () => {
+        //decode user token in local Storage
+        const userToken = localStorage.getItem('user')
 
-        axios.get(`/user/${id}`).then((res) => {
-            setPfp(res.data.pfp)
-            setBg(res.data.background)
-            setUsername(res.data.name)
-            setBio(res.data.bio)
-            setFollowing(res.data.following)
-            setFollowers(res.data.followers)
-        })
-    }, [])
-
+        const follower = jwt_decode(userToken)
+        console.log(follower)
+        axios
+            .post('/user/follow', {
+                follower: follower.id,
+                following: id,
+                method: 'unfollow',
+            })
+            .then((res) => {
+                console.log(res.data)
+            })
+    }
     return (
         <section className="userInfo">
             <div className="backgroundImg">
@@ -112,8 +123,8 @@ const VisitProfile = () => {
                         <p>{bio}</p>
                     </div>
                     <div className="profileButtons">
-                        <button>follow</button>
-                        <button>unfollow</button>
+                        <button onClick={follow}>follow</button>
+                        <button onClick={unfollow}>unfollow</button>
                     </div>
                 </div>
             </div>
@@ -137,6 +148,7 @@ function ProfileBar({
     usernameChange,
     bioChange,
     handleUpdate,
+    visit,
 }) {
     const logout = () => {
         if (window.confirm('Are you sure you want to logout?')) {
@@ -146,10 +158,18 @@ function ProfileBar({
         }
     }
 
-    const [visit, setVisit] = React.useState(false)
+    const [userData, setUserData] = useState({})
+
+    useEffect(() => {
+        if (id)
+            axios.get(`/user/${id}`).then((res) => {
+                console.log(res.data)
+                setUserData(res.data)
+            })
+    }, [id])
 
     if (!edit) {
-        if (visit) {
+        if (!visit) {
             return (
                 <section className="userInfo">
                     <div className="backgroundImg">
@@ -196,7 +216,17 @@ function ProfileBar({
                 </section>
             )
         } else {
-            return <VisitProfile />
+            return (
+                <VisitProfile
+                    pfp={userData.pfp}
+                    bg={userData.background}
+                    username={userData.name}
+                    bio={userData.bio}
+                    following={userData.following}
+                    followers={userData.followers}
+                    id={id}
+                />
+            )
         }
     } else if (edit) {
         return (
