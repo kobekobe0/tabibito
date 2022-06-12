@@ -86,6 +86,48 @@ const createTravel = async (req, res) => {
     res.json({ message: 'success', newTravel })
 }
 
+const follow = async (req, res) => {
+    const follower = req.body.follower
+    const following = req.body.following
+    const method = req.body.method
+    const fr = await Userdata.findById(follower)
+    const fg = await Userdata.findById(following)
+    console.log(fr)
+    console.log(fg)
+    console.log(method)
+    if (method === 'follow') {
+        if (fr.following.includes(following)) {
+            console.log('already following')
+            res.json({
+                message: 'already following',
+            })
+        } else {
+            fr.following.push(following)
+            fg.followers.push(follower)
+            fr.save()
+            fg.save()
+            res.json({
+                message: 'following',
+            })
+        }
+    } else if (method === 'unfollow') {
+        if (!fr.following.includes(following)) {
+            console.log('not following')
+            res.json({
+                message: 'not following',
+            })
+        } else {
+            fr.following.splice(fr.following.indexOf(following), 1)
+            fg.followers.splice(fg.followers.indexOf(follower), 1)
+            fr.save()
+            fg.save()
+            res.json({
+                message: 'unfollowing',
+            })
+        }
+    }
+}
+
 const updateUser = async (req, res) => {
     const userId = req.params.id
     const user = req.body
@@ -298,4 +340,5 @@ module.exports = {
     getUserById,
     likeTravel,
     saveTravel,
+    follow,
 }

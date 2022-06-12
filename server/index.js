@@ -26,6 +26,7 @@ const {
     getUserById,
     likeTravel,
     saveTravel,
+    follow,
 } = require('./controllers/travel/travel.controller')
 
 const uri =
@@ -60,6 +61,7 @@ app.use(express.static('uploads'))
 app.use(express.static('pfp'))
 app.use(express.static('background'))
 app.put('/api/user/:id', updateUser)
+app.post('/api/user/follow', follow)
 app.get('/api/user/:id', getUserById)
 app.get('/api/travel/public', getPublicTravels)
 app.get('/api/travel/user/:id', getUserTravels)
