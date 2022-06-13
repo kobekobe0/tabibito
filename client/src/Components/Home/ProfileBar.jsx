@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { AiFillEdit, AiOutlineLogout } from 'react-icons/ai'
+import {
+    AiFillEdit,
+    AiOutlineLogout,
+    AiOutlineUserAdd,
+    AiOutlineUserDelete,
+} from 'react-icons/ai'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 const EditProfile = ({
@@ -66,39 +71,55 @@ const EditProfile = ({
     )
 }
 
-const VisitProfile = ({ pfp, bg, username, bio, following, followers, id }) => {
+const VisitProfile = ({
+    pfp,
+    bg,
+    username,
+    bio,
+    following,
+    followers,
+    id,
+    isFollowing,
+}) => {
+    const [followerID, setFollowerID] = useState('')
+    const [followBack, setFollowBack] = useState(false)
+    const [propsIsFollowing, setPropsIsFollowing] = useState(isFollowing)
     const follow = () => {
-        //decode user token in local Storage
-        const userToken = localStorage.getItem('user')
-
-        const follower = jwt_decode(userToken)
-        console.log(follower)
         axios
             .post('/user/follow', {
-                follower: follower.id,
+                follower: followerID,
                 following: id,
                 method: 'follow',
             })
             .then((res) => {
                 console.log(res.data)
             })
+
+        setPropsIsFollowing(true)
     }
     const unfollow = () => {
-        //decode user token in local Storage
-        const userToken = localStorage.getItem('user')
-
-        const follower = jwt_decode(userToken)
-        console.log(follower)
         axios
             .post('/user/follow', {
-                follower: follower.id,
+                follower: followerID,
                 following: id,
                 method: 'unfollow',
             })
             .then((res) => {
                 console.log(res.data)
             })
+        setPropsIsFollowing(false)
     }
+
+    useEffect(() => {
+        const userToken = localStorage.getItem('user')
+        const follower = jwt_decode(userToken)
+        console.log(follower.id)
+        console.log(id)
+
+        setFollowerID(follower.id)
+        setPropsIsFollowing(isFollowing)
+        console.log(propsIsFollowing)
+    }, [isFollowing])
     return (
         <section className="userInfo">
             <div className="backgroundImg">
@@ -114,7 +135,7 @@ const VisitProfile = ({ pfp, bg, username, bio, following, followers, id }) => {
                         src={`http://localhost:3000/${
                             pfp && pfp.replace('pfp', '')
                         }`}
-                        alt=""
+                        onClick={() => console.log(propsIsFollowing)}
                     />
                 </div>
                 <div className="profileInfo">
@@ -123,8 +144,19 @@ const VisitProfile = ({ pfp, bg, username, bio, following, followers, id }) => {
                         <p>{bio}</p>
                     </div>
                     <div className="profileButtons">
-                        <button onClick={follow}>follow</button>
-                        <button onClick={unfollow}>unfollow</button>
+                        {!propsIsFollowing ? (
+                            <AiOutlineUserAdd
+                                onClick={follow}
+                                size={25}
+                                color="skyblue"
+                            />
+                        ) : (
+                            <AiOutlineUserDelete
+                                onClick={unfollow}
+                                size={25}
+                                color="tomato"
+                            />
+                        )}
                     </div>
                 </div>
             </div>
@@ -159,12 +191,24 @@ function ProfileBar({
     }
 
     const [userData, setUserData] = useState({})
+    const [isFollowing, setIsFollowing] = useState(false)
 
     useEffect(() => {
+        const userToken = localStorage.getItem('user')
+        const user = jwt_decode(userToken)
+        console.log(user)
         if (id)
             axios.get(`/user/${id}`).then((res) => {
                 console.log(res.data)
                 setUserData(res.data)
+
+                //wait for setUserData to be set
+
+                console.log(res.data.followers.includes(user.id))
+                console.log(res.data.followers)
+                if (res.data.followers.includes(user.id)) {
+                    setIsFollowing(true)
+                }
             })
     }, [id])
 
@@ -225,6 +269,7 @@ function ProfileBar({
                     following={userData.following}
                     followers={userData.followers}
                     id={id}
+                    isFollowing={isFollowing}
                 />
             )
         }
