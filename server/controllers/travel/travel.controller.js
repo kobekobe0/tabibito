@@ -71,7 +71,6 @@ const getUserById = async (req, res) => {
 
 const createTravel = async (req, res) => {
     const travel = req.body
-    console.log(req.files)
     const image = req.files
     let tempArr = []
     for (let i = 0; i < image.length; i++) {
@@ -131,15 +130,16 @@ const follow = async (req, res) => {
 const updateUser = async (req, res) => {
     const userId = req.params.id
     const user = req.body
+    console.log('FILES ' + req.file)
     console.log(user)
     const updatedUser = await Userdata.findByIdAndUpdate(userId, {
         $set: {
-            name: user.name,
-            pfp: user.pfp,
-            background: user.background,
-            bio: user.bio,
+            ...user,
+            background: req.file.path,
         },
     })
+
+    console.log(updatedUser)
 
     const userData = await Userdata.findById(userId)
 
