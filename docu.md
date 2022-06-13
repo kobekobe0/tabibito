@@ -5,6 +5,10 @@ AUTHORIZATION:
 -   Server will then decode this token, if token's email field matches a email on the | userdatas |, request can be made.
     -ALWAYS send 'authorization' jwt key at headers
 
+UPDATING USER PROFILE:
+
+-   in FE, client will send a formdata containing name, bio, pfp, and bg. Pfp and bg uses multer to store updated image in server, after saving to server, multer now returns path to the next middleware, that middleware will now save the path to database(like a key in order to query specific image). After all those saving. The last middleware will now encrypt all user data using jwt with the keyword of "secretkey". That token will now be sent to FE, then FE will replace the old token with the new one in localStorage. So that in query, the right value will be passed. Because in this app. Im storing jwt token in localstorage then for every request, I decode that.
+
 ROUTES:
 
 PUBLIC FEED ROUTE
