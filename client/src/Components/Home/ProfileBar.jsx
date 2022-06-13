@@ -21,23 +21,55 @@ const EditProfile = ({
     usernameChange,
     bioChange,
     handleUpdate,
+    handleBgUpdate,
 }) => {
+    const [pfpImg, setPfpImg] = useState('')
+    const [bgImg, setBgImg] = useState('')
+
+    const handleOnChange = async (e) => {
+        const selectedFile = e.target.files[0]
+
+        const imgURL = await URL.createObjectURL(selectedFile)
+        //setImages((prevState) => prevState.concat(selectedFilesArray))
+        setBgImg(imgURL)
+        handleBgUpdate(selectedFile)
+    }
+
+    useEffect(() => {
+        setPfpImg(pfp)
+    }, [])
     return (
         <section className="userInfo">
             <div className="backgroundImg">
-                <img
-                    src={
-                        bg &&
-                        `http://localhost:3000/${bg.replace('background', '')}`
-                    }
-                    alt=""
-                />
+                {bgImg !== '' ? (
+                    <img src={bgImg} alt="" />
+                ) : (
+                    <img
+                        src={
+                            bg &&
+                            `http://localhost:3000/${bg.replace(
+                                'background',
+                                ''
+                            )}`
+                        }
+                        alt=""
+                    />
+                )}
+                <div className="edit-bg-container">
+                    <label for="edit-bg">Upload New Background</label>
+                    <input
+                        type="file"
+                        id="edit-bg"
+                        accept="image"
+                        onChange={handleOnChange}
+                    />
+                </div>
             </div>
             <div className="profile">
                 <div className="profileImg">
                     <img
                         src={`http://localhost:3000/${
-                            pfp && pfp.replace('pfp', '')
+                            pfp && pfpImg.replace('pfp', '')
                         }`}
                         alt=""
                     />
@@ -181,6 +213,7 @@ function ProfileBar({
     bioChange,
     handleUpdate,
     visit,
+    handleBgUpdate,
 }) {
     const logout = () => {
         if (window.confirm('Are you sure you want to logout?')) {
@@ -290,6 +323,7 @@ function ProfileBar({
                 usernameChange={usernameChange}
                 bioChange={bioChange}
                 handleUpdate={handleUpdate}
+                handleBgUpdate={handleBgUpdate}
             />
         )
     }

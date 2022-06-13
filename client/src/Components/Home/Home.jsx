@@ -17,6 +17,7 @@ function Home() {
     const [visit, setVisit] = useState(false)
     const [username, setUsername] = useState(user.name)
     const [bio, setBio] = useState('')
+    const [uploadBg, setUploadBg] = useState('')
 
     useEffect(() => {
         const token = window.localStorage.getItem('user')
@@ -45,24 +46,27 @@ function Home() {
         }
     }, [])
 
+    const handleBgUpdate = (file) => {
+        setUploadBg(file)
+    }
+
     const handleUpdate = () => {
         //confirmation
         if (window.confirm('Are you sure you want to update your profile?')) {
-            axios
-                .put(`/user/${user.id}`, {
-                    name: username,
-                    bio: bio,
-                    pfp: user.pfp,
-                    background: user.background,
-                })
-                .then((res) => {
-                    console.log(res)
-                    //ask user if he/she's sure
+            const formData = new FormData()
 
-                    //update user in local storage
-                    window.localStorage.setItem('user', res.data)
-                    window.location.reload()
-                })
+            formData.append('name', username)
+            formData.append('bio', bio)
+            console.log(uploadBg)
+            formData.append('backgroundUpload', uploadBg)
+            formData.append('pfp', user.pfp)
+            axios.put(`/user/${user.id}`, formData).then((res) => {
+                console.log(res)
+                //ask user if he/she's sure
+
+                //update user in local storage
+                window.localStorage.setItem('user', res.data)
+            })
         }
     }
 
@@ -117,6 +121,7 @@ function Home() {
                         bioChange={bio}
                         handleUpdate={handleUpdate}
                         visit={visit}
+                        handleBgUpdate={handleBgUpdate}
                     />
                     <TravelCards id={id !== '' ? id : user.id} />
                 </main>
