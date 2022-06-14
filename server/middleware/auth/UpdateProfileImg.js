@@ -3,7 +3,15 @@ const path = require('path')
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'background/')
+        let dir
+
+        if (file.fieldname === 'backgroundUpload') {
+            dir = 'background/'
+        }
+        if (file.fieldname === 'profileUpload') {
+            dir = 'pfp/'
+        }
+        cb(null, dir)
     },
     filename: function (req, file, cb) {
         //unique name
@@ -34,4 +42,13 @@ let upload = multer({
 
 console.log('success upload to server')
 
-module.exports = upload.single('backgroundUpload') //make this array if you want to upload multiple images
+module.exports = upload.fields([
+    {
+        name: 'backgroundUpload',
+        maxCount: 1,
+    },
+    {
+        name: 'profileUpload',
+        maxCount: 1,
+    },
+]) //make this array if you want to upload multiple images
