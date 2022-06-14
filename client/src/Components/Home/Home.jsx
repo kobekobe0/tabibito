@@ -18,6 +18,7 @@ function Home() {
     const [username, setUsername] = useState(user.name)
     const [bio, setBio] = useState('')
     const [uploadBg, setUploadBg] = useState('')
+    const [uploadPfp, setUploadPfp] = useState('')
 
     useEffect(() => {
         const token = window.localStorage.getItem('user')
@@ -50,6 +51,12 @@ function Home() {
         setUploadBg(file)
     }
 
+    const handlePfpUpdate = (file) => {
+        console.log(file)
+        setUploadPfp(file)
+        console.log(uploadPfp)
+    }
+
     const handleUpdate = () => {
         //confirmation
         if (window.confirm('Are you sure you want to update your profile?')) {
@@ -57,9 +64,16 @@ function Home() {
 
             formData.append('name', username)
             formData.append('bio', bio)
-            console.log(uploadBg)
-            formData.append('backgroundUpload', uploadBg)
+            formData.append('background', user.background)
             formData.append('pfp', user.pfp)
+            console.log(uploadBg)
+            if (uploadBg !== '') {
+                formData.append('backgroundUpload', uploadBg)
+            }
+            if (uploadPfp !== '') {
+                formData.append('profileUpload', uploadPfp)
+            }
+
             axios.put(`/user/${user.id}`, formData).then((res) => {
                 console.log(res)
                 //ask user if he/she's sure
@@ -122,6 +136,7 @@ function Home() {
                         handleUpdate={handleUpdate}
                         visit={visit}
                         handleBgUpdate={handleBgUpdate}
+                        handlePfpUpdate={handlePfpUpdate}
                     />
                     <TravelCards id={id !== '' ? id : user.id} />
                 </main>

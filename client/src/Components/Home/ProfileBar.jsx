@@ -5,6 +5,7 @@ import {
     AiOutlineUserAdd,
     AiOutlineUserDelete,
 } from 'react-icons/ai'
+import { ImFilePicture } from 'react-icons/im'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 const EditProfile = ({
@@ -22,22 +23,26 @@ const EditProfile = ({
     bioChange,
     handleUpdate,
     handleBgUpdate,
+    handlePfpUpdate,
 }) => {
     const [pfpImg, setPfpImg] = useState('')
     const [bgImg, setBgImg] = useState('')
 
-    const handleOnChange = async (e) => {
+    const handleBgChange = async (e) => {
         const selectedFile = e.target.files[0]
-
         const imgURL = await URL.createObjectURL(selectedFile)
-        //setImages((prevState) => prevState.concat(selectedFilesArray))
+
         setBgImg(imgURL)
         handleBgUpdate(selectedFile)
     }
+    const handlePfpChange = async (e) => {
+        const selectedFile = e.target.files[0]
+        const imgURL = await URL.createObjectURL(selectedFile)
 
-    useEffect(() => {
-        setPfpImg(pfp)
-    }, [])
+        setPfpImg(imgURL)
+        handlePfpUpdate(selectedFile)
+    }
+
     return (
         <section className="userInfo">
             <div className="backgroundImg">
@@ -61,18 +66,33 @@ const EditProfile = ({
                         type="file"
                         id="edit-bg"
                         accept="image"
-                        onChange={handleOnChange}
+                        onChange={handleBgChange}
                     />
                 </div>
             </div>
             <div className="profile">
                 <div className="profileImg">
-                    <img
-                        src={`http://localhost:3000/${
-                            pfp && pfpImg.replace('pfp', '')
-                        }`}
-                        alt=""
-                    />
+                    {pfpImg !== '' ? (
+                        <img src={pfpImg} alt="" />
+                    ) : (
+                        <img
+                            src={`http://localhost:3000/${
+                                pfp && pfp.replace('pfp', '')
+                            }`}
+                            alt=""
+                        />
+                    )}
+                    <div className="edit-pfp-container">
+                        <label for="edit-pfp">
+                            <ImFilePicture color="white" size={25} />
+                        </label>
+                        <input
+                            type="file"
+                            id="edit-pfp"
+                            accept="image"
+                            onChange={handlePfpChange}
+                        />
+                    </div>
                 </div>
                 <div className="profileInfo">
                     <div
@@ -214,6 +234,7 @@ function ProfileBar({
     handleUpdate,
     visit,
     handleBgUpdate,
+    handlePfpUpdate,
 }) {
     const logout = () => {
         if (window.confirm('Are you sure you want to logout?')) {
@@ -324,6 +345,7 @@ function ProfileBar({
                 bioChange={bioChange}
                 handleUpdate={handleUpdate}
                 handleBgUpdate={handleBgUpdate}
+                handlePfpUpdate={handlePfpUpdate}
             />
         )
     }

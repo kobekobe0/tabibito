@@ -61,6 +61,11 @@
     line-height: 100px;
     color: white;
     border: dashed 1px white;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+.home main .backgroundImg label:hover {
+    background-color: rgba(0, 0, 0, 0.5);
 }
 .home main .backgroundImg input {
     display: none;
@@ -79,6 +84,42 @@
     display: flex;
     position: relative;
     top: 65%;
+}
+.home main .profileImg {
+    position: relative;
+}
+.home main .profileImg input {
+    display: none;
+}
+.home main .profileImg label {
+    background-color: rgba(0, 0, 0, 0.164);
+    text-align: center;
+    color: white;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.home main .profileImg .edit-pfp-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+.home main .profileImg .edit-pfp-container:hover {
+    background-color: rgba(0, 0, 0, 0.5);
 }
 .home main .profileImg img {
     width: 200px;
@@ -193,6 +234,9 @@
         width: 120px;
         height: 120px;
     }
+    .home main .profileImg .edit-pfp-container {
+        height: 80%;
+    }
     .home main .profileInfo h3 {
         font-size: 1.5em;
         margin: 0;
@@ -239,6 +283,9 @@
         flex-direction: column;
         align-items: center;
         top: 55%;
+    }
+    .home main .profileImg .edit-pfp-container {
+        height: 100%;
     }
     .home main .profile .profileInfo {
         margin: 0;
