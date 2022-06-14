@@ -130,34 +130,57 @@ const follow = async (req, res) => {
 const updateUser = async (req, res) => {
     const userId = req.params.id
     const user = req.body
-    console.log('FILES ' + req.file)
+    console.log(req.files)
     console.log(user)
-    const updatedUser = await Userdata.findByIdAndUpdate(userId, {
-        $set: {
-            ...user,
-            background: req.file.path,
-        },
-    })
 
-    console.log(updatedUser)
+    try {
+        let pfpToUpload = ''
+        let bgToUpload = ''
+        if (req.files !== {}) {
+            if (req.files.backgroundUpload) {
+                bgToUpload = req.files.backgroundUpload[0].path
+            } else {
+                bgToUpload = user.background
+            }
+            if (req.files.profileUpload) {
+                pfpToUpload = req.files.profileUpload[0].path
+            } else {
+                pfpToUpload = user.pfp
+            }
+        }
 
-    const userData = await Userdata.findById(userId)
+        await Userdata.findByIdAndUpdate(userId, {
+            $set: {
+                ...user,
+                background: bgToUpload,
+                pfp: pfpToUpload,
+            },
+        })
 
-    const token = jwt.sign(
-        {
-            name: userData.name,
-            email: userData.email,
-            id: userData._id,
-            pfp: userData.pfp,
-            background: userData.background,
-            bio: userData.bio,
-            saves: userData.saves,
-            following: userData.following,
-            followers: userData.followers,
-        },
-        'secretkey'
-    )
-    res.json(token)
+        const dataUser = await Userdata.findById(userId)
+
+        const token = jwt.sign(
+            {
+                name: dataUser.name,
+                email: dataUser.email,
+                id: dataUser._id,
+                pfp: dataUser.pfp,
+                background: dataUser.background,
+                bio: dataUser.bio,
+                saves: dataUser.saves,
+                following: dataUser.following,
+                followers: dataUser.followers,
+            },
+            'secretkey'
+        )
+        console.log(token)
+        res.json(token)
+    } catch (err) {
+        console.log(err)
+        res.json({
+            message: 'error',
+        })
+    }
 }
 
 const likeTravel = async (req, res) => {
