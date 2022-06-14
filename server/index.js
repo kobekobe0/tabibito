@@ -43,7 +43,7 @@ mongoose
 const bodyParser = require('body-parser')
 const path = require('path')
 const uploadMulter = require('./middleware/auth/travel')
-const updateBg = require('./middleware/auth/UpdateBg')
+const UpdateProfileImg = require('./middleware/auth/UpdateProfileImg')
 
 app.use(morgan('dev'))
 app.use(bodyParser.json())
@@ -61,7 +61,7 @@ app.use('/api/travel', reqAuth) //adds verification to all routes below
 app.use(express.static('uploads'))
 app.use(express.static('pfp'))
 app.use(express.static('background'))
-app.put('/api/user/:id', updateBg, updateUser)
+app.put('/api/user/:id', UpdateProfileImg, updateUser)
 app.post('/api/user/follow', follow)
 app.get('/api/user/:id', getUserById)
 app.get('/api/travel/public', getPublicTravels)
