@@ -37,6 +37,7 @@ const getPublicTravels = async (req, res) => {
     let lengthTravel =
         (await Travel.countDocuments({
             private: false,
+            deleted: false,
         })) / limit
 
     results.lengthData = Math.ceil(lengthTravel)
@@ -267,6 +268,26 @@ const saveTravel = async (req, res) => {
     }
 }
 
+const deleteTravel = async (req, res) => {
+    const travelId = req.params.id
+
+    try {
+        const travel = await Travel.findByIdAndUpdate(travelId, {
+            $set: {
+                deleted: true,
+            },
+        })
+        res.json({
+            message: 'successfully deleted',
+        })
+    } catch (err) {
+        console.log(err)
+        res.json({
+            message: 'error',
+        })
+    }
+}
+
 const updateTravel = async (req, res) => {
     const travel = req.params.id
     const {
@@ -306,30 +327,30 @@ const updateTravel = async (req, res) => {
     res.json(updatedTravel)
 }
 
-const deleteTravel = async (req, res) => {
-    const travelId = req.params.id
+// const deleteTravel = async (req, res) => {
+//     const travelId = req.params.id
 
-    //delete images in upload folder in the server
-    await Travel.findById(travelId).then((travel) => {
-        travel.images.forEach((image) => {
-            fs.unlink(path.join(__dirname, image), (err) => {
-                if (err) {
-                    console.log(err)
-                }
-            })
-        })
-    })
+//     //delete images in upload folder in the server
+//     await Travel.findById(travelId).then((travel) => {
+//         travel.images.forEach((image) => {
+//             fs.unlink(path.join(__dirname, image), (err) => {
+//                 if (err) {
+//                     console.log(err)
+//                 }
+//             })
+//         })
+//     })
 
-    await Travel.findByIdAndDelete(travelId)
-        .then((travel) => {
-            res.json({
-                message: 'successfully deleted',
-            })
-        })
-        .catch((err) => {
-            console.log(err)
-        })
-}
+//     await Travel.findByIdAndDelete(travelId)
+//         .then((travel) => {
+//             res.json({
+//                 message: 'successfully deleted',
+//             })
+//         })
+//         .catch((err) => {
+//             console.log(err)
+//         })
+// }
 
 const getUserTravels = async (req, res) => {
     //send images from the server to the client
@@ -340,7 +361,8 @@ const getUserTravels = async (req, res) => {
     //only return fields of locationTown and locationCity
     const travels = await Travel.find({
         userId: userId,
-    })
+        deleted: false,
+    }).sort({ createdAt: -1 })
     //only return image and title
     res.json(travels)
 }
