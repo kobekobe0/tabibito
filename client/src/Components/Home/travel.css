@@ -41,9 +41,31 @@
     overflow: hidden;
     transition: all 0.2s ease;
     cursor: pointer;
+    position: relative;
 }
 .travelCard_img:hover {
     transform: scale(1.01);
+}
+
+.travelCard_img .card-edit-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+}
+.travelCard_img .card-edit-overlay svg {
+    border: 2px solid tomato;
+    border-radius: 50%;
+    padding: 1em;
+}
+.travelCard_img .card-edit-overlay svg:hover {
+    background-color: rgba(240, 135, 116, 0.7);
 }
 
 .travelCard_img img {

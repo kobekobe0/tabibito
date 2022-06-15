@@ -138,7 +138,7 @@ function Home() {
                         handleBgUpdate={handleBgUpdate}
                         handlePfpUpdate={handlePfpUpdate}
                     />
-                    <TravelCards id={id !== '' ? id : user.id} />
+                    <TravelCards id={id !== '' ? id : user.id} edit={edit} />
                 </main>
             </div>
             <section>

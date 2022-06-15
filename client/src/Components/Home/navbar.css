@@ -8,6 +8,7 @@
     justify-content: center;
     height: 7vh;
     align-items: center;
+    z-index: 4;
 }
 
 .navbar-items {

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import bg from '../../images/login2.jpg'
 import Card from './Card'
 
-function TravelCards({ id }) {
+function TravelCards({ id, edit }) {
     const handleNewClick = () => {
         window.location.href = '/post'
     }
@@ -21,6 +21,13 @@ function TravelCards({ id }) {
         setUserId(id)
     }, [id])
 
+    const removeTravel = (id) => {
+        //remove travel from travels array
+        const newTravels = travels.filter((travel) => travel._id !== id)
+
+        setTravels(newTravels)
+    }
+
     return (
         <section className="travels">
             <div className="header">
@@ -34,7 +41,16 @@ function TravelCards({ id }) {
                     </div>
                     {travels &&
                         travels.map((travel, index) => {
-                            return <Card key={index} data={travel} />
+                            return (
+                                <Card
+                                    key={index}
+                                    data={travel}
+                                    edit={edit}
+                                    removeTravel={() =>
+                                        removeTravel(travel._id)
+                                    }
+                                />
+                            )
                         })}
                 </div>
             </div>
