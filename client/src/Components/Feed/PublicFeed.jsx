@@ -33,6 +33,13 @@ function PublicFeed() {
     }
 
     useEffect(() => {
+        const token = localStorage.getItem('user')
+        const decoded = jwt_decode(token)
+        console.log(decoded)
+        setProfileImg(decoded.pfp)
+    }, [])
+
+    useEffect(() => {
         try {
             axios
                 .get(`/travel/public?page=${page}&limit=${limit}`)
@@ -62,7 +69,9 @@ function PublicFeed() {
 
                         <img
                             onClick={goToProfile}
-                            src={`http://localhost:3000/\anya.jpg`}
+                            src={`http://localhost:3000/${
+                                profileImg && profileImg.replace('pfp', '')
+                            }`}
                             alt=""
                         />
                     </div>
