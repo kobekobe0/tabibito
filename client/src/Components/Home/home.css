@@ -92,7 +92,6 @@
     display: none;
 }
 .home main .profileImg label {
-    background-color: rgba(0, 0, 0, 0.164);
     text-align: center;
     color: white;
     border-radius: 50%;
@@ -110,7 +109,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.2);
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -197,6 +196,18 @@
     margin-top: 10px;
     font-weight: lighter;
     font-style: italic;
+}
+.profileInfo .follows {
+    display: flex;
+    font-size: smaller;
+
+    font-style: normal;
+    font-family: 'Roboto', sans-serif;
+}
+.profileInfo .follows p {
+    padding-right: 7px;
+    font-style: normal;
+    font-size: 5px;
 }
 
 @media (max-width: 1024px) {

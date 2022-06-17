@@ -84,7 +84,7 @@ const EditProfile = ({
                     )}
                     <div className="edit-pfp-container">
                         <label for="edit-pfp">
-                            <ImFilePicture color="white" size={25} />
+                            <ImFilePicture color="smokewhite" size={35} />
                         </label>
                         <input
                             type="file"
@@ -105,6 +105,14 @@ const EditProfile = ({
                             value={usernameChange}
                             onChange={handleChange}
                         />
+                        <div className="follows">
+                            <p>
+                                Followers <span>5</span>
+                            </p>
+                            <p>
+                                Following <span>7</span>
+                            </p>
+                        </div>
 
                         <textarea
                             id="edit-bio"
@@ -294,6 +302,14 @@ function ProfileBar({
                         <div className="profileInfo">
                             <div className="profileTexts">
                                 <h3>{username}</h3>
+                                <div className="follows">
+                                    <p>
+                                        Patrons <span>5</span>
+                                    </p>
+                                    <p>
+                                        Supporting <span>7</span>
+                                    </p>
+                                </div>
                                 <p>{bio}</p>
                             </div>
                             <div className="profileButtons">
