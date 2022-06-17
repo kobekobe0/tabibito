@@ -253,6 +253,8 @@ function ProfileBar({
     }
 
     const [userData, setUserData] = useState({})
+    const [patrons, setPatrons] = useState([])
+    const [supporting, setSupporting] = useState([])
     const [isFollowing, setIsFollowing] = useState(false)
 
     useEffect(() => {
@@ -263,6 +265,8 @@ function ProfileBar({
             axios.get(`/user/${id}`).then((res) => {
                 console.log(res.data)
                 setUserData(res.data)
+                setPatrons(res.data.followers)
+                setSupporting(res.data.following)
 
                 //wait for setUserData to be set
 
@@ -304,10 +308,14 @@ function ProfileBar({
                                 <h3>{username}</h3>
                                 <div className="follows">
                                     <p>
-                                        Patrons <span>5</span>
+                                        Patrons{' '}
+                                        <span>{patrons && patrons.length}</span>
                                     </p>
                                     <p>
-                                        Supporting <span>7</span>
+                                        Supporting{' '}
+                                        <span>
+                                            {patrons && supporting.length}
+                                        </span>
                                     </p>
                                 </div>
                                 <p>{bio}</p>
