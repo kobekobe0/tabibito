@@ -8,6 +8,7 @@ import {
 import { ImFilePicture } from 'react-icons/im'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
+import FollowModal from '../Follows/FollowModal'
 const EditProfile = ({
     id,
     pfp,
@@ -282,6 +283,7 @@ function ProfileBar({
         if (!visit) {
             return (
                 <section className="userInfo">
+                    <FollowModal ids={supporting} type="Patrons" />
                     <div className="backgroundImg">
                         <img
                             src={

@@ -1,0 +1,48 @@
+.followsModal {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.226);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.follows-container {
+    max-width: 85vw;
+    width: 500px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    padding: 1em;
+    background-color: rgba(0, 0, 0, 0.897);
+    border-radius: 10px;
+}
+
+.follows-container .header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.follows-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin-inline-start: 1em;
+    margin-inline-end: 1em;
+}
+
+.follows-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5em;
+}
+.follows-list li span {
+    margin-left: 0.5em;
+}
