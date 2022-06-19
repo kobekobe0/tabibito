@@ -9,10 +9,7 @@ NOTES
 
 TODOS
 -change alert to modal in updateProfile confirmation
--add update pfp and bg. After selecting the file, show the make the image as a blob file then replace the img to that blob file
--use multer to store pfp and bg in separate folder. Follow uploads pattern
--add following, followers, saves in profile info
--add pfp and background in user model
--send token as headers in all request in fe
 -PROTECT EVERY ROUTES
 -decrese image quality in FE, in BE, check if image size is less than 10mb after upload, in FE, check images size before putting it at image list to be upload
+-create a route that accepts locations as params. it will e used for querying specific post on specific locations
+-route for searching users by usernmame(name)
