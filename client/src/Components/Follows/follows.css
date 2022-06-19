@@ -28,6 +28,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font-family: 'Roboto', sans-serif;
+    font-weight: light;
 }
 
 .follows-list {
@@ -36,12 +38,21 @@
     padding: 0;
     margin-inline-start: 1em;
     margin-inline-end: 1em;
+    overflow-y: scroll;
+    height: calc(100% - 5em);
 }
 
 .follows-list li {
     display: flex;
     align-items: center;
     margin-bottom: 0.5em;
+    cursor: pointer;
+    border: 10px solid transparent;
+    border-radius: 10px;
+    transition: all 0.1s ease-in-out;
+}
+.follows-list li:hover {
+    background-color: rgba(102, 102, 102, 0.377);
 }
 .follows-list li span {
     margin-left: 0.5em;

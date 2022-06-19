@@ -141,6 +141,13 @@ const VisitProfile = ({
     followers,
     id,
     isFollowing,
+    modal,
+    modalType,
+    closeModal,
+    patrons,
+    supporting,
+    openPatronsModal,
+    openSupportingModal,
 }) => {
     const [followerID, setFollowerID] = useState('')
     const [followBack, setFollowBack] = useState(false)
@@ -183,6 +190,13 @@ const VisitProfile = ({
     }, [isFollowing])
     return (
         <section className="userInfo">
+            {modal && (
+                <FollowModal
+                    ids={modalType == 'Patrons' ? patrons : supporting}
+                    type={modalType}
+                    closeModal={closeModal}
+                />
+            )}
             <div className="backgroundImg">
                 <img
                     src={`http://localhost:3000/${
@@ -202,6 +216,15 @@ const VisitProfile = ({
                 <div className="profileInfo">
                     <div className="profileTexts">
                         <h3>{username}</h3>
+                        <div className="follows">
+                            <p onClick={openPatronsModal}>
+                                Patrons <span>{patrons && patrons.length}</span>
+                            </p>
+                            <p onClick={openSupportingModal}>
+                                Supporting{' '}
+                                <span>{patrons && supporting.length}</span>
+                            </p>
+                        </div>
                         <p>{bio}</p>
                     </div>
                     <div className="profileButtons">
@@ -257,6 +280,8 @@ function ProfileBar({
     const [patrons, setPatrons] = useState([])
     const [supporting, setSupporting] = useState([])
     const [isFollowing, setIsFollowing] = useState(false)
+    const [modal, setModal] = useState(false)
+    const [modalType, setModalType] = useState('')
 
     useEffect(() => {
         const userToken = localStorage.getItem('user')
@@ -279,11 +304,30 @@ function ProfileBar({
             })
     }, [id])
 
+    const closeModal = () => {
+        setModal(false)
+    }
+    const openPatronsModal = () => {
+        setModal(true)
+        setModalType('Patrons')
+    }
+    const openSupportingModal = () => {
+        setModal(true)
+        setModalType('Supporting')
+    }
+
     if (!edit) {
         if (!visit) {
             return (
                 <section className="userInfo">
-                    <FollowModal ids={supporting} type="Patrons" />
+                    {modal && (
+                        <FollowModal
+                            ids={modalType == 'Patrons' ? patrons : supporting}
+                            type={modalType}
+                            closeModal={closeModal}
+                        />
+                    )}
+
                     <div className="backgroundImg">
                         <img
                             src={
@@ -309,11 +353,11 @@ function ProfileBar({
                             <div className="profileTexts">
                                 <h3>{username}</h3>
                                 <div className="follows">
-                                    <p>
+                                    <p onClick={openPatronsModal}>
                                         Patrons{' '}
                                         <span>{patrons && patrons.length}</span>
                                     </p>
-                                    <p>
+                                    <p onClick={openSupportingModal}>
                                         Supporting{' '}
                                         <span>
                                             {patrons && supporting.length}
@@ -350,6 +394,13 @@ function ProfileBar({
                     followers={userData.followers}
                     id={id}
                     isFollowing={isFollowing}
+                    patrons={patrons}
+                    supporting={supporting}
+                    modal={modal}
+                    modalType={modalType}
+                    closeModal={closeModal}
+                    openPatronsModal={openPatronsModal}
+                    openSupportingModal={openSupportingModal}
                 />
             )
         }
