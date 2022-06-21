@@ -409,51 +409,55 @@ const updateTravel = async (req, res) => {
         travelerCountry,
         travelerCount,
     } = req.body
-    const updatedTravel = await Travel.findByIdAndUpdate(travel, {
-        $set: {
-            title: title,
-            description: description,
-            locationTown: locationTown,
-            locationCity: locationCity,
-            locationCountry: locationCountry,
-            accommodation: accommodation,
-            transportation: transportation,
-            food: food,
-            other: other,
-            transportationType: transportationType,
-            travelerTown: travelerTown,
-            travelerCity: travelerCity,
-            travelerCountry: travelerCountry,
-            travelerCount: travelerCount,
-        },
-    })
-    res.json(updatedTravel)
+
+    if (
+        title.length > 18 &&
+        !food &&
+        !accommodation &&
+        !transportation &&
+        !other &&
+        !locationCountry &&
+        !locationCity &&
+        !locationTown &&
+        !transportationType &&
+        !travelerCountry &&
+        !travelerCity &&
+        !travelerTown &&
+        description.length > 2000
+    ) {
+        res.json({
+            message: 'error',
+            status: 404,
+        })
+    } else {
+        try {
+            const updatedTravel = await Travel.findByIdAndUpdate(travel, {
+                $set: {
+                    title: title,
+                    description: description,
+                    locationTown: locationTown,
+                    locationCity: locationCity,
+                    locationCountry: locationCountry,
+                    accommodation: accommodation,
+                    transportation: transportation,
+                    food: food,
+                    other: other,
+                    transportationType: transportationType,
+                    travelerTown: travelerTown,
+                    travelerCity: travelerCity,
+                    travelerCountry: travelerCountry,
+                    travelerCount: travelerCount,
+                },
+            })
+            res.json(updatedTravel)
+        } catch (err) {
+            res.json({
+                message: 'error',
+                status: 404,
+            })
+        }
+    }
 }
-
-// const deleteTravel = async (req, res) => {
-//     const travelId = req.params.id
-
-//     //delete images in upload folder in the server
-//     await Travel.findById(travelId).then((travel) => {
-//         travel.images.forEach((image) => {
-//             fs.unlink(path.join(__dirname, image), (err) => {
-//                 if (err) {
-//                     console.log(err)
-//                 }
-//             })
-//         })
-//     })
-
-//     await Travel.findByIdAndDelete(travelId)
-//         .then((travel) => {
-//             res.json({
-//                 message: 'successfully deleted',
-//             })
-//         })
-//         .catch((err) => {
-//             console.log(err)
-//         })
-// }
 
 const getUserTravels = async (req, res) => {
     //send images from the server to the client
