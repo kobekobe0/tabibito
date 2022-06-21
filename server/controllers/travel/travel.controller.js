@@ -6,7 +6,6 @@ const jwt = require('jsonwebtoken')
 
 const getPublicTravels = async (req, res) => {
     //?page=2&limit=3
-
     const page = parseInt(req.query.page)
     const limit = parseInt(req.query.limit)
     const startIndex = (page - 1) * limit
@@ -48,6 +47,22 @@ const getPublicTravels = async (req, res) => {
         .sort({ createdAt: -1 })
 
     return res.json(results)
+}
+
+const getFollowedTravels = async (req, res) => {
+    const userId = req.params.id
+    try {
+        const user = await Userdata.findById(userId)
+        const travels = await Travel.find({
+            _id: { $in: user.following },
+        }).sort({ createdAt: -1 })
+        res.json(travels)
+    } catch (error) {
+        res.json({
+            message: 'error',
+            status: 404,
+        })
+    }
 }
 
 const getTravelById = async (req, res) => {
@@ -386,4 +401,5 @@ module.exports = {
     likeTravel,
     saveTravel,
     follow,
+    getFollowedTravels,
 }
