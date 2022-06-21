@@ -242,6 +242,7 @@ const updateUser = async (req, res) => {
         console.log(err)
         res.json({
             message: 'error',
+            status: 404,
         })
     }
 }
@@ -252,39 +253,58 @@ const likeTravel = async (req, res) => {
     const method = req.body.method
     const user = await Userdata.findById(userId)
     const travel = await Travel.findById(travelId)
-    console.log(user)
-    console.log(travel)
 
-    if (method === 'like') {
-        if (user.likes.includes(travelId)) {
-            console.log('already liked')
-            res.json({
-                message: 'already liked',
-            })
+    try {
+        if (user) {
+            if (travel) {
+                if (method === 'like') {
+                    if (user.likes.includes(travelId)) {
+                        console.log('already liked')
+                        res.json({
+                            message: 'already liked',
+                        })
+                    } else {
+                        user.likes.push(travelId)
+                        user.save()
+                        travel.likes.push(userId)
+                        travel.save()
+                        res.json({
+                            message: 'success',
+                        })
+                    }
+                } else if (method === 'unlike') {
+                    if (!user.likes.includes(travelId)) {
+                        console.log('not liked')
+                        res.json({
+                            message: 'not liked',
+                        })
+                    } else {
+                        user.likes.pull(travelId)
+                        user.save()
+                        travel.likes.pull(userId)
+                        travel.save()
+                        res.json({
+                            message: 'success',
+                        })
+                    }
+                }
+            } else {
+                res.json({
+                    message: 'travel not found',
+                    status: 404,
+                })
+            }
         } else {
-            user.likes.push(travelId)
-            user.save()
-            travel.likes.push(userId)
-            travel.save()
             res.json({
-                message: 'success',
+                message: 'Invalid user ID',
+                status: 404,
             })
         }
-    } else if (method === 'unlike') {
-        if (!user.likes.includes(travelId)) {
-            console.log('not liked')
-            res.json({
-                message: 'not liked',
-            })
-        } else {
-            user.likes.pull(travelId)
-            user.save()
-            travel.likes.pull(userId)
-            travel.save()
-            res.json({
-                message: 'success',
-            })
-        }
+    } catch (error) {
+        res.json({
+            message: 'error',
+            status: 404,
+        })
     }
 }
 
@@ -294,39 +314,58 @@ const saveTravel = async (req, res) => {
     const method = req.body.method
     const user = await Userdata.findById(userId)
     const travel = await Travel.findById(travelId)
-    console.log(user)
-    console.log(travel)
 
-    if (method === 'save') {
-        if (user.saves.includes(travelId)) {
-            console.log('already saved')
-            res.json({
-                message: 'already saved',
-            })
+    try {
+        if (user) {
+            if (travel) {
+                if (method === 'save') {
+                    if (user.saves.includes(travelId)) {
+                        console.log('already saved')
+                        res.json({
+                            message: 'already saved',
+                        })
+                    } else {
+                        user.saves.push(travelId)
+                        user.save()
+                        travel.saves.push(userId)
+                        travel.save()
+                        res.json({
+                            message: 'success',
+                        })
+                    }
+                } else if (method === 'unsave') {
+                    if (!user.saves.includes(travelId)) {
+                        console.log('not saved')
+                        res.json({
+                            message: 'not saved',
+                        })
+                    } else {
+                        user.saves.pull(travelId)
+                        user.save()
+                        travel.saves.pull(userId)
+                        travel.save()
+                        res.json({
+                            message: 'success',
+                        })
+                    }
+                }
+            } else {
+                res.json({
+                    message: 'travel not found',
+                    status: 404,
+                })
+            }
         } else {
-            user.saves.push(travelId)
-            user.save()
-            travel.saves.push(userId)
-            travel.save()
             res.json({
-                message: 'success',
+                message: 'Invalid user ID',
+                status: 404,
             })
         }
-    } else if (method === 'unsave') {
-        if (!user.saves.includes(travelId)) {
-            console.log('not saved')
-            res.json({
-                message: 'not saved',
-            })
-        } else {
-            user.saves.pull(travelId)
-            user.save()
-            travel.saves.pull(userId)
-            travel.save()
-            res.json({
-                message: 'success',
-            })
-        }
+    } catch (error) {
+        res.json({
+            message: 'error',
+            status: 404,
+        })
     }
 }
 
@@ -334,18 +373,20 @@ const deleteTravel = async (req, res) => {
     const travelId = req.params.id
 
     try {
-        const travel = await Travel.findByIdAndUpdate(travelId, {
+        await Travel.findByIdAndUpdate(travelId, {
             $set: {
                 deleted: true,
             },
         })
         res.json({
             message: 'successfully deleted',
+            status: 200,
         })
     } catch (err) {
         console.log(err)
         res.json({
             message: 'error',
+            status: 404,
         })
     }
 }
