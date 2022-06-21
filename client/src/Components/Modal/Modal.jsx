@@ -4,6 +4,7 @@ import axios from 'axios'
 import jwt_decode from 'jwt-decode'
 import { MdPublic, MdOutlineLock } from 'react-icons/md'
 import Preview from './Preview'
+import { BiArrowBack } from 'react-icons/bi'
 
 function Modal() {
     const [privacy, setPrivacy] = useState(null)
@@ -78,7 +79,7 @@ function Modal() {
                 }
             })
         } catch (err) {
-            console.log(err)
+            alert('Something went wrong ' + err) //placeholder
         }
     }
 
@@ -116,16 +117,22 @@ function Modal() {
     const handleDelete = (image) => {
         setSelectedImages(selectedImages.filter((e) => e !== image))
     }
-    // TODO
-    // put a styled div on top of the upload button,
-    // set upload button to opacity: 0 then make the styled div
-    // accept the click for the upload button
+
+    const handleBack = () => {
+        window.location.href = '/'
+    }
 
     return (
         <div className="modal-container">
             <div className="modal">
                 <div className="modal-contents">
-                    <div className="modal-header">Add New Travel</div>
+                    <div className="modal-header">
+                        <BiArrowBack
+                            onClick={handleBack}
+                            style={{ cursor: 'pointer' }}
+                        />
+                        <h2>POST A JOURNEY</h2>
+                    </div>
                     <div className="modal-body">
                         <form
                             encType="multiple/form-data"

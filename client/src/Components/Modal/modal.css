@@ -30,6 +30,9 @@
     font-family: sans-serif;
     padding: 1.2em;
 }
+.modal-header h2 {
+    margin: 0;
+}
 
 .modal-body {
     display: flex;
