@@ -71,7 +71,11 @@ function Modal() {
 
         try {
             await axios.post('travel', formData).then((res) => {
-                console.log(res)
+                if (res.data.status === 200) {
+                    window.location.href = '/'
+                } else {
+                    alert('Something went wrong') //placeholder
+                }
             })
         } catch (err) {
             console.log(err)
