@@ -96,27 +96,29 @@ const createTravel = async (req, res) => {
     const travel = req.body
     const image = req.files
     try {
+        console.log(travel)
+        console.log('VALIDATION' + travel.likes.length === 0)
         if (
-            travel.title.length > 18 ||
-            !travel.food ||
-            !travel.accommodation ||
-            !travel.transportation ||
-            !travel.other ||
-            !travel.locationCountry ||
-            !travel.locationCity ||
-            !travel.locationTown ||
-            !travel.transportationType ||
-            !travel.travelerCountry ||
-            !travel.travelerCity ||
-            !travel.travelerTown ||
-            travel.description.length > 2000 ||
-            !travel.private ||
-            travel.likes !== [] ||
-            travel.saves !== []
+            travel.title.length > 18 &&
+            !travel.food &&
+            !travel.accommodation &&
+            !travel.transportation &&
+            !travel.other &&
+            !travel.locationCountry &&
+            !travel.locationCity &&
+            !travel.locationTown &&
+            !travel.transportationType &&
+            !travel.travelerCountry &&
+            !travel.travelerCity &&
+            !travel.travelerTown &&
+            travel.description.length > 2000 &&
+            travel.likes.length === 0 &&
+            travel.saves.length === 0
         ) {
+            console.log('CREATE TRAVEL ERROR')
             res.json({
                 message: 'error',
-                status: 404,
+                status: 400,
             })
         } else {
             let tempArr = []
@@ -134,7 +136,7 @@ const createTravel = async (req, res) => {
     } catch (error) {
         res.json({
             message: 'error',
-            status: 400,
+            status: 404,
         })
     }
 }
