@@ -95,17 +95,48 @@ const getUserById = async (req, res) => {
 const createTravel = async (req, res) => {
     const travel = req.body
     const image = req.files
-    let tempArr = []
-    for (let i = 0; i < image.length; i++) {
-        tempArr.push(image[i].path)
-    }
-    console.log(req.file)
-    const newTravel = await Travel.create({
-        ...travel,
-        images: tempArr,
-    })
+    try {
+        if (
+            travel.title.length > 18 ||
+            !travel.food ||
+            !travel.accommodation ||
+            !travel.transportation ||
+            !travel.other ||
+            !travel.locationCountry ||
+            !travel.locationCity ||
+            !travel.locationTown ||
+            !travel.transportationType ||
+            !travel.travelerCountry ||
+            !travel.travelerCity ||
+            !travel.travelerTown ||
+            travel.description.length > 2000 ||
+            !travel.private ||
+            travel.likes !== [] ||
+            travel.saves !== []
+        ) {
+            res.json({
+                message: 'error',
+                status: 404,
+            })
+        } else {
+            let tempArr = []
+            for (let i = 0; i < image.length; i++) {
+                tempArr.push(image[i].path)
+            }
+            console.log(req.file)
+            const newTravel = await Travel.create({
+                ...travel,
+                images: tempArr,
+            })
 
-    res.json({ message: 'success', newTravel })
+            res.json({ message: 'success', status: 200, newTravel })
+        }
+    } catch (error) {
+        res.json({
+            message: 'error',
+            status: 400,
+        })
+    }
 }
 
 const follow = async (req, res) => {
