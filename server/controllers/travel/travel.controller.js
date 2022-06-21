@@ -90,8 +90,6 @@ const getUserById = async (req, res) => {
     }
 }
 
-// Where fileName is name of the file and response is Node.js Reponse.
-
 const createTravel = async (req, res) => {
     const travel = req.body
     const image = req.files
@@ -147,39 +145,48 @@ const follow = async (req, res) => {
     const method = req.body.method
     const fr = await Userdata.findById(follower)
     const fg = await Userdata.findById(following)
-    console.log(fr)
-    console.log(fg)
-    console.log(method)
-    if (method === 'follow') {
-        if (fr.following.includes(following)) {
-            console.log('already following')
-            res.json({
-                message: 'already following',
-            })
-        } else {
-            fr.following.push(following)
-            fg.followers.push(follower)
-            fr.save()
-            fg.save()
-            res.json({
-                message: 'following',
-            })
+
+    try {
+        if (fr && fg) {
+            if (method === 'follow') {
+                if (fr.following.includes(following)) {
+                    console.log('already following')
+                    res.json({
+                        message: 'already following',
+                    })
+                } else {
+                    fr.following.push(following)
+                    fg.followers.push(follower)
+                    fr.save()
+                    fg.save()
+                    res.json({
+                        message: 'following',
+                        status: 200,
+                    })
+                }
+            } else if (method === 'unfollow') {
+                if (!fr.following.includes(following)) {
+                    console.log('not following')
+                    res.json({
+                        message: 'not following',
+                    })
+                } else {
+                    fr.following.splice(fr.following.indexOf(following), 1)
+                    fg.followers.splice(fg.followers.indexOf(follower), 1)
+                    fr.save()
+                    fg.save()
+                    res.json({
+                        message: 'unfollowing',
+                        status: 200,
+                    })
+                }
+            }
         }
-    } else if (method === 'unfollow') {
-        if (!fr.following.includes(following)) {
-            console.log('not following')
-            res.json({
-                message: 'not following',
-            })
-        } else {
-            fr.following.splice(fr.following.indexOf(following), 1)
-            fg.followers.splice(fg.followers.indexOf(follower), 1)
-            fr.save()
-            fg.save()
-            res.json({
-                message: 'unfollowing',
-            })
-        }
+    } catch (error) {
+        res.json({
+            message: 'error',
+            status: 404,
+        })
     }
 }
 
