@@ -466,12 +466,19 @@ const getUserTravels = async (req, res) => {
 
     const userId = req.params.id
     //only return fields of locationTown and locationCity
-    const travels = await Travel.find({
-        userId: userId,
-        deleted: false,
-    }).sort({ createdAt: -1 })
-    //only return image and title
-    res.json(travels)
+    try {
+        const travels = await Travel.find({
+            userId: userId,
+            deleted: false,
+        }).sort({ createdAt: -1 })
+        //only return image and title
+        res.json(travels)
+    } catch (err) {
+        res.json({
+            message: 'error',
+            status: 404,
+        })
+    }
 }
 
 const getPreviewImage = async (req, res) => {
