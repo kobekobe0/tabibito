@@ -68,8 +68,15 @@ const getFollowedTravels = async (req, res) => {
 const getTravelById = async (req, res) => {
     //use fs to send images from upload folder to client
     const travelId = req.params.id
-    const travel = await Travel.findById(travelId)
-    res.json(travel)
+    try {
+        const travel = await Travel.findById(travelId)
+        res.json(travel)
+    } catch (error) {
+        res.json({
+            message: 'error',
+            status: 404,
+        })
+    }
 }
 
 const getUserById = async (req, res) => {
