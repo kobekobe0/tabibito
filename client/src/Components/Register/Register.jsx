@@ -11,6 +11,14 @@ function Register() {
     const [password, setPassword] = useState('')
     const [consfirmPassword, setConfirmPassword] = useState('')
 
+    const validateEmail = (email) => {
+        return String(email)
+            .toLowerCase()
+            .match(
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+            )
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault()
 
@@ -22,6 +30,9 @@ function Register() {
             alert('Passwords do not match')
             return
         }
+
+        if (validateEmail(email) == null)
+            return alert('Please enter valid email') //placeholder
 
         try {
             const res = await axios.post('users/register', {
