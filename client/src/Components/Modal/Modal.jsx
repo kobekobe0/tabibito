@@ -5,6 +5,7 @@ import jwt_decode from 'jwt-decode'
 import { MdPublic, MdOutlineLock } from 'react-icons/md'
 import Preview from './Preview'
 import { BiArrowBack } from 'react-icons/bi'
+import Compressor from 'compressorjs'
 
 function Modal() {
     const [privacy, setPrivacy] = useState(null)
@@ -31,8 +32,11 @@ function Modal() {
     const [travelerCount, setTravelerCount] = useState(0)
 
     const [images, setImages] = useState([])
+    const [compressed, setCompressed] = useState([])
+    const [tempCompressed, setTempCompressed] = useState([])
     const [selectedImages, setSelectedImages] = useState([])
 
+    const [imageLoading, setImageLoading] = useState(false)
     const [user, setUser] = useState({})
 
     const handleSubmit = async (e) => {
@@ -65,8 +69,11 @@ function Modal() {
         formData.append('username', user.name)
         formData.append('travelerCount', travelerCount)
         //formData.append('imageUpload', images)
-        for (let i = 0, len = images.length; i < len; i++) {
-            formData.append(`imageUpload`, images[i])
+
+        let merged = [].concat.apply([], tempCompressed) //merges all the arrays into one
+
+        for (let i = 0, len = merged.length; i < len; i++) {
+            formData.append(`imageUpload`, merged[i])
         } //make the image uploads an array
         console.log(images)
 
@@ -104,6 +111,21 @@ function Modal() {
     const handleOnChange = (e) => {
         const selectedFiles = e.target.files
         const selectedFilesArray = Array.from(selectedFiles)
+        let loop = false
+        let tempArr = []
+        for (let i = 0; i < selectedFilesArray.length; i++) {
+            setImageLoading(true)
+            console.log(selectedFilesArray[i])
+            new Compressor(selectedFilesArray[i], {
+                quality: 0.6,
+                convertTypes: ['image/jpeg'],
+                success: (compressedResult) => {
+                    tempArr.push(compressedResult)
+                    setImageLoading(false)
+                },
+            })
+        }
+        setTempCompressed((prevState) => [...prevState, tempArr])
 
         const imagesArray = selectedFilesArray.map((file) => {
             return URL.createObjectURL(file)
@@ -344,6 +366,7 @@ function Modal() {
                                 <p className="accpeted-files">
                                     Accepted files: .jpg | .png | .gif
                                 </p>
+                                {imageLoading ? <p>loading....</p> : null}
 
                                 <Preview
                                     deletePreview={deleteUpload}
@@ -398,6 +421,7 @@ function Modal() {
                                     duration === '' ||
                                     travelerCount === 0 ||
                                     privacy === null ||
+                                    imageLoading === true ||
                                     images.length === 0
                                         ? true
                                         : false

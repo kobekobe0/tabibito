@@ -1,12 +1,8 @@
 const User = require('../../models/register.model')
-
 const jwt = require('jsonwebtoken')
-const { validate } = require('../../models/register.model')
 
 const bcrypt = require('bcrypt')
 const saltRounds = 10
-const myPlaintextPassword = 's0//P4$$w0rD'
-const someOtherPlaintextPassword = 'not_bacon'
 
 const validateEmail = (email) => {
     return String(email)

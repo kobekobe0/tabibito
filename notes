@@ -13,3 +13,4 @@ TODOS
 -decrese image quality in FE, in BE, check if image size is less than 10mb after upload, in FE, check images size before putting it at image list to be upload
 -create a route that accepts locations as params. it will e used for querying specific post on specific locations
 -route for searching users by usernmame(name)
+-seperate routes using node.route
