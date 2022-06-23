@@ -9,12 +9,14 @@ function PreviewCard({
     handleDelete,
 }) {
     const deleteCard = () => {
-        handleDelete(selectedImages)
         deletePreview(image.name)
+        handleDelete(selectedImages)
+        console.log(image.name)
+        console.log(selectedImages)
     }
     return (
         <div key={index} className="preview-card">
-            <img src={selectedImages} alt="" id="imagePreviewCard" />
+            <img src={selectedImages?.URL} alt="" id="imagePreviewCard" />
             <div className="card-info">
                 <p>
                     {image.name.length > 20

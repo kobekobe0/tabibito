@@ -101,14 +101,11 @@ function Modal() {
     }
 
     const deleteUpload = (filename) => {
-        //delete self from array
-        let tempArr = images
-        //use filter method
-        tempArr = tempArr.filter((image) => image.name !== filename)
-        setImages(tempArr)
+        let tempArr = tempCompressed.filter((image) => image.name !== filename)
+        setTempCompressed(tempArr)
     }
 
-    const handleOnChange = (e) => {
+    const handleOnChange = async (e) => {
         const selectedFiles = e.target.files
         const selectedFilesArray = Array.from(selectedFiles)
         let loop = false
@@ -122,13 +119,22 @@ function Modal() {
                 success: (compressedResult) => {
                     tempArr.push(compressedResult)
                     setImageLoading(false)
+                    console.log(tempArr)
+                    setTempCompressed((prevState) => [
+                        ...prevState,
+                        compressedResult,
+                    ])
                 },
             })
         }
-        setTempCompressed((prevState) => [...prevState, tempArr])
+
+        //flatten out the tempCompressed then setState it
 
         const imagesArray = selectedFilesArray.map((file) => {
-            return URL.createObjectURL(file)
+            return {
+                name: file.name,
+                URL: URL.createObjectURL(file),
+            }
         })
         setImages((prevState) => prevState.concat(selectedFilesArray))
         setSelectedImages((previousImages) =>
@@ -138,10 +144,17 @@ function Modal() {
 
     const handleDelete = (image) => {
         setSelectedImages(selectedImages.filter((e) => e !== image))
+        console.log(tempCompressed)
     }
 
     const handleBack = () => {
         window.location.href = '/'
+    }
+
+    const show = () => {
+        let merged = [].concat.apply([], tempCompressed) //merges all the arrays into one
+        console.log(tempCompressed)
+        console.log(selectedImages)
     }
 
     return (
@@ -153,7 +166,7 @@ function Modal() {
                             onClick={handleBack}
                             style={{ cursor: 'pointer' }}
                         />
-                        <h2>POST A JOURNEY</h2>
+                        <h2 onClick={show}>POST A JOURNEY</h2>
                     </div>
                     <div className="modal-body">
                         <form
@@ -370,7 +383,7 @@ function Modal() {
 
                                 <Preview
                                     deletePreview={deleteUpload}
-                                    images={images}
+                                    images={tempCompressed}
                                     selectedImages={selectedImages}
                                     handleDelete={handleDelete}
                                 />
