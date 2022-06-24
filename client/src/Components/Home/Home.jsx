@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import jwt_decode from 'jwt-decode'
 import './home.css'
 import './travel.css'
@@ -8,6 +8,7 @@ import './navbar.css'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { MdPublic } from 'react-icons/md'
+import Navbar from '../Navbar/Navbar'
 
 function Home() {
     //function for fetching data from the server
@@ -141,20 +142,7 @@ function Home() {
                     <TravelCards id={id !== '' ? id : user.id} edit={edit} />
                 </main>
             </div>
-            <section>
-                <div className="navbar">
-                    <div className="navbar-items">
-                        <div className="navbar-item">
-                            <Link to="/">
-                                <MdPublic size={50} />
-                            </Link>
-                        </div>
-                        <div className="navbar-item">
-                            <Link to="/public">Public</Link>
-                        </div>
-                    </div>
-                </div>
-            </section>
+            <Navbar />
         </>
     )
 }
