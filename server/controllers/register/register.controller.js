@@ -48,31 +48,43 @@ const loginUser = async (req, res) => {
         email: req.body.email,
     })
 
-    bcrypt.compare(req.body.password, user.password, function (err, result) {
-        // result == true
-        if (result == true) {
-            const token = jwt.sign(
-                {
-                    name: user.name,
-                    email: user.email,
-                    id: user._id,
-                    pfp: user.pfp,
-                    background: user.background,
-                    bio: user.bio,
-                    saves: user.saves,
-                    following: user.following,
-                    followers: user.followers,
-                },
-                'secretkey'
-            ) //secretkey should be super secured
-            return res.json({ status: 'OK', user: token })
-        }
-        return res.json({
-            user: false,
-            message: "Can't find user",
-            status: 404,
+    try {
+        bcrypt.compare(
+            req.body.password,
+            user.password,
+            function (err, result) {
+                // result == true
+                if (result == true) {
+                    const token = jwt.sign(
+                        {
+                            name: user.name,
+                            email: user.email,
+                            id: user._id,
+                            pfp: user.pfp,
+                            background: user.background,
+                            bio: user.bio,
+                            saves: user.saves,
+                            following: user.following,
+                            followers: user.followers,
+                        },
+                        'secretkey'
+                    ) //secretkey should be super secured
+                    return res.json({ status: 'OK', user: token })
+                }
+                return res.json({
+                    user: false,
+                    message: "Can't find user",
+                    status: 404,
+                })
+            }
+        )
+    } catch (error) {
+        console.log('error', error)
+        res.status(500).json({
+            error: error.message,
+            message: 'Wrong credentials',
         })
-    })
+    }
 }
 
 const verifyLogin = async (req, res) => {
