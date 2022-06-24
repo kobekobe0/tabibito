@@ -108,8 +108,7 @@ function Modal() {
     const handleOnChange = async (e) => {
         const selectedFiles = e.target.files
         const selectedFilesArray = Array.from(selectedFiles)
-        let loop = false
-        let tempArr = []
+
         for (let i = 0; i < selectedFilesArray.length; i++) {
             setImageLoading(true)
             console.log(selectedFilesArray[i])
@@ -117,13 +116,11 @@ function Modal() {
                 quality: 0.6,
                 convertTypes: ['image/jpeg'],
                 success: (compressedResult) => {
-                    tempArr.push(compressedResult)
-                    setImageLoading(false)
-                    console.log(tempArr)
                     setTempCompressed((prevState) => [
                         ...prevState,
                         compressedResult,
                     ])
+                    setImageLoading(false)
                 },
             })
         }
@@ -379,7 +376,14 @@ function Modal() {
                                 <p className="accpeted-files">
                                     Accepted files: .jpg | .png | .gif
                                 </p>
-                                {imageLoading ? <p>loading....</p> : null}
+                                {imageLoading ? (
+                                    <div className="lds-ring">
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                    </div>
+                                ) : null}
 
                                 <Preview
                                     deletePreview={deleteUpload}
