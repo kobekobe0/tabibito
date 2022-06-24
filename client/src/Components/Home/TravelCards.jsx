@@ -10,11 +10,13 @@ function TravelCards({ id, edit }) {
 
     const [userId, setUserId] = useState(id)
     const [travels, setTravels] = useState([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         axios.get(`travel/user/${userId}`).then((res) => {
             console.log(res)
             setTravels(res.data)
+            setLoading(false)
         })
     }, [userId])
     useEffect(() => {
@@ -33,27 +35,42 @@ function TravelCards({ id, edit }) {
             <div className="header">
                 <h4>Travels</h4>
             </div>
-            <div className="travelCards">
-                <div className="travelCard">
-                    <div className="travelCard_img" onClick={handleNewClick}>
-                        <img src={bg} alt="travel" />
-                        <h5>+ADD NEW TRAVEL</h5>
-                    </div>
-                    {travels &&
-                        travels.map((travel, index) => {
-                            return (
-                                <Card
-                                    key={index}
-                                    data={travel}
-                                    edit={edit}
-                                    removeTravel={() =>
-                                        removeTravel(travel._id)
-                                    }
-                                />
-                            )
-                        })}
+
+            {loading ? (
+                <div class="lds-ring">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
                 </div>
-            </div>
+            ) : (
+                <div className="travelCards">
+                    <div className="travelCard">
+                        <>
+                            <div
+                                className="travelCard_img"
+                                onClick={handleNewClick}
+                            >
+                                <img src={bg} alt="travel" />
+                                <h5>+ADD NEW TRAVEL</h5>
+                            </div>
+                            {travels &&
+                                travels.map((travel, index) => {
+                                    return (
+                                        <Card
+                                            key={index}
+                                            data={travel}
+                                            edit={edit}
+                                            removeTravel={() =>
+                                                removeTravel(travel._id)
+                                            }
+                                        />
+                                    )
+                                })}{' '}
+                        </>
+                    </div>
+                </div>
+            )}
         </section>
     )
 }
