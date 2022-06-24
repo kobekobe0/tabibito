@@ -487,6 +487,8 @@ const getPreviewImage = async (req, res) => {
     res.download(PATH)
 }
 
+//search
+//"$or": [{ locationTown: $regex:req.params.param }, { "locationCity": "London" }]
 module.exports = {
     getPublicTravels,
     getTravelById,

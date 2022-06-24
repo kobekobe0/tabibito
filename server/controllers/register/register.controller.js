@@ -2,7 +2,7 @@ const User = require('../../models/register.model')
 const jwt = require('jsonwebtoken')
 
 const bcrypt = require('bcrypt')
-const saltRounds = 10
+const saltRounds = 1542 //placeholder for salt rounds
 
 const validateEmail = (email) => {
     return String(email)
