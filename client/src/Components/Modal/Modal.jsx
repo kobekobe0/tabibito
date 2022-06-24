@@ -39,8 +39,12 @@ function Modal() {
     const [imageLoading, setImageLoading] = useState(false)
     const [user, setUser] = useState({})
 
+    const [loadingButton, setLoadingButton] = useState(false)
+
     const handleSubmit = async (e) => {
         e.preventDefault()
+
+        setLoadingButton(true)
 
         const userIdToken = localStorage.getItem('user')
 
@@ -87,6 +91,7 @@ function Modal() {
             })
         } catch (err) {
             alert('Something went wrong ' + err) //placeholder
+            setLoadingButton(false)
         }
     }
 
@@ -423,7 +428,7 @@ function Modal() {
                             <input
                                 type="submit"
                                 id="submit"
-                                name="Submit"
+                                name={loadingButton ? 'loading...' : 'Submit'}
                                 disabled={
                                     title === '' ||
                                     description === '' ||
@@ -439,6 +444,7 @@ function Modal() {
                                     travelerCount === 0 ||
                                     privacy === null ||
                                     imageLoading === true ||
+                                    loadingButton === true ||
                                     images.length === 0
                                         ? true
                                         : false
