@@ -27,6 +27,7 @@ const {
     likeTravel,
     saveTravel,
     follow,
+    searchAnything,
 } = require('./controllers/travel/travel.controller')
 
 const uri =
@@ -82,6 +83,8 @@ app.put('/api/travel/:id', updateTravel)
 
 app.put('/api/travel/:id/like', likeTravel)
 app.put('/api/travel/:id/save', saveTravel)
+
+app.get('/api/search/:query', searchAnything)
 
 app.listen(PORT || 3000, () => {
     console.log('Server is running on port ' + PORT)
