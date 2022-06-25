@@ -3,18 +3,20 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    height: 100vh;
     overflow-y: scroll;
 }
 
 .search-page main {
     padding: 0;
     margin: 0;
-    height: 100vh;
+    min-height: 100vh;
+    max-height: 100%;
     width: 1000px;
     max-width: 90%;
     display: flex;
     flex-direction: column;
+    background-color: rgb(34, 34, 34);
+    padding-bottom: 5em;
 }
 .searchBox {
     margin-top: 3em;
@@ -86,6 +88,107 @@
     height: 1px;
     width: 1px;
     overflow: hidden;
+}
+
+.search-results {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-page .lds-ring {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+    margin-top: 5em;
+}
+.search-page .lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border: 8px solid #fff;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: #fff transparent transparent transparent;
+}
+.search-page .lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+}
+.search-page .lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+}
+.search-page .lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+}
+
+.search-items {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.users-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.search-items .users-results {
+    list-style: none;
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.search-items .users-results li {
+    min-width: 200px;
+    width: 90%;
+    max-width: 450px;
+    cursor: pointer;
+}
+.search-items .users-results li:not(:first-child) {
+    margin-top: 1em;
+}
+.search-items .users-results li div {
+    display: flex;
+    border: solid 1px rgb(61, 61, 61);
+    border-radius: 10px;
+    align-items: center;
+    padding: 1em;
+    transition: all 0.1s ease-in-out;
+}
+.search-items .users-results li div:hover {
+    background-color: rgba(68, 68, 68, 0.473);
+}
+.search-items .users-results li div h4 {
+    margin: 0;
+    margin-left: 1em;
+}
+.search-items .users-results li div img {
+    border-radius: 50%;
+}
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+@media screen and (max-width: 768px) {
+    .search-page main {
+        max-width: 100%;
+    }
 }
 
 @media screen and (max-width: 620px) {
