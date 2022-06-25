@@ -488,9 +488,9 @@ const getPreviewImage = async (req, res) => {
 }
 
 const searchAnything = async (req, res) => {
-    const search = req.params.query
+    const search = req.query.search.trim()
 
-    if (search.length > 3) {
+    if (search.length >= 3) {
         try {
             const users = await Userdata.find({
                 $or: [
@@ -509,9 +509,10 @@ const searchAnything = async (req, res) => {
                 ],
                 deleted: false,
                 private: false,
-            }).sort({ createdAt: -1, likes: -1 })
+            }).sort({ createdAt: -1, likes: 1 })
 
             const responseData = {
+                searchText: search,
                 users: users,
                 travels: travels,
             }

@@ -84,7 +84,7 @@ app.put('/api/travel/:id', updateTravel)
 app.put('/api/travel/:id/like', likeTravel)
 app.put('/api/travel/:id/save', saveTravel)
 
-app.get('/api/search/:query', searchAnything)
+app.get('/api/search', searchAnything)
 
 app.listen(PORT || 3000, () => {
     console.log('Server is running on port ' + PORT)
