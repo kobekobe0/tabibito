@@ -490,45 +490,52 @@ const getPreviewImage = async (req, res) => {
 const searchAnything = async (req, res) => {
     const search = req.query.search.trim()
 
-    if (search.length >= 3) {
-        try {
-            const users = await Userdata.find({
-                $or: [
-                    { name: { $regex: search, $options: 'i' } },
-                    { email: { $regex: search, $options: 'i' } },
-                ],
-            })
+    try {
+        if (search.length >= 3) {
+            try {
+                const users = await Userdata.find({
+                    $or: [
+                        { name: { $regex: search, $options: 'i' } },
+                        { email: { $regex: search, $options: 'i' } },
+                    ],
+                })
 
-            const travels = await Travel.find({
-                $or: [
-                    { title: { $regex: search, $options: 'i' } },
-                    { description: { $regex: search, $options: 'i' } },
-                    { locationCountry: { $regex: search, $options: 'i' } },
-                    { locationCity: { $regex: search, $options: 'i' } },
-                    { locationTown: { $regex: search, $options: 'i' } },
-                ],
-                deleted: false,
-                private: false,
-            }).sort({ createdAt: -1, likes: 1 })
+                const travels = await Travel.find({
+                    $or: [
+                        { title: { $regex: search, $options: 'i' } },
+                        { description: { $regex: search, $options: 'i' } },
+                        { locationCountry: { $regex: search, $options: 'i' } },
+                        { locationCity: { $regex: search, $options: 'i' } },
+                        { locationTown: { $regex: search, $options: 'i' } },
+                    ],
+                    deleted: false,
+                    private: false,
+                }).sort({ createdAt: -1, likes: 1 })
 
-            const responseData = {
-                searchText: search,
-                users: users,
-                travels: travels,
+                const responseData = {
+                    searchText: search,
+                    users: users,
+                    travels: travels,
+                }
+                return res.json(responseData)
+            } catch (error) {
+                return res.json({
+                    message: 'server error',
+                    status: 404,
+                })
             }
-            return res.json(responseData)
-        } catch (error) {
-            return res.json({
-                message: 'server error',
-                status: 404,
-            })
         }
-    }
 
-    return res.json({
-        message: 'Enter atleast 3 characters',
-        status: 404,
-    })
+        return res.json({
+            message: 'Enter atleast 3 characters',
+            status: 404,
+        })
+    } catch (error) {
+        res.json({
+            message: 'error',
+            status: 404,
+        })
+    }
 }
 //search
 //"$or": [{ locationTown: $regex:req.params.param }, { "locationCity": "London" }]
