@@ -9,6 +9,7 @@ import TravelPage from './Components/TravelPage/TravelPage'
 import { MdPublic } from 'react-icons/md'
 import PublicFeed from './Components/Feed/PublicFeed'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import Search from './Components/Search/Search'
 
 const queryClient = new QueryClient()
 
@@ -28,6 +29,7 @@ function App() {
                         />
                         <Route exact path="/profile/:id" element={<Home />} />
                         <Route exact path="/public" element={<PublicFeed />} />
+                        <Route exact path="/search" element={<Search />} />
                         <Route exact path="/" element={<Home />} />
                     </Routes>
                 </Router>
