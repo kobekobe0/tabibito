@@ -493,12 +493,27 @@ const searchAnything = async (req, res) => {
     try {
         if (search.length >= 3) {
             try {
+                const LIMIT = 10
                 const users = await Userdata.find({
                     $or: [
                         { name: { $regex: search, $options: 'i' } },
                         { email: { $regex: search, $options: 'i' } },
                     ],
                 })
+                    .sort({ followers: -1 })
+                    .limit(LIMIT)
+
+                let userCountExceeded = false
+                if (
+                    (await Userdata.countDocuments({
+                        $or: [
+                            { name: { $regex: search, $options: 'i' } },
+                            { email: { $regex: search, $options: 'i' } },
+                        ],
+                    })) > LIMIT
+                ) {
+                    userCountExceeded = true
+                }
 
                 const travels = await Travel.find({
                     $or: [
@@ -510,12 +525,35 @@ const searchAnything = async (req, res) => {
                     ],
                     deleted: false,
                     private: false,
-                }).sort({ createdAt: -1, likes: 1 })
+                }).sort({ createdAt: -1, likes: -1 })
 
+                let travelCountExceeded = false
+                if (
+                    (await Travel.countDocuments({
+                        $or: [
+                            { title: { $regex: search, $options: 'i' } },
+                            { description: { $regex: search, $options: 'i' } },
+                            {
+                                locationCountry: {
+                                    $regex: search,
+                                    $options: 'i',
+                                },
+                            },
+                            { locationCity: { $regex: search, $options: 'i' } },
+                            { locationTown: { $regex: search, $options: 'i' } },
+                        ],
+                        deleted: false,
+                        private: false,
+                    })) > LIMIT
+                ) {
+                    travelCountExceeded = true
+                }
                 const responseData = {
                     searchText: search,
                     users: users,
                     travels: travels,
+                    userCountExceeded: userCountExceeded,
+                    travelCountExceeded: travelCountExceeded,
                 }
                 return res.json(responseData)
             } catch (error) {
