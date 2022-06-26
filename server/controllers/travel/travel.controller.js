@@ -487,6 +487,33 @@ const getPreviewImage = async (req, res) => {
     res.download(PATH)
 }
 
+const searchUser = async (req, res) => {
+    const search = req.query.search
+    const users = await Userdata.find({
+        $or: [
+            { name: { $regex: search, $options: 'i' } },
+            { email: { $regex: search, $options: 'i' } },
+        ],
+    }).sort({ followers: -1 })
+    res.json(users)
+}
+
+const searchTravel = async (req, res) => {
+    const search = req.query.search
+    const travels = await Travel.find({
+        $or: [
+            { title: { $regex: search, $options: 'i' } },
+            { description: { $regex: search, $options: 'i' } },
+            { locationCountry: { $regex: search, $options: 'i' } },
+            { locationCity: { $regex: search, $options: 'i' } },
+            { locationTown: { $regex: search, $options: 'i' } },
+        ],
+        deleted: false,
+        private: false,
+    }).sort({ createdAt: -1, likes: -1 })
+    res.json(travels)
+}
+
 const searchAnything = async (req, res) => {
     const search = req.query.search.trim()
 
@@ -592,4 +619,6 @@ module.exports = {
     follow,
     getFollowedTravels,
     searchAnything,
+    searchUser,
+    searchTravel,
 }
