@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import axios from 'axios'
 import { MdOutlineSearch } from 'react-icons/md'
 import './Search.css'
+import Travels from './Components/Travels'
 import Navbar from '../Navbar/Navbar'
 import jwt_decode from 'jwt-decode'
 
@@ -153,10 +154,7 @@ function Search() {
                                         </div>
                                         <ul>
                                             {travelsResult.map((travel) => (
-                                                <div
-                                                    className="travels-results"
-                                                    key={travel._id}
-                                                ></div>
+                                                <Travels img={travel.images[0]} userId={travel.userId} town={travel.locationTown} city={travel.locationCity}/>
                                             ))}
                                         </ul>
                                     </div>
