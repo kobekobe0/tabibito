@@ -176,6 +176,7 @@
 }
 .search-items .users-results li div img {
     border-radius: 50%;
+    object-fit: cover;
 }
 
 .travels-item {
@@ -263,6 +264,7 @@
     width: 50px;
     height: 50px;
     border-radius: 50%;
+    object-fit: cover;
 }
 
 @keyframes lds-ring {
