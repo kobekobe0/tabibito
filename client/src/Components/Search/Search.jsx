@@ -148,13 +148,26 @@ function Search() {
                                     </div>
                                 ) : null}
                                 {showTravels ? (
-                                    <div className="travels-item">
+                                    <div className="travels-items">
                                         <div className="travels-items-header">
                                             <h3>Travels</h3>
                                         </div>
-                                        <ul>
+                                        <ul className="travels-results">
                                             {travelsResult.map((travel) => (
-                                                <Travels img={travel.images[0]} userId={travel.userId} town={travel.locationTown} city={travel.locationCity}/>
+                                                <li>
+                                                    <Travels
+                                                        img={travel.images[0]}
+                                                        userId={travel.userId}
+                                                        town={
+                                                            travel.locationTown
+                                                        }
+                                                        city={
+                                                            travel.locationCity
+                                                        }
+                                                        title={travel.title}
+                                                        id={travel._id}
+                                                    />
+                                                </li>
                                             ))}
                                         </ul>
                                     </div>

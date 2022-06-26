@@ -153,7 +153,7 @@
 .search-items .users-results li {
     min-width: 200px;
     width: 90%;
-    max-width: 450px;
+    max-width: 700px;
     cursor: pointer;
 }
 .search-items .users-results li:not(:first-child) {
@@ -177,6 +177,94 @@
 .search-items .users-results li div img {
     border-radius: 50%;
 }
+
+.travels-item {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.travels-results {
+    list-style-type: none;
+    padding: 0;
+    width: 800px;
+    max-width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.travels-items-header {
+    text-align: center;
+}
+
+.search-items .travels-results li {
+    min-width: 200px;
+    width: 90%;
+    max-width: 700px;
+    cursor: pointer;
+}
+.search-items .travels-results li:not(:first-child) {
+    margin-top: 1em;
+}
+.search-items .travels-results li .travels-data {
+    display: flex;
+    border: solid 1px rgb(61, 61, 61);
+    border-radius: 10px;
+    align-items: center;
+    transition: all 0.1s ease-in-out;
+    position: relative;
+    outline: none;
+}
+
+.search-items .travels-results li div:hover {
+    transform: scale(1.008);
+}
+
+.search-items .travels-results li .travels-data .background-travel-result {
+    object-fit: cover;
+
+    width: 100%;
+    border-radius: 10px;
+}
+.search-items .travels-results li .travels-data .overlay-travel-result {
+    position: absolute;
+    display: flex;
+    margin-left: 1em;
+    width: 100%;
+}
+.search-items .travels-results li .travels-data .overlay-travel-result div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    margin-left: 1em;
+}
+.search-items .travels-results li .travels-data .overlay-travel-result div h4 {
+    margin: 0;
+    font-family: 'roboto', sans-serif;
+}
+.search-items .travels-results li .travels-data .overlay-travel-result div h5 {
+    margin: 0;
+    font-weight: lighter;
+    letter-spacing: 2px;
+}
+.search-items .travels-results li .travels-data .overlay-travel-result div h6 {
+    margin: 0;
+    font-weight: lighter;
+    color: silver;
+}
+.search-items .travels-results li .travels-data .overlay-travel-result img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
 @keyframes lds-ring {
     0% {
         transform: rotate(0deg);
