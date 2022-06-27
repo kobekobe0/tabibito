@@ -19,6 +19,12 @@ function Search() {
     const [loading, setLoading] = useState(false)
     const [noResults, setNoResults] = useState(false)
 
+    const [hasMoreUsers, setHasMoreUsers] = useState(false)
+    const [hasMoreTravels, setHasMoreTravels] = useState(false)
+
+    const [hasMoreUsersLoading, setHasMoreUsersLoading] = useState(false)
+    const [hasMoreTravelsLoading, setHasMoreTravelsLoading] = useState(false)
+
     const handleSubmit = (e) => {
         e.preventDefault()
         setLoading(true)
@@ -29,6 +35,8 @@ function Search() {
         setShowTravels(false)
         setShowUsers(false)
         setNoResults(false)
+        setHasMoreUsers(false)
+        setHasMoreTravels(false)
 
         if (query.length >= 3) {
             console.log(query)
@@ -40,6 +48,8 @@ function Search() {
                     setUsersResult(res.data.users)
                     setSearchQuery(query)
                     setLoading(false)
+                    setHasMoreTravels(res.data.travelCountExceeded)
+                    setHasMoreUsers(res.data.userCountExceeded)
                     if (res?.data.travels?.length !== 0) setShowTravels(true)
                     if (res?.data.users?.length !== 0) setShowUsers(true)
                     if (
@@ -70,6 +80,37 @@ function Search() {
         return (window.location.href = `/profile/${id}`)
     }
 
+    const searchMoreUsers = () => {
+        setHasMoreUsersLoading(true)
+        setHasMoreUsers(false)
+        axios
+            .get(`/search/user?search=${searchQuery}`)
+            .then((res) => {
+                setUsersResult(usersResult.concat(res.data))
+                //I can add exceeded boolean value then just send skip param in FE rather than hard coding it on Server when querying for pagination
+
+                setHasMoreUsersLoading(false)
+            })
+            .catch((e) => {
+                console.log(e)
+                setHasMoreUsersLoading(false)
+            })
+    }
+
+    const searchMoreTravels = () => {
+        setHasMoreTravelsLoading(true)
+        setHasMoreTravels(false)
+        axios
+            .get(`/search/travel?search=${searchQuery}`)
+            .then((res) => {
+                setTravelsResult(travelsResult.concat(res.data))
+                setHasMoreTravelsLoading(false)
+            })
+            .catch((e) => {
+                console.log(e)
+                setHasMoreTravelsLoading(false)
+            })
+    }
     return (
         <>
             {' '}
@@ -145,6 +186,27 @@ function Search() {
                                                 </li>
                                             ))}
                                         </ul>
+                                        {hasMoreUsers ? (
+                                            <a
+                                                onClick={searchMoreUsers}
+                                                style={{
+                                                    margin: '0',
+                                                    marginBottom: '1em',
+                                                    cursor: 'pointer',
+                                                    color: '#fff',
+                                                }}
+                                            >
+                                                see more
+                                            </a>
+                                        ) : null}
+                                        {hasMoreUsersLoading ? (
+                                            <div className="lds-ring">
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                                <div></div>
+                                            </div>
+                                        ) : null}
                                     </div>
                                 ) : null}
                                 {showTravels ? (
@@ -169,6 +231,27 @@ function Search() {
                                                     />
                                                 </li>
                                             ))}
+                                            {hasMoreTravels ? (
+                                                <a
+                                                    onClick={searchMoreTravels}
+                                                    style={{
+                                                        margin: '0',
+                                                        marginTop: '10px',
+                                                        cursor: 'pointer',
+                                                        color: '#fff',
+                                                    }}
+                                                >
+                                                    see more
+                                                </a>
+                                            ) : null}
+                                            {hasMoreTravelsLoading ? (
+                                                <div className="lds-ring">
+                                                    <div></div>
+                                                    <div></div>
+                                                    <div></div>
+                                                    <div></div>
+                                                </div>
+                                            ) : null}
                                         </ul>
                                     </div>
                                 ) : null}
