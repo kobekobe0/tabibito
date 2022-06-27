@@ -4,7 +4,9 @@ import {
     AiOutlineLogout,
     AiOutlineUserAdd,
     AiOutlineUserDelete,
+    AiFillSave,
 } from 'react-icons/ai'
+import { MdCancel } from 'react-icons/md'
 import { ImFilePicture } from 'react-icons/im'
 import axios from 'axios'
 import jwt_decode from 'jwt-decode'
@@ -25,6 +27,9 @@ const EditProfile = ({
     handleUpdate,
     handleBgUpdate,
     handlePfpUpdate,
+    patrons,
+    supporting,
+    closeEdit,
 }) => {
     const [pfpImg, setPfpImg] = useState('')
     const [bgImg, setBgImg] = useState('')
@@ -108,10 +113,12 @@ const EditProfile = ({
                         />
                         <div className="follows">
                             <p>
-                                Followers <span>5</span>
+                                Followers{' '}
+                                <span>{patrons && patrons.length}</span>
                             </p>
                             <p>
-                                Following <span>7</span>
+                                Following{' '}
+                                <span>{supporting && supporting.length}</span>
                             </p>
                         </div>
 
@@ -123,8 +130,16 @@ const EditProfile = ({
                         />
                     </div>
                     <div className="profileButtons">
-                        <button onClick={handleUpdate}>Update Profile</button>
-                        <button>Logout</button>
+                        <AiFillSave
+                            onClick={handleUpdate}
+                            size="2em"
+                            color="gold"
+                        />
+                        <MdCancel
+                            size="2em"
+                            color="tomato"
+                            onClick={closeEdit}
+                        />
                     </div>
                 </div>
             </div>
@@ -217,10 +232,16 @@ const VisitProfile = ({
                     <div className="profileTexts">
                         <h3>{username}</h3>
                         <div className="follows">
-                            <p onClick={openPatronsModal}>
+                            <p
+                                onClick={openPatronsModal}
+                                style={{ cursor: 'pointer' }}
+                            >
                                 Patrons <span>{patrons && patrons.length}</span>
                             </p>
-                            <p onClick={openSupportingModal}>
+                            <p
+                                onClick={openSupportingModal}
+                                style={{ cursor: 'pointer' }}
+                            >
                                 Supporting{' '}
                                 <span>{patrons && supporting.length}</span>
                             </p>
@@ -231,13 +252,13 @@ const VisitProfile = ({
                         {!propsIsFollowing ? (
                             <AiOutlineUserAdd
                                 onClick={follow}
-                                size={25}
+                                size="2em"
                                 color="skyblue"
                             />
                         ) : (
                             <AiOutlineUserDelete
                                 onClick={unfollow}
-                                size={25}
+                                size="2em"
                                 color="tomato"
                             />
                         )}
@@ -267,6 +288,7 @@ function ProfileBar({
     visit,
     handleBgUpdate,
     handlePfpUpdate,
+    closeEdit,
 }) {
     const logout = () => {
         if (window.confirm('Are you sure you want to logout?')) {
@@ -353,11 +375,17 @@ function ProfileBar({
                             <div className="profileTexts">
                                 <h3>{username}</h3>
                                 <div className="follows">
-                                    <p onClick={openPatronsModal}>
+                                    <p
+                                        onClick={openPatronsModal}
+                                        style={{ cursor: 'pointer' }}
+                                    >
                                         Patrons{' '}
                                         <span>{patrons && patrons.length}</span>
                                     </p>
-                                    <p onClick={openSupportingModal}>
+                                    <p
+                                        onClick={openSupportingModal}
+                                        style={{ cursor: 'pointer' }}
+                                    >
                                         Supporting{' '}
                                         <span>
                                             {patrons && supporting.length}
@@ -401,6 +429,7 @@ function ProfileBar({
                     closeModal={closeModal}
                     openPatronsModal={openPatronsModal}
                     openSupportingModal={openSupportingModal}
+                    closeEdit={closeEdit}
                 />
             )
         }
@@ -423,6 +452,9 @@ function ProfileBar({
                 handleUpdate={handleUpdate}
                 handleBgUpdate={handleBgUpdate}
                 handlePfpUpdate={handlePfpUpdate}
+                patrons={patrons}
+                supporting={supporting}
+                closeEdit={closeEdit}
             />
         )
     }

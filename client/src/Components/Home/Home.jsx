@@ -109,6 +109,9 @@ function Home() {
     const editProfile = () => {
         setEdit(!edit)
     }
+    const closeEdit = () => {
+        setEdit(false)
+    }
     const removeEmptySpaces = (stringVal) => {
         let str = /\s/g.test(stringVal)
         if (str) {
@@ -151,6 +154,7 @@ function Home() {
                         visit={visit}
                         handleBgUpdate={handleBgUpdate}
                         handlePfpUpdate={handlePfpUpdate}
+                        closeEdit={closeEdit}
                     />
                     <TravelCards id={id !== '' ? id : user.id} edit={edit} />
                 </main>

@@ -12,19 +12,7 @@ function FollowModal({ ids, closeModal, type }) {
 
                 <ul className="follows-list">
                     {ids.map((id) => (
-                        <>
-                            <List key={id} id={id} />
-                            <List key={id} id={id} />
-                            <List key={id} id={id} />
-                            <List key={id} id={id} />
-                            <List key={id} id={id} />
-                            <List key={id} id={id} />
-                            <List key={id} id={id} />
-                            <List key={id} id={id} />
-                            <List key={id} id={id} />
-                            <List key={id} id={id} />
-                            <List key={id} id={id} />
-                        </>
+                        <List key={id} id={id} />
                     ))}
                 </ul>
             </div>

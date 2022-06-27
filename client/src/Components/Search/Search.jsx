@@ -38,6 +38,8 @@ function Search() {
         setHasMoreUsers(false)
         setHasMoreTravels(false)
 
+        //make url serach?search=query then extract it and pass it to the api
+
         if (query.length >= 3) {
             console.log(query)
             return axios
