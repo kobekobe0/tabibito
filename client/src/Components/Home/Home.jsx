@@ -9,6 +9,7 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import { MdPublic } from 'react-icons/md'
 import Navbar from '../Navbar/Navbar'
+import Compressor from 'compressorjs'
 
 function Home() {
     //function for fetching data from the server
@@ -49,13 +50,25 @@ function Home() {
     }, [])
 
     const handleBgUpdate = (file) => {
-        setUploadBg(file)
+        new Compressor(file, {
+            quality: 0.6,
+            convertTypes: ['image/jpeg'],
+            success: (compressedResult) => {
+                setUploadBg(compressedResult)
+            },
+        })
     }
 
     const handlePfpUpdate = (file) => {
-        console.log(file)
-        setUploadPfp(file)
-        console.log(uploadPfp)
+        new Compressor(file, {
+            quality: 0.9,
+            convertTypes: ['image/jpeg'],
+            width: 600,
+            height: 600,
+            success: (compressedResult) => {
+                setUploadPfp(compressedResult)
+            },
+        })
     }
 
     const handleUpdate = () => {
