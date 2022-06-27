@@ -487,18 +487,22 @@ const getPreviewImage = async (req, res) => {
     res.download(PATH)
 }
 
-const searchUser = async (req, res) => {
+const LIMIT = 5
+
+const searchMoreUser = async (req, res) => {
     const search = req.query.search
     const users = await Userdata.find({
         $or: [
             { name: { $regex: search, $options: 'i' } },
             { email: { $regex: search, $options: 'i' } },
         ],
-    }).sort({ followers: -1 })
+    })
+        .sort({ followers: -1 })
+        .skip(LIMIT)
     res.json(users)
 }
 
-const searchTravel = async (req, res) => {
+const searchMoreTravel = async (req, res) => {
     const search = req.query.search
     const travels = await Travel.find({
         $or: [
@@ -510,7 +514,9 @@ const searchTravel = async (req, res) => {
         ],
         deleted: false,
         private: false,
-    }).sort({ createdAt: -1, likes: -1 })
+    })
+        .sort({ createdAt: -1, likes: -1 })
+        .skip(LIMIT)
     res.json(travels)
 }
 
@@ -520,7 +526,6 @@ const searchAnything = async (req, res) => {
     try {
         if (search.length >= 3) {
             try {
-                const LIMIT = 10
                 const users = await Userdata.find({
                     $or: [
                         { name: { $regex: search, $options: 'i' } },
@@ -552,7 +557,9 @@ const searchAnything = async (req, res) => {
                     ],
                     deleted: false,
                     private: false,
-                }).sort({ createdAt: -1, likes: -1 })
+                })
+                    .sort({ createdAt: -1, likes: -1 })
+                    .limit(LIMIT)
 
                 let travelCountExceeded = false
                 if (
@@ -619,6 +626,6 @@ module.exports = {
     follow,
     getFollowedTravels,
     searchAnything,
-    searchUser,
-    searchTravel,
+    searchMoreUser,
+    searchMoreTravel,
 }
