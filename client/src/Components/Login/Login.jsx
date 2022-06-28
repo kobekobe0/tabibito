@@ -17,18 +17,23 @@ function Login() {
         //     },
         // }
 
-        const data = await axios.post('users/login', {
-            email: email,
-            password: password,
-        })
-
-        if (data.data.user) {
-            localStorage.setItem('user', JSON.stringify(data.data.user))
-            console.log(data.data.user)
-            window.location.href = '/'
-        } else {
-            alert('Invalid email or password')
-        }
+        const data = await axios
+            .post('users/login', {
+                email: email,
+                password: password,
+            })
+            .then((res) => {
+                console.log(res.data)
+                if (res.data.isVerified == true) {
+                    localStorage.setItem('user', JSON.stringify(res.data.user))
+                    console.log(res.data.user)
+                    window.location.href = '/'
+                } else if (res.data.isVerified == false) {
+                    window.location.href = `/verify/${res.data.ticketId}`
+                } else {
+                    alert('Invalid email or password') //placeholder
+                }
+            })
     }
 
     useEffect(() => {
