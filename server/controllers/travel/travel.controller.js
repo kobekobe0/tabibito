@@ -81,12 +81,19 @@ const getTravelById = async (req, res) => {
 
 const getUserById = async (req, res) => {
     const userId = req.params.id
-    console.log('userID', userId)
-    const user = await Userdata.findById(userId)
-    if (user) {
-        res.json(user)
-    } else {
-        res.json({ message: 'user not found' })
+
+    try {
+        const user = await Userdata.findById(userId)
+        if (user) {
+            res.json(user)
+        } else {
+            res.json({ message: 'user not found', status: 404 })
+        }
+    } catch (error) {
+        res.json({
+            message: 'error',
+            status: 404,
+        })
     }
 }
 
