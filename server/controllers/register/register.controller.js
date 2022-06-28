@@ -177,4 +177,24 @@ const verifyLogin = async (req, res) => {
     }
 }
 
-module.exports = { registerUser, loginUser, verifyLogin }
+const verifyEmail = async (req, res) => {
+    const ticketId = req.body.ticketId
+    const code = req.body.code
+    try {
+        const ticket = await VerificationTickets.findOne({ _id: ticketId })
+        if (ticket.code == code) {
+            await VerificationTickets.findOneAndUpdate(
+                { _id: ticketId },
+                { isVerified: true }
+            )
+            return res.json({ status: 200, message: 'Email verified' })
+        } else {
+            return res.json({ status: 400, message: 'Wrong code' })
+        }
+    } catch (error) {
+        console.log(error)
+        return res.json({ status: 400, message: 'Error verifying email' })
+    }
+}
+
+module.exports = { registerUser, loginUser, verifyLogin, verifyEmail }

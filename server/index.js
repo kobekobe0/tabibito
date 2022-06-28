@@ -13,6 +13,7 @@ const {
     registerUser,
     loginUser,
     verifyLogin,
+    verifyEmail,
 } = require('./controllers/register/register.controller')
 
 const {
@@ -90,6 +91,7 @@ app.put('/api/travel/:id/save', saveTravel)
 app.get('/api/search', searchAnything)
 app.get('/api/search/user', searchMoreUser)
 app.get('/api/search/travel', searchMoreTravel)
+app.post('/api/verify', verifyEmail)
 
 app.listen(PORT || 3000, () => {
     console.log('Server is running on port ' + PORT)
