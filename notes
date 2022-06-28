@@ -11,4 +11,12 @@ TODOS
 -change alert to modal in updateProfile confirmation
 -PROTECT EVERY ROUTES
 -create a route that accepts locations as params. it will e used for querying specific post on specific locations
--seperate routes using node.route
+-seperate routes using node.
+-Email verification - generate a 5 char code then make a new model in db, everytime a account is created create a new ticket in db. send that code to the provided email of the user
+{
+\_id: adoasdmjad,
+userId: asdaisondasd,
+isVerified = false
+}
+
+    -every login check if this ticket is verified or not, if not redirect to verification page, if verified just continue

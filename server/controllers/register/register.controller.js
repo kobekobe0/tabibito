@@ -1,8 +1,11 @@
 const User = require('../../models/register.model')
+const VerificationTickets = require('../../models/EmailVerification.model.js')
 const jwt = require('jsonwebtoken')
 
 const bcrypt = require('bcrypt')
 const saltRounds = 1542 //placeholder for salt rounds
+
+const nodemailer = require('nodemailer')
 
 const validateEmail = (email) => {
     return String(email)
@@ -11,6 +14,25 @@ const validateEmail = (email) => {
             /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
         )
 }
+
+const makeid = () => {
+    var text = ''
+    var possible =
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+
+    for (var i = 0; i < 5; i++)
+        text += possible.charAt(Math.floor(Math.random() * possible.length))
+
+    return text
+}
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'kobe0santos0@gmail.com',
+        pass: 'gvmltsfynclouydj',
+    }, //placeholder
+})
 
 const registerUser = async (req, res) => {
     try {
@@ -30,6 +52,34 @@ const registerUser = async (req, res) => {
                     name: name,
                     email: email,
                     password: hash,
+                }).then(async (user) => {
+                    const code = makeid()
+                    const verificationTicket = await VerificationTickets.create(
+                        {
+                            userId: user._id,
+                            code: code,
+                            isVerified: false,
+                        }
+                    ).then((ticket) => {
+                        const mailOptions = {
+                            from: 'Tabibito',
+                            to: user.email,
+                            subject: 'Tabibito Verification Code',
+                            text: `Your verification code is ${code}`,
+                        }
+                        transporter.sendMail(
+                            mailOptions,
+                            function (error, info) {
+                                if (error) {
+                                    console.log(error)
+                                } else {
+                                    console.log('Email sent: ' + info.response)
+                                }
+                            }
+                        )
+                    })
+
+                    //send code to email
                 })
                 res.json(createdUser)
             })
