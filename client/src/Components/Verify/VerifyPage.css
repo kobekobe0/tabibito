@@ -1,0 +1,89 @@
+.verification-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100vh;
+    background-color: #f1efef;
+    padding-top: 5em;
+}
+
+.verification-page .error {
+    color: #717679;
+    font-weight: bolder;
+    font-size: 2em;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.verification-page .suggestion {
+    color: #717679;
+    font-weight: lighter;
+    margin-top: 2em;
+    font-size: 1em;
+    margin: 0;
+    align-items: center;
+}
+.verification-page .suggestion span {
+    font-weight: bolder;
+}
+
+.verification-page .verification-instruction {
+    font-size: 0.8em;
+    text-align: start;
+}
+.verification-page .verification-instruction span {
+    font-weight: bold;
+}
+
+.verification-page input {
+    background: 0;
+    border: 0;
+    outline: none;
+    width: 50vw;
+    max-width: 400px;
+    font-size: 1em;
+    transition: padding 0.3s 0.2s ease;
+}
+.verification-page input:focus {
+    padding-bottom: 5px;
+}
+.verification-page input:focus + .line:after {
+    transform: scaleX(1);
+}
+.verification-page .field {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 2em;
+}
+.verification-page .field .line {
+    width: 100%;
+    height: 3px;
+    position: absolute;
+    bottom: -8px;
+    background: #bdc3c7;
+}
+.verification-page .field .line:after {
+    position: absolute;
+    float: right;
+    width: 100%;
+    height: 3px;
+    transform: scalex(0);
+    transition: transform 0.3s ease;
+    background: #1abc9c;
+}
+
+.verification-page button {
+    background: #1abc9c;
+    border: 0;
+    border-radius: 3px;
+    color: #fff;
+    font-size: 0.5em;
+    padding: 10px;
+    cursor: pointer;
+    max-width: 50px;
+    transition: background 0.3s ease;
+}
