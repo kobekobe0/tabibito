@@ -10,7 +10,7 @@ import { MdPublic } from 'react-icons/md'
 import PublicFeed from './Components/Feed/PublicFeed'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import Search from './Components/Search/Search'
-
+import VerifyPage from './Components/Verify/VerifyPage'
 const queryClient = new QueryClient()
 
 function App() {
@@ -30,6 +30,11 @@ function App() {
                         <Route exact path="/profile/:id" element={<Home />} />
                         <Route exact path="/public" element={<PublicFeed />} />
                         <Route exact path="/search" element={<Search />} />
+                        <Route
+                            exact
+                            path="/verify/:ticketId"
+                            element={<VerifyPage />}
+                        />
                         <Route exact path="/" element={<Home />} />
                     </Routes>
                 </Router>
