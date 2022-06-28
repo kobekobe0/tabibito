@@ -48,39 +48,49 @@ const registerUser = async (req, res) => {
             if (err) return console.log(err)
             bcrypt.hash(password, salt, async function (err, hash) {
                 if (err) return console.log(err)
+
                 const code = makeid()
-                const verificationTicket = await VerificationTickets.create({
+                await VerificationTickets.create({
                     email: email,
                     code: code,
                     isVerified: false,
-                }).then((ticket) => {
-                    const mailOptions = {
-                        from: 'Tabibito',
-                        to: email,
-                        subject: 'Tabibito Verification Code',
-                        text: `Your verification code is ${code}`,
-                    }
-                    transporter.sendMail(
-                        mailOptions,
-                        async function (error, info) {
-                            if (error) {
-                                console.log(error)
-                                return res.json({
-                                    message: 'Error sending email',
-                                    status: 400,
-                                })
-                            } else {
-                                console.log('Email sent: ' + info.response)
-                                const createdUser = await User.create({
-                                    name: name,
-                                    email: email,
-                                    password: hash,
-                                })
-                                res.json(createdUser)
-                            }
-                        }
-                    )
                 })
+                    .then((ticket) => {
+                        const mailOptions = {
+                            from: 'Tabibito',
+                            to: email,
+                            subject: 'Tabibito Verification Code',
+                            text: `Your verification code is ${code}`,
+                        }
+                        transporter.sendMail(
+                            mailOptions,
+                            async function (error, info) {
+                                if (error) {
+                                    console.log(error)
+                                    return res.json({
+                                        message: 'Error sending email',
+                                        status: 400,
+                                    })
+                                } else {
+                                    console.log('Email sent: ' + info.response)
+                                    const createdUser = await User.create({
+                                        name: name,
+                                        email: email,
+                                        password: hash,
+                                        VerificationTicket: ticket._id,
+                                    })
+                                    res.json(createdUser)
+                                }
+                            }
+                        )
+                    })
+                    .catch((error) => {
+                        console.log(error)
+                        return res.json({
+                            message: 'Error creating user',
+                            status: 400,
+                        })
+                    })
             })
         })
     } catch (error) {

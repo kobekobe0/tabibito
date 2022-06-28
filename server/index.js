@@ -3,6 +3,7 @@ const app = express()
 const morgan = require('morgan')
 const cors = require('cors')
 const PORT = 3000
+const process = require('node:process')
 
 const Travel = require('./models/travel.model')
 const { reqAuth } = require('./middleware/auth/auth')
@@ -92,4 +93,9 @@ app.get('/api/search/travel', searchMoreTravel)
 
 app.listen(PORT || 3000, () => {
     console.log('Server is running on port ' + PORT)
+})
+
+process.on('uncaughtException', function (err) {
+    console.error(err)
+    console.log('Node NOT Exiting...')
 })

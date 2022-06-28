@@ -30,6 +30,7 @@ const User = new mongoose.Schema(
             type: [String],
             default: [],
         },
+        VerificationTicket: { type: String, required: true },
     },
     { collection: 'user-data' }
 )
