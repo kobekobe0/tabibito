@@ -5,6 +5,7 @@ import './Search.css'
 import Travels from './Components/Travels'
 import Navbar from '../Navbar/Navbar'
 import jwt_decode from 'jwt-decode'
+import { CheckUserExistsOther } from '../../CheckUserExists'
 
 function Search() {
     const [query, setQuery] = useState('')
@@ -113,6 +114,11 @@ function Search() {
                 setHasMoreTravelsLoading(false)
             })
     }
+
+    useEffect(() => {
+        CheckUserExistsOther()
+    }, [])
+
     return (
         <>
             {' '}

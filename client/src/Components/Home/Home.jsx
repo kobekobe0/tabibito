@@ -10,7 +10,7 @@ import { Link } from 'react-router-dom'
 import { MdPublic } from 'react-icons/md'
 import Navbar from '../Navbar/Navbar'
 import Compressor from 'compressorjs'
-
+import { CheckUserExistsHome } from '../../CheckUserExists'
 function Home() {
     //function for fetching data from the server
     const [user, setUser] = useState({})
@@ -23,30 +23,7 @@ function Home() {
     const [uploadPfp, setUploadPfp] = useState('')
 
     useEffect(() => {
-        const token = window.localStorage.getItem('user')
-        const url = window.location.href
-        console.log(url)
-        if (url.includes('profile')) {
-            //extract id in url
-            const id = url.split('/')
-            const length = id.length - 1
-            console.log(id[length])
-            setId(id[length])
-            setVisit(true)
-        } // change Home component's route to profile/:id
-        if (token) {
-            //decode jwt token
-            let userData = jwt_decode(token)
-            console.log(userData)
-            setUser(userData)
-            console.log(user)
-            if (!userData) {
-                window.localStorage.removeItem('user')
-                window.location.href = '/login'
-            }
-        } else {
-            window.location.href = '/login'
-        }
+        CheckUserExistsHome(setId, setVisit, setUser)
     }, [])
 
     const handleBgUpdate = (file) => {

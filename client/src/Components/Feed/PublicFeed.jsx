@@ -5,6 +5,8 @@ import jwt_decode from 'jwt-decode'
 import axios from 'axios'
 import Card from './Components/Card'
 
+import { CheckUserExistsOther } from '../../CheckUserExists'
+
 function PublicFeed() {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
@@ -33,6 +35,7 @@ function PublicFeed() {
     }
 
     useEffect(() => {
+        CheckUserExistsOther()
         const token = localStorage.getItem('user')
         const decoded = jwt_decode(token)
         console.log(decoded)

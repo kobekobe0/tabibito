@@ -6,6 +6,7 @@ import { MdPublic, MdOutlineLock } from 'react-icons/md'
 import Preview from './Preview'
 import { BiArrowBack } from 'react-icons/bi'
 import Compressor from 'compressorjs'
+import { CheckUserExistsOther } from '../../CheckUserExists'
 
 function Modal() {
     const [privacy, setPrivacy] = useState(null)
@@ -96,6 +97,7 @@ function Modal() {
     }
 
     useEffect(() => {
+        CheckUserExistsOther()
         const token = window.localStorage.getItem('user')
         let userData = jwt_decode(token)
 

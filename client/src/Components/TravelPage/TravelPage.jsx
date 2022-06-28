@@ -6,6 +6,7 @@ import jwtDecode from 'jwt-decode'
 import '../Feed/PublicFeed.css'
 import Images from './components/Images'
 import Description from './components/Description'
+import { CheckUserExistsOther } from '../../CheckUserExists'
 function TravelPage() {
     const { id } = useParams()
     const [data, setData] = useState({})
@@ -29,6 +30,7 @@ function TravelPage() {
     const [show, setShow] = useState(false)
     const [pfp, setPfp] = useState('')
     useEffect(() => {
+        CheckUserExistsOther()
         setData({})
         axios
             .get(`travel/${id}`)
