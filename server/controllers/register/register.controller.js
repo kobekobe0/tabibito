@@ -197,4 +197,25 @@ const verifyEmail = async (req, res) => {
     }
 }
 
-module.exports = { registerUser, loginUser, verifyLogin, verifyEmail }
+const getVerificationTicket = async (req, res) => {
+    const ticketId = req.params.ticketId
+    try {
+        const ticket = await VerificationTickets.findOne({ _id: ticketId })
+        if (ticket) {
+            return res.json({ status: 200, ticket: ticket })
+        } else {
+            return res.json({ status: 400, message: 'Ticket not found' })
+        }
+    } catch (error) {
+        console.log(error)
+        return res.json({ status: 400, message: 'Error getting ticket' })
+    }
+}
+
+module.exports = {
+    registerUser,
+    loginUser,
+    verifyLogin,
+    verifyEmail,
+    getVerificationTicket,
+}
