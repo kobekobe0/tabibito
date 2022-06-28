@@ -111,24 +111,39 @@ const loginUser = async (req, res) => {
         bcrypt.compare(
             req.body.password,
             user.password,
-            function (err, result) {
+            async function (err, result) {
                 // result == true
                 if (result == true) {
-                    const token = jwt.sign(
-                        {
-                            name: user.name,
-                            email: user.email,
-                            id: user._id,
-                            pfp: user.pfp,
-                            background: user.background,
-                            bio: user.bio,
-                            saves: user.saves,
-                            following: user.following,
-                            followers: user.followers,
-                        },
-                        'secretkey'
-                    ) //secretkey should be super secured
-                    return res.json({ status: 'OK', user: token })
+                    const verify = await VerificationTickets.findOne({
+                        _id: user.VerificationTicket,
+                    }).then((ticket) => {
+                        if (ticket.isVerified == true) {
+                            const token = jwt.sign(
+                                {
+                                    name: user.name,
+                                    email: user.email,
+                                    id: user._id,
+                                    pfp: user.pfp,
+                                    background: user.background,
+                                    bio: user.bio,
+                                    saves: user.saves,
+                                },
+                                'secretkey'
+                            ) //secretkey should be super secured
+                            return res.json({
+                                status: 'OK',
+                                isVerified: true,
+                                user: token,
+                            })
+                        } else {
+                            return res.json({
+                                status: 'Email not verified',
+                                statusCode: 400,
+                                isVerified: false,
+                                ticketId: ticket._id,
+                            })
+                        }
+                    })
                 }
                 return res.json({
                     user: false,
