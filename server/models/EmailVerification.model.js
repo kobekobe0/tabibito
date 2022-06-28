@@ -13,7 +13,7 @@ function makeid() {
 
 const VerificationTicket = new mongoose.Schema(
     {
-        userId: { type: String, required: true },
+        email: { type: String, required: true },
         isVerified: { type: Boolean, default: false },
         code: { type: String, required: true },
     },

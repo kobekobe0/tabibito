@@ -48,40 +48,39 @@ const registerUser = async (req, res) => {
             if (err) return console.log(err)
             bcrypt.hash(password, salt, async function (err, hash) {
                 if (err) return console.log(err)
-                const createdUser = await User.create({
-                    name: name,
+                const code = makeid()
+                const verificationTicket = await VerificationTickets.create({
                     email: email,
-                    password: hash,
-                }).then(async (user) => {
-                    const code = makeid()
-                    const verificationTicket = await VerificationTickets.create(
-                        {
-                            userId: user._id,
-                            code: code,
-                            isVerified: false,
-                        }
-                    ).then((ticket) => {
-                        const mailOptions = {
-                            from: 'Tabibito',
-                            to: user.email,
-                            subject: 'Tabibito Verification Code',
-                            text: `Your verification code is ${code}`,
-                        }
-                        transporter.sendMail(
-                            mailOptions,
-                            function (error, info) {
-                                if (error) {
-                                    console.log(error)
-                                } else {
-                                    console.log('Email sent: ' + info.response)
-                                }
+                    code: code,
+                    isVerified: false,
+                }).then((ticket) => {
+                    const mailOptions = {
+                        from: 'Tabibito',
+                        to: email,
+                        subject: 'Tabibito Verification Code',
+                        text: `Your verification code is ${code}`,
+                    }
+                    transporter.sendMail(
+                        mailOptions,
+                        async function (error, info) {
+                            if (error) {
+                                console.log(error)
+                                return res.json({
+                                    message: 'Error sending email',
+                                    status: 400,
+                                })
+                            } else {
+                                console.log('Email sent: ' + info.response)
+                                const createdUser = await User.create({
+                                    name: name,
+                                    email: email,
+                                    password: hash,
+                                })
+                                res.json(createdUser)
                             }
-                        )
-                    })
-
-                    //send code to email
+                        }
+                    )
                 })
-                res.json(createdUser)
             })
         })
     } catch (error) {
