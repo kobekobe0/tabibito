@@ -1,44 +1,39 @@
-function CommentList({ pfp }) {
+import CommentCard from './CommentCard'
+import axios from 'axios'
+
+function CommentList({ id, comments, setComments }) {
+    const deleteComment = (commentId) => {
+        if (window.confirm('Are you sure you want to delete this comment?')) {
+            //placeholder for real confirm
+            axios
+                .delete(`/comment/${commentId}`)
+                .then((res) => {
+                    setComments((prev) =>
+                        prev.filter((comment) => comment._id !== commentId)
+                    )
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
+    }
     return (
         <div className="comment-list">
             <ul>
-                <li className="comment-single">
-                    <div className="comment-single-wrapper">
-                        <div className="comment-single-texts">
-                            <img
-                                src={
-                                    pfp &&
-                                    `http://localhost:3000/${pfp.replace(
-                                        'pfp',
-                                        ''
-                                    )}`
-                                }
-                                style={{
-                                    width: '50px',
-                                    height: '50px',
-                                    objectFit: 'cover',
-                                    borderRadius: '50%',
-                                }}
-                            />
-                            <div className="comment-single-top">
-                                <div className="comment-single-top-texts">
-                                    <h4>DummyName</h4>
-                                    <h5>1hr ago</h5>
-                                </div>
-                                <p>
-                                    Lorem ipsum dolor sit amet, consectetuer
-                                    adipiscing elit. Aenean commodo ligula eget
-                                    dolor. Aenean massa. Cum sociis natoque
-                                    penatibus et magnis dis parturient montes,
-                                    nascetur ridiculus mus. Donec quam felis,
-                                    ultricies nec, pellentesque eu, pretium
-                                    quis, sem. Nulla consequat massa quis enim.
-                                    Donec.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </li>
+                {comments.map((comment) => (
+                    <CommentCard
+                        deleteComment={deleteComment}
+                        id={comment._id}
+                        userId={comment.userId}
+                        likes={comment.likes}
+                        comment={comment.comment}
+                    />
+                ))}
+                {comments.length === 0 && (
+                    <p className="no-comments" style={{ textAlign: 'center' }}>
+                        No comments yet!
+                    </p>
+                )}
             </ul>
         </div>
     )
