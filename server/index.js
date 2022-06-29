@@ -18,6 +18,13 @@ const {
 } = require('./controllers/register/register.controller')
 
 const {
+    createComment,
+    deleteComment,
+    editComment,
+    getCommentByIdPostId,
+} = require('./controllers/comment/comment.controller')
+
+const {
     getPublicTravels,
     getTravelById,
     createTravel,
@@ -94,6 +101,12 @@ app.get('/api/search/user', searchMoreUser)
 app.get('/api/search/travel', searchMoreTravel)
 app.post('/api/verify', verifyEmail)
 app.get('/api/verify/:ticketId', getVerificationTicket)
+
+app.use('/api/comment', reqAuth)
+app.post('/api/comment/', createComment)
+app.delete('/api/comment/:commentId', deleteComment)
+app.put('/api/comment/:commentId', editComment)
+app.get('/api/comment/:postId', getCommentByIdPostId)
 
 app.listen(PORT || 3000, () => {
     console.log('Server is running on port ' + PORT)
