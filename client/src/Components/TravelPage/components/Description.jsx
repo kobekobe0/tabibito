@@ -7,7 +7,7 @@ import { BsBookmark } from 'react-icons/bs'
 import EditDescription from './EditDescription'
 import Comments from './Comments/Comments'
 
-function Description({ data, date }) {
+function Description({ data, date, id }) {
     const [userData, setUserData] = useState({ name: '', pfp: '' })
     const [own, setOwn] = useState(false)
     const [edit, setEdit] = useState(false)
@@ -189,7 +189,7 @@ function Description({ data, date }) {
                         </div>
                     </div>
 
-                    <Comments pfp={pfp} />
+                    <Comments pfp={pfp} id={id} />
                 </section>
             ) : (
                 <EditDescription userData={userData} date={date} data={data} />

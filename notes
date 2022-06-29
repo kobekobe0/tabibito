@@ -10,3 +10,4 @@ NOTES
 TODOS
 -change alert to modal confirmation
 -seperate routes using node router
+-comment section conditionals

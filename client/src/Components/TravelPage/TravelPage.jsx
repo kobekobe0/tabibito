@@ -125,6 +125,7 @@ function TravelPage() {
                         pfp={pfp}
                         date={date}
                         setCounter={setCounter}
+                        id={id}
                     />
                 </div>
             </div>
