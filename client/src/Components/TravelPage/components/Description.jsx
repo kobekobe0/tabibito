@@ -5,30 +5,23 @@ import jwt_decode from 'jwt-decode'
 import { AiOutlineEdit } from 'react-icons/ai'
 import { BsBookmark } from 'react-icons/bs'
 import EditDescription from './EditDescription'
+import Comments from './Comments/Comments'
 
 function Description({ data, date }) {
-    console.log(data)
+    const [userData, setUserData] = useState({ name: '', pfp: '' })
+    const [own, setOwn] = useState(false)
+    const [edit, setEdit] = useState(false)
+    const [pfp, setPfp] = useState('')
+    //send getRequest to server to get userById
+
     const handleClickUser = () => {
-        // const token = localStorage.getItem('user')
-        // const decoded = jwt_decode(token)
-        // console.log(decoded)
-        // if (data.userId === decoded.id) {
-        //     window.location.href = '/'
-        // } else {
-        //     window.location.href = `/profile/${data.userId}`
-        // }
         if (own) {
             return (window.location.href = '/')
         }
         window.location.href = `/profile/${data.userId}`
     }
 
-    const [userData, setUserData] = useState({ name: '', pfp: '' })
-    const [own, setOwn] = useState(false)
-    const [edit, setEdit] = useState(false)
-    //send getRequest to server to get userById
     useEffect(() => {
-        console.log(`http://localhost:3000/bg.jpg`)
         if (data.userId) {
             axios
                 .get(`/user/${data.userId}`)
@@ -49,6 +42,14 @@ function Description({ data, date }) {
             setOwn(true)
         }
     }, [data.userId])
+
+    useEffect(() => {
+        const token = localStorage.getItem('user')
+        if (token) {
+            const decoded = jwt_decode(token)
+            setPfp(decoded.pfp)
+        }
+    }, [])
 
     return (
         <>
@@ -111,6 +112,7 @@ function Description({ data, date }) {
                     <div className="description">
                         <pre>{data.description}</pre>
                     </div>
+
                     <div className="other-info">
                         <div className="other-info-left">
                             <h4>Budget</h4>
@@ -186,6 +188,8 @@ function Description({ data, date }) {
                             </p>
                         </div>
                     </div>
+
+                    <Comments pfp={pfp} />
                 </section>
             ) : (
                 <EditDescription userData={userData} date={date} data={data} />
