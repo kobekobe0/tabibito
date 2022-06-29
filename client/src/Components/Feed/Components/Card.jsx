@@ -116,6 +116,8 @@ function Card({ innerRef, data }) {
                                         'uploads',
                                         ''
                                     )}`}
+                                    onClick={handleTitleClick}
+                                    style={{ cursor: 'pointer' }}
                                 />
                             ) : null
                         )}

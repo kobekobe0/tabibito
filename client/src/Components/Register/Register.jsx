@@ -42,7 +42,7 @@ function Register() {
             })
             console.log(res)
             if (res.statusText === 'OK') {
-                window.location.href = '/login'
+                window.location.href = `/verify/${res.data.VerificationTicket}`
             }
         } catch (e) {
             alert(e)

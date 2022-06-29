@@ -71,6 +71,7 @@ function Home() {
 
                 //update user in local storage
                 window.localStorage.setItem('user', res.data)
+                window.location.reload()
             })
         }
     }

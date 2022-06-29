@@ -34,6 +34,7 @@ function VerifyPage() {
     const [notFound, setNotFound] = useState(false)
     const [email, setEmail] = useState('')
     const [isVerified, setIsVerified] = useState(false)
+    const [disable, setDisable] = useState(false)
 
     useEffect(() => {
         axios
@@ -52,6 +53,7 @@ function VerifyPage() {
     }, [])
 
     const handleSubmit = async (e) => {
+        setDisable(true)
         e.preventDefault()
         await axios
             .post(`/verify`, {
@@ -65,6 +67,7 @@ function VerifyPage() {
                 } else {
                     //show a modal that says "verification failed"
                     alert('Verification failed') //placeholder
+                    setDisable(false)
                 }
             })
     }
@@ -97,9 +100,13 @@ function VerifyPage() {
                         maxLength={5}
                         type="text"
                         placeholder="Enter your verification code."
+                        onSubmit={handleSubmit}
+                        onChange={(e) => setCode(e.target.value)}
                     />
                     <div className="line"></div>
-                    <button>Submit</button>
+                    <button onClick={handleSubmit} disabled={disable}>
+                        Submit
+                    </button>
                 </div>
             )}
         </div>
