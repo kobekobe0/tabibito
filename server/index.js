@@ -104,7 +104,7 @@ app.get('/api/verify/:ticketId', getVerificationTicket)
 
 app.use('/api/comment', reqAuth)
 app.post('/api/comment/', createComment)
-app.delete('/api/comment/:commentId', deleteComment)
+app.post('/api/comment/:commentId', deleteComment) //delete
 app.put('/api/comment/:commentId', editComment)
 app.get('/api/comment/:postId', getCommentByIdPostId)
 

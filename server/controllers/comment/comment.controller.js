@@ -26,8 +26,23 @@ const createComment = async (req, res) => {
 
 const deleteComment = async (req, res) => {
     const { commentId } = req.params
+    const { userId, postId } = req.body
     try {
-        const comment = await Comment.findByIdAndDelete(commentId)
+        const comment = await Comment.findOne({
+            _id: commentId,
+        })
+
+        if (userId !== comment.userId) {
+            console.log('you are not the owner of this comment')
+            return res.status(401).json({
+                message: 'You are not authorized to delete this comment',
+            })
+        }
+        const deleted = await comment.deleteOne()
+
+        const newComments = await Comment.find({
+            postId: postId,
+        })
         if (!comment) {
             return res.status(404).json({
                 message: 'Comment not found',
@@ -35,8 +50,11 @@ const deleteComment = async (req, res) => {
         }
         res.status(200).json({
             message: 'Comment deleted',
+            data: deleted,
+            newComments: newComments,
         })
     } catch (error) {
+        console.log(error.message)
         res.status(500).json({ message: error.message })
     }
 }
