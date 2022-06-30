@@ -189,7 +189,7 @@ function Description({ data, date, id }) {
                         </div>
                     </div>
 
-                    <Comments pfp={pfp} id={id} />
+                    <Comments pfp={pfp} id={id} ownPost={own} />
                 </section>
             ) : (
                 <EditDescription userData={userData} date={date} data={data} />

@@ -1,7 +1,6 @@
 import CommentCard from './CommentCard'
-import axios from 'axios'
 
-function CommentList({ comments, deleteComment }) {
+function CommentList({ comments, deleteComment, ownPost }) {
     return (
         <div className="comment-list">
             <ul>
@@ -13,6 +12,7 @@ function CommentList({ comments, deleteComment }) {
                         likes={comment.likes}
                         comment={comment.comment}
                         key={comment._id}
+                        ownPost={ownPost}
                     />
                 ))}
                 {comments.length === 0 && (

@@ -3,9 +3,8 @@ import CommentList from './CommentList'
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 
-function Comments({ pfp, id }) {
+function Comments({ pfp, id, ownPost }) {
     const [comments, setComments] = useState([])
-    const [trigger, setTrigger] = useState(false)
     useEffect(() => {
         axios
             .get(`/comment/${id}`)
@@ -24,6 +23,7 @@ function Comments({ pfp, id }) {
             axios
                 .post(`/comment/${commentId}`, {
                     userId: userId,
+                    postId: id,
                 })
                 .then((res) => {
                     console.log(commentId !== res.data._id)
@@ -51,6 +51,7 @@ function Comments({ pfp, id }) {
                 comments={comments}
                 setComments={setComments}
                 deleteComment={deleteComment}
+                ownPost={ownPost}
             />
         </div>
     )

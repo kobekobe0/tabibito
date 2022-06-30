@@ -3,18 +3,25 @@ import axios from 'axios'
 import { AiFillSave } from 'react-icons/ai'
 import { BsThreeDots } from 'react-icons/bs'
 import jwt_decode from 'jwt-decode'
-function CommentCard({ deleteComment, id, userId, likes, comment }) {
+function CommentCard({ deleteComment, id, userId, likes, comment, ownPost }) {
     const [pfp, setPfp] = useState('')
     const [username, setUsername] = useState('')
     const [edit, setEdit] = useState(false)
     const [commentToDisplay, setCommentToDisplay] = useState(comment)
     const [editComment, setEditComment] = useState(comment)
+    const [owner, setOwner] = useState(false)
 
     useEffect(() => {
         axios.get(`/user/${userId}`).then((res) => {
             setPfp(res.data.pfp)
             setUsername(res.data.name)
         })
+
+        const token = localStorage.getItem('user')
+        const decoded = jwt_decode(token)
+        if (decoded.id === userId) {
+            setOwner(true)
+        }
     }, [])
 
     const updateComment = (e) => {
@@ -22,10 +29,12 @@ function CommentCard({ deleteComment, id, userId, likes, comment }) {
         if (editComment !== '') {
             if (editComment == commentToDisplay) return setEdit(false)
             if (editComment.length > 300) return alert('Comment too long')
+            const token = localStorage.getItem('user')
+            const decoded = jwt_decode(token)
             axios
                 .put(`/comment/${id}`, {
                     newComment: editComment,
-                    userId: userId,
+                    userId: decoded.id,
                 })
                 .then((res) => {
                     setEdit(false)
@@ -67,37 +76,59 @@ function CommentCard({ deleteComment, id, userId, likes, comment }) {
                                     color="#00bcd4"
                                     cursor={'pointer'}
                                 />
-                            ) : (
+                            ) : owner || ownPost ? (
                                 <div className="more-btn dropdown">
                                     <BsThreeDots
                                         className="dropbtn"
                                         size="1.2em"
                                     />
                                     <div className="dropdown-content">
-                                        <a
-                                            href="#"
-                                            onClick={() => setEdit(true)}
-                                        >
-                                            Edit
-                                        </a>
-                                        <a
-                                            href="#"
-                                            onClick={() =>
-                                                deleteComment(
-                                                    id,
-                                                    jwt_decode(
-                                                        localStorage.getItem(
-                                                            'user'
+                                        {ownPost && !owner ? (
+                                            <a
+                                                href="#"
+                                                onClick={() =>
+                                                    deleteComment(
+                                                        id,
+                                                        jwt_decode(
+                                                            localStorage.getItem(
+                                                                'user'
+                                                            )
+                                                        ).id
+                                                    )
+                                                }
+                                            >
+                                                Delete
+                                            </a>
+                                        ) : (
+                                            <>
+                                                <a
+                                                    href="#"
+                                                    onClick={() =>
+                                                        setEdit(true)
+                                                    }
+                                                >
+                                                    Edit
+                                                </a>
+                                                <a
+                                                    href="#"
+                                                    onClick={() =>
+                                                        deleteComment(
+                                                            id,
+                                                            jwt_decode(
+                                                                localStorage.getItem(
+                                                                    'user'
+                                                                )
+                                                            ).id
                                                         )
-                                                    ).id
-                                                )
-                                            }
-                                        >
-                                            Delete
-                                        </a>
+                                                    }
+                                                >
+                                                    Delete
+                                                </a>
+                                            </>
+                                        )}
                                     </div>
                                 </div>
-                            )}
+                            ) : null}
                         </div>
 
                         {edit ? (
