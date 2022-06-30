@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
-
+import { AiFillSave } from 'react-icons/ai'
 import { BsThreeDots } from 'react-icons/bs'
+import jwt_decode from 'jwt-decode'
 function CommentCard({ deleteComment, id, userId, likes, comment }) {
     const [pfp, setPfp] = useState('')
     const [username, setUsername] = useState('')
+    const [edit, setEdit] = useState(false)
+    const [commentToDisplay, setCommentToDisplay] = useState(comment)
+    const [editComment, setEditComment] = useState(comment)
 
     useEffect(() => {
         axios.get(`/user/${userId}`).then((res) => {
@@ -13,6 +17,25 @@ function CommentCard({ deleteComment, id, userId, likes, comment }) {
         })
     }, [])
 
+    const updateComment = (e) => {
+        e.preventDefault()
+        if (editComment !== '') {
+            if (editComment == commentToDisplay) return setEdit(false)
+            if (editComment.length > 300) return alert('Comment too long')
+            axios
+                .put(`/comment/${id}`, {
+                    newComment: editComment,
+                    userId: userId,
+                })
+                .then((res) => {
+                    setEdit(false)
+                    setCommentToDisplay(editComment)
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+        }
+    }
     return (
         <li className="comment-single">
             <div className="comment-single-wrapper">
@@ -36,20 +59,61 @@ function CommentCard({ deleteComment, id, userId, likes, comment }) {
                                 <h5>1hr ago(dummy time)</h5>
                             </div>
 
-                            <div className="more-btn dropdown">
-                                <BsThreeDots className="dropbtn" size="1.2em" />
-                                <div className="dropdown-content">
-                                    <a href="#">Edit</a>
-                                    <a
-                                        href="#"
-                                        onClick={() => deleteComment(id)}
-                                    >
-                                        Delete
-                                    </a>
+                            {edit ? (
+                                <AiFillSave
+                                    className="more-btn dropdown"
+                                    size="1.5em"
+                                    onClick={updateComment}
+                                    color="#00bcd4"
+                                    cursor={'pointer'}
+                                />
+                            ) : (
+                                <div className="more-btn dropdown">
+                                    <BsThreeDots
+                                        className="dropbtn"
+                                        size="1.2em"
+                                    />
+                                    <div className="dropdown-content">
+                                        <a
+                                            href="#"
+                                            onClick={() => setEdit(true)}
+                                        >
+                                            Edit
+                                        </a>
+                                        <a
+                                            href="#"
+                                            onClick={() =>
+                                                deleteComment(
+                                                    id,
+                                                    jwt_decode(
+                                                        localStorage.getItem(
+                                                            'user'
+                                                        )
+                                                    ).id
+                                                )
+                                            }
+                                        >
+                                            Delete
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
+                            )}
                         </div>
-                        <p>{comment}</p>
+
+                        {edit ? (
+                            <div className="comment-edit-container">
+                                <input
+                                    type="text"
+                                    onChange={(e) =>
+                                        setEditComment(e.target.value)
+                                    }
+                                    value={editComment}
+                                    maxLength="300"
+                                />
+                            </div>
+                        ) : (
+                            <p>{commentToDisplay}</p>
+                        )}
                     </div>
                 </div>
             </div>
