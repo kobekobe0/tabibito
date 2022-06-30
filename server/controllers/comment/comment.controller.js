@@ -1,5 +1,6 @@
 const Comment = require('../../models/comment.model')
 const UserData = require('../../models/register.model')
+const Travel = require('../../models/travel.model')
 const createComment = async (req, res) => {
     const { userId, postId, comment } = req.body
     try {
@@ -32,7 +33,29 @@ const deleteComment = async (req, res) => {
             _id: commentId,
         })
 
+        const post = await Travel.findById(postId)
+
         if (userId !== comment.userId) {
+            console.log(post)
+            console.log(userId)
+            if (post.userId == userId) {
+                const deleted = await comment.deleteOne()
+
+                const newComments = await Comment.find({
+                    postId: postId,
+                })
+                if (!comment) {
+                    return res.status(404).json({
+                        message: 'Comment not found',
+                    })
+                }
+                return res.status(200).json({
+                    message: 'Comment deleted',
+                    data: deleted,
+                    newComments: newComments,
+                })
+            }
+
             console.log('you are not the owner of this comment')
             return res.status(401).json({
                 message: 'You are not authorized to delete this comment',
@@ -63,14 +86,13 @@ const editComment = async (req, res) => {
     const { newComment, userId } = req.body
     const { commentId } = req.params
     try {
-        console.log(userId)
-        console.log(commentId)
         const comment = await Comment.findById(commentId)
-        console.log('COMMENT ', comment)
-        if (userId !== comment.userId)
+        if (userId !== comment.userId) {
+            console.log('you are not the owner of this comment')
             return res.status(401).json({
-                message: 'You are not authorized to edit this comment',
+                message: 'You are not authorized to delete this comment',
             })
+        }
 
         const toEdit = await comment.updateOne({
             $set: {
