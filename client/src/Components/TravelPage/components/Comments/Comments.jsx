@@ -5,7 +5,7 @@ import axios from 'axios'
 
 function Comments({ pfp, id }) {
     const [comments, setComments] = useState([])
-
+    const [trigger, setTrigger] = useState(false)
     useEffect(() => {
         axios
             .get(`/comment/${id}`)
@@ -17,6 +17,26 @@ function Comments({ pfp, id }) {
                 console.log(err)
             })
     }, [])
+
+    const deleteComment = (commentId, userId) => {
+        if (window.confirm('Are you sure you want to delete this comment?')) {
+            //placeholder for real confirm
+            axios
+                .post(`/comment/${commentId}`, {
+                    userId: userId,
+                })
+                .then((res) => {
+                    console.log(commentId !== res.data._id)
+                    //delete comment on comments array
+                    setComments((prev) =>
+                        prev.filter((comment) => comment._id !== commentId)
+                    )
+                })
+                .catch((err) => {
+                    console.log(err.message)
+                })
+        }
+    }
     return (
         <div className="comment-container">
             <h3 className="comments-header">Add Comment Below</h3>
@@ -30,6 +50,7 @@ function Comments({ pfp, id }) {
                 id={id}
                 comments={comments}
                 setComments={setComments}
+                deleteComment={deleteComment}
             />
         </div>
     )

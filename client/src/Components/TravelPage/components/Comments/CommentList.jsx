@@ -1,22 +1,7 @@
 import CommentCard from './CommentCard'
 import axios from 'axios'
 
-function CommentList({ id, comments, setComments }) {
-    const deleteComment = (commentId) => {
-        if (window.confirm('Are you sure you want to delete this comment?')) {
-            //placeholder for real confirm
-            axios
-                .delete(`/comment/${commentId}`)
-                .then((res) => {
-                    setComments((prev) =>
-                        prev.filter((comment) => comment._id !== commentId)
-                    )
-                })
-                .catch((err) => {
-                    console.log(err)
-                })
-        }
-    }
+function CommentList({ comments, deleteComment }) {
     return (
         <div className="comment-list">
             <ul>
@@ -27,11 +12,12 @@ function CommentList({ id, comments, setComments }) {
                         userId={comment.userId}
                         likes={comment.likes}
                         comment={comment.comment}
+                        key={comment._id}
                     />
                 ))}
                 {comments.length === 0 && (
                     <p className="no-comments" style={{ textAlign: 'center' }}>
-                        No comments yet!
+                        No comments yet.
                     </p>
                 )}
             </ul>

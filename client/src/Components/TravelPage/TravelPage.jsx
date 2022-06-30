@@ -102,7 +102,7 @@ function TravelPage() {
 
                 <img
                     onClick={goToProfile}
-                    src={`http://localhost:3000/\anya.jpg`}
+                    src={`http://localhost:3000/${pfp}`}
                     alt=""
                 />
             </div>

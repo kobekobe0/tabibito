@@ -95,6 +95,7 @@
     height: 50px;
     margin-right: 2em;
     border-radius: 50%;
+    object-fit: cover;
     cursor: pointer;
     border: solid transparent 5px;
     transition: all 0.3s ease-in-out;
@@ -548,6 +549,20 @@
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
     display: block;
+}
+
+.comment-edit-container input {
+    background-color: rgb(53, 53, 53);
+    color: white;
+    outline: none;
+    border: none;
+    width: 90%;
+    padding: 1em;
+    border-bottom: solid 1px white;
+    margin: 0;
+    font-size: 0.8em;
+    margin-bottom: 1em;
+    text-align: start;
 }
 
 /* Change the background color of the dropdown button when the dropdown content is shown */

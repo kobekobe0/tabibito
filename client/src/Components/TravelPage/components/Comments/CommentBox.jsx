@@ -19,7 +19,7 @@ function CommentBox({ pfp, id, setComments, comments }) {
                 })
                 .then((res) => {
                     console.log(res)
-                    setComments((prev) => [res.data, ...prev])
+                    setComments((prev) => [...prev, res.data])
                     setComment('')
                 })
                 .catch((err) => {

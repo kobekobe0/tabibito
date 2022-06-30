@@ -38,6 +38,7 @@ function Images({
                                       }}
                                       id={`image${index}`}
                                       className="image"
+                                      key={image}
                                   />
                                   {image.length > counter && (
                                       <div
