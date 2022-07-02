@@ -36,8 +36,6 @@ const deleteComment = async (req, res) => {
         const post = await Travel.findById(postId)
 
         if (userId !== comment.userId) {
-            console.log(post)
-            console.log(userId)
             if (post.userId == userId) {
                 const deleted = await comment.deleteOne()
 
@@ -56,7 +54,6 @@ const deleteComment = async (req, res) => {
                 })
             }
 
-            console.log('you are not the owner of this comment')
             return res.status(401).json({
                 message: 'You are not authorized to delete this comment',
             })
@@ -77,7 +74,6 @@ const deleteComment = async (req, res) => {
             newComments: newComments,
         })
     } catch (error) {
-        console.log(error.message)
         res.status(500).json({ message: error.message })
     }
 }
@@ -88,7 +84,6 @@ const editComment = async (req, res) => {
     try {
         const comment = await Comment.findById(commentId)
         if (userId !== comment.userId) {
-            console.log('you are not the owner of this comment')
             return res.status(401).json({
                 message: 'You are not authorized to delete this comment',
             })

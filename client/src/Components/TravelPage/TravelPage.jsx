@@ -7,6 +7,7 @@ import '../Feed/PublicFeed.css'
 import Images from './components/Images'
 import Description from './components/Description'
 import { CheckUserExistsOther } from '../../CheckUserExists'
+import io from 'socket.io-client'
 function TravelPage() {
     const { id } = useParams()
     const [data, setData] = useState({})
@@ -30,6 +31,10 @@ function TravelPage() {
     const [show, setShow] = useState(false)
     const [pfp, setPfp] = useState('')
     useEffect(() => {
+        let socket = io('http://localhost:3000')
+        socket.on('connect', () => {
+            console.log('connected')
+        })
         CheckUserExistsOther()
         setData({})
         axios

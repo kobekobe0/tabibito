@@ -4,7 +4,9 @@ const morgan = require('morgan')
 const cors = require('cors')
 const PORT = 3000
 const process = require('node:process')
-
+const server = require('http').createServer(app)
+app.use(cors())
+app.use(express.json())
 const Travel = require('./models/travel.model')
 const { reqAuth } = require('./middleware/auth/auth')
 
@@ -58,13 +60,25 @@ const path = require('path')
 const uploadMulter = require('./middleware/auth/travel')
 const UpdateProfileImg = require('./middleware/auth/UpdateProfileImg')
 
+const { Server } = require('socket.io')
+
 app.use(morgan('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.use(cors())
-app.use(express.json())
+const io = new Server(server, {
+    cors: {
+        origin: 'http://localhost:3001', //placeholder
+        methods: 'GET, POST, PUT, DELETE, OPTIONS',
+    },
+})
 
+io.on('connection', (socket) => {
+    console.log('a user connected')
+    socket.on('disconnect', () => {
+        console.log('user disconnected')
+    })
+})
 app.post('/api/users/register', registerUser)
 app.post('/api/users/login', loginUser)
 app.get('/api/users/login', verifyLogin)
@@ -108,7 +122,7 @@ app.post('/api/comment/:commentId', deleteComment) //delete
 app.put('/api/comment/:commentId', editComment)
 app.get('/api/comment/:postId', getCommentByIdPostId)
 
-app.listen(PORT || 3000, () => {
+server.listen(PORT || 3000, () => {
     console.log('Server is running on port ' + PORT)
 })
 

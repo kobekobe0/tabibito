@@ -101,8 +101,6 @@ const createTravel = async (req, res) => {
     const travel = req.body
     const image = req.files
     try {
-        console.log(travel)
-        console.log('VALIDATION' + travel.likes.length === 0)
         if (
             travel.title.length > 18 &&
             !travel.food &&
@@ -120,7 +118,6 @@ const createTravel = async (req, res) => {
             travel.likes.length === 0 &&
             travel.saves.length === 0
         ) {
-            console.log('CREATE TRAVEL ERROR')
             res.json({
                 message: 'error',
                 status: 400,
@@ -130,7 +127,6 @@ const createTravel = async (req, res) => {
             for (let i = 0; i < image.length; i++) {
                 tempArr.push(image[i].path)
             }
-            console.log(req.file)
             const newTravel = await Travel.create({
                 ...travel,
                 images: tempArr,
@@ -157,7 +153,6 @@ const follow = async (req, res) => {
         if (fr && fg) {
             if (method === 'follow') {
                 if (fr.following.includes(following)) {
-                    console.log('already following')
                     res.json({
                         message: 'already following',
                     })
@@ -173,7 +168,6 @@ const follow = async (req, res) => {
                 }
             } else if (method === 'unfollow') {
                 if (!fr.following.includes(following)) {
-                    console.log('not following')
                     res.json({
                         message: 'not following',
                     })
@@ -200,8 +194,6 @@ const follow = async (req, res) => {
 const updateUser = async (req, res) => {
     const userId = req.params.id
     const user = req.body
-    console.log(req.files)
-    console.log(user)
 
     try {
         let pfpToUpload = ''
@@ -243,10 +235,8 @@ const updateUser = async (req, res) => {
             },
             'secretkey'
         )
-        console.log(token)
         res.json(token)
     } catch (err) {
-        console.log(err)
         res.json({
             message: 'error',
             status: 404,
@@ -266,7 +256,6 @@ const likeTravel = async (req, res) => {
             if (travel) {
                 if (method === 'like') {
                     if (user.likes.includes(travelId)) {
-                        console.log('already liked')
                         res.json({
                             message: 'already liked',
                         })
@@ -281,7 +270,6 @@ const likeTravel = async (req, res) => {
                     }
                 } else if (method === 'unlike') {
                     if (!user.likes.includes(travelId)) {
-                        console.log('not liked')
                         res.json({
                             message: 'not liked',
                         })
@@ -327,7 +315,6 @@ const saveTravel = async (req, res) => {
             if (travel) {
                 if (method === 'save') {
                     if (user.saves.includes(travelId)) {
-                        console.log('already saved')
                         res.json({
                             message: 'already saved',
                         })
@@ -342,7 +329,6 @@ const saveTravel = async (req, res) => {
                     }
                 } else if (method === 'unsave') {
                     if (!user.saves.includes(travelId)) {
-                        console.log('not saved')
                         res.json({
                             message: 'not saved',
                         })
@@ -390,7 +376,6 @@ const deleteTravel = async (req, res) => {
             status: 200,
         })
     } catch (err) {
-        console.log(err)
         res.json({
             message: 'error',
             status: 404,
@@ -490,7 +475,6 @@ const getUserTravels = async (req, res) => {
 
 const getPreviewImage = async (req, res) => {
     const PATH = path.join(__dirname, `../../${req.body.image}`)
-    console.log(req.body)
     res.download(PATH)
 }
 

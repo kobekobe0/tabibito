@@ -45,9 +45,9 @@ const registerUser = async (req, res) => {
             })
         }
         bcrypt.genSalt(saltRounds, function (err, salt) {
-            if (err) return console.log(err)
+            if (err) return
             bcrypt.hash(password, salt, async function (err, hash) {
-                if (err) return console.log(err)
+                if (err) return
 
                 const code = makeid()
                 await VerificationTickets.create({
@@ -66,13 +66,11 @@ const registerUser = async (req, res) => {
                             mailOptions,
                             async function (error, info) {
                                 if (error) {
-                                    console.log(error)
                                     return res.json({
                                         message: 'Error sending email',
                                         status: 400,
                                     })
                                 } else {
-                                    console.log('Email sent: ' + info.response)
                                     const createdUser = await User.create({
                                         name: name,
                                         email: email,
@@ -85,7 +83,6 @@ const registerUser = async (req, res) => {
                         )
                     })
                     .catch((error) => {
-                        console.log(error)
                         return res.json({
                             message: 'Error creating user',
                             status: 400,
@@ -94,7 +91,6 @@ const registerUser = async (req, res) => {
             })
         })
     } catch (error) {
-        console.log('error', error)
         res.status(500).json({
             error: error.message,
             message: 'Duplicate email',
@@ -153,7 +149,6 @@ const loginUser = async (req, res) => {
             }
         )
     } catch (error) {
-        console.log('error', error)
         res.status(500).json({
             error: error.message,
             message: 'Wrong credentials',
@@ -172,7 +167,6 @@ const verifyLogin = async (req, res) => {
 
         return res.json
     } catch (error) {
-        console.log(error)
         return res.json({ status: 'error' })
     }
 }
@@ -192,7 +186,6 @@ const verifyEmail = async (req, res) => {
             return res.json({ status: 400, message: 'Wrong code' })
         }
     } catch (error) {
-        console.log(error)
         return res.json({ status: 400, message: 'Error verifying email' })
     }
 }
@@ -207,7 +200,6 @@ const getVerificationTicket = async (req, res) => {
             return res.json({ status: 400, message: 'Ticket not found' })
         }
     } catch (error) {
-        console.log(error)
         return res.json({ status: 400, message: 'Error getting ticket' })
     }
 }

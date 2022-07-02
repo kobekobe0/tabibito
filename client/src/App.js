@@ -11,7 +11,9 @@ import PublicFeed from './Components/Feed/PublicFeed'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import Search from './Components/Search/Search'
 import VerifyPage from './Components/Verify/VerifyPage'
+import io from 'socket.io-client'
 const queryClient = new QueryClient()
+const socket = io.connect('http://localhost:3000') //placeholder
 
 function App() {
     return (
