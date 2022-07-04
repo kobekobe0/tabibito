@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { MdPublic, MdOutlineSearch } from 'react-icons/md'
+import { MdPublic, MdOutlineSearch, MdMessage } from 'react-icons/md'
 import { AiFillHome } from 'react-icons/ai'
 
 function Navbar() {
@@ -15,6 +15,11 @@ function Navbar() {
                     <div className="navbar-item">
                         <Link to="/public">
                             <MdPublic size={40} color="white" />
+                        </Link>
+                    </div>
+                    <div className="navbar-item">
+                        <Link to="/message">
+                            <MdMessage size={40} color="white" />
                         </Link>
                     </div>
                     <div className="navbar-item">
