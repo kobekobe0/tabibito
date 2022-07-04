@@ -3,19 +3,17 @@ import axios from 'axios'
 export const CheckUserExistsHome = (setId, setVisit, setUser) => {
     const token = window.localStorage.getItem('user')
     const url = window.location.href
-    console.log(url)
     if (url.includes('profile')) {
         //extract id in url
         const id = url.split('/')
         const length = id.length - 1
-        console.log(id[length])
         setId(id[length])
         setVisit(true)
     } // change Home component's route to profile/:id
     if (token) {
         //decode jwt token
         let userData = jwt_decode(token)
-        console.log(userData)
+
         setUser(userData)
         if (!userData) {
             window.localStorage.removeItem('user')

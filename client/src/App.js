@@ -6,16 +6,30 @@ import Modal from './Components/Modal/Modal'
 import './Components/Home/navbar.css'
 import { BrowserRouter as Router, Route, Link, Routes } from 'react-router-dom'
 import TravelPage from './Components/TravelPage/TravelPage'
-import { MdPublic } from 'react-icons/md'
 import PublicFeed from './Components/Feed/PublicFeed'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import Search from './Components/Search/Search'
 import VerifyPage from './Components/Verify/VerifyPage'
+import Message from './Components/Message/Message'
+import SingleMessage from './Components/Message/SingleMessage'
 import io from 'socket.io-client'
+import { useEffect, useState } from 'react'
+import jwt_decode from 'jwt-decode'
+
+const socket = io('http://localhost:3000')
 const queryClient = new QueryClient()
-const socket = io.connect('http://localhost:3000') //placeholder
 
 function App() {
+    const [notification, setNotification] = useState([])
+    useEffect(() => {
+        const userId = jwt_decode(localStorage.getItem('user')).id
+        socket.emit('p2p_connection', {
+            userId: jwt_decode(localStorage.getItem('user')).id,
+        })
+        socket.on('p2p_message_receive', (data) => {
+            console.log(data)
+        })
+    }, [socket])
     return (
         <>
             <QueryClientProvider client={queryClient}>
@@ -37,6 +51,17 @@ function App() {
                             path="/verify/:ticketId"
                             element={<VerifyPage />}
                         />
+                        <Route
+                            exact
+                            path="/message"
+                            element={<Message socket={socket} />}
+                        />
+                        <Route
+                            exact
+                            path="/chatroom/:roomId"
+                            element={<SingleMessage socket={socket} />}
+                        />
+
                         <Route exact path="/" element={<Home />} />
                     </Routes>
                 </Router>
