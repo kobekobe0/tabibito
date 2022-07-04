@@ -8,6 +8,7 @@ const server = require('http').createServer(app)
 app.use(cors())
 app.use(express.json())
 const Travel = require('./models/travel.model')
+const Message = require('./models/message.model')
 const { reqAuth } = require('./middleware/auth/auth')
 
 const mongoose = require('mongoose')
@@ -44,9 +45,27 @@ const {
     searchMoreTravel,
 } = require('./controllers/travel/travel.controller')
 
+const {
+    sendMessage,
+    receiveMessage,
+    createRoom,
+    getRoomById,
+    getLastMessage,
+    getRoomsByParticipants,
+} = require('./controllers/message/message.controller')
+const bodyParser = require('body-parser')
+const path = require('path')
+const uploadMulter = require('./middleware/auth/travel')
+const UpdateProfileImg = require('./middleware/auth/UpdateProfileImg')
+
+app.use(morgan('dev'))
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+
 const uri =
     'mongodb+srv://kobekoblanca:Chixxmagnet00@cluster0.kcbgjsu.mongodb.net/?retryWrites=true&w=majority'
-mongoose
+
+const db = mongoose
     .connect(uri, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
@@ -55,16 +74,7 @@ mongoose
         console.log('Connected to database')
     })
 
-const bodyParser = require('body-parser')
-const path = require('path')
-const uploadMulter = require('./middleware/auth/travel')
-const UpdateProfileImg = require('./middleware/auth/UpdateProfileImg')
-
 const { Server } = require('socket.io')
-
-app.use(morgan('dev'))
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
 
 const io = new Server(server, {
     cors: {
@@ -74,7 +84,44 @@ const io = new Server(server, {
 })
 
 io.on('connection', (socket) => {
-    console.log('a user connected')
+    console.log('User connected')
+    socket.on('p2p_connection', (data) => {
+        socket.join(data.userId)
+    })
+
+    const pipeline = [{ $match: {} }]
+    const changeStream = Message.watch()
+    changeStream.on('change', (changeEvent) => {
+        console.log('something has change')
+        console.log(changeEvent.operationType)
+
+        if (changeEvent.operationType === 'insert') {
+            io.to(changeEvent.fullDocument.userId).emit('p2p_message_receive', {
+                userId: changeEvent.fullDocument,
+            })
+        }
+    })
+
+    socket.on('p2p_notification', (data) => {
+        io.to(data.userId).emit('p2p_notification_receive', data)
+    })
+
+    socket.on('join_room', (data) => {
+        console.log('Joining room: ', data.room)
+        socket.join(data.room)
+    })
+
+    socket.on('send_message', (data) => {
+        if (sendMessage(data.room, data.message, data.from, data.to, socket)) {
+        }
+        io.to(data.room).emit('receive_message', data)
+    })
+
+    socket.on('leave_room', (data) => {
+        console.log('leaving room: ', data.room)
+        socket.leave(data.room)
+    })
+
     socket.on('disconnect', () => {
         console.log('user disconnected')
     })
@@ -121,6 +168,10 @@ app.post('/api/comment/', createComment)
 app.post('/api/comment/:commentId', deleteComment) //delete
 app.put('/api/comment/:commentId', editComment)
 app.get('/api/comment/:postId', getCommentByIdPostId)
+
+app.get('/api/rooms/:userId', getRoomsByParticipants)
+app.post('/api/rooms/:id', getRoomById)
+app.get('/api/lastmessage/:roomId', getLastMessage)
 
 server.listen(PORT || 3000, () => {
     console.log('Server is running on port ' + PORT)
