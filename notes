@@ -9,5 +9,8 @@ NOTES
 
 TODOS
 -change alert to modal confirmation
--seperate routes using node router
+-separate routes using node router
 -comment section conditionals
+-add 'engine' field in package json server
+-comment date
+-post date
