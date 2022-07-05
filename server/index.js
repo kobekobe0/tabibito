@@ -52,6 +52,7 @@ const {
     getRoomById,
     getLastMessage,
     getRoomsByParticipants,
+    getMessagesByRoomId,
 } = require('./controllers/message/message.controller')
 const bodyParser = require('body-parser')
 const path = require('path')
@@ -86,24 +87,23 @@ const io = new Server(server, {
 io.on('connection', (socket) => {
     console.log('User connected')
     socket.on('p2p_connection', (data) => {
+        //connect after user login
         socket.join(data.userId)
     })
 
-    const pipeline = [{ $match: {} }]
-    const changeStream = Message.watch()
+    //const pipeline = [{ $match: {} }]
+    const changeStream = Message.watch() //listen for canges in message collection
     changeStream.on('change', (changeEvent) => {
         console.log('something has change')
         console.log(changeEvent.operationType)
 
         if (changeEvent.operationType === 'insert') {
-            io.to(changeEvent.fullDocument.userId).emit('p2p_message_receive', {
+            //limit emit to one
+            console.log(changeEvent.fullDocument.to)
+            io.to(changeEvent.fullDocument.to).emit('p2p_message_receive', {
                 userId: changeEvent.fullDocument,
             })
         }
-    })
-
-    socket.on('p2p_notification', (data) => {
-        io.to(data.userId).emit('p2p_notification_receive', data)
     })
 
     socket.on('join_room', (data) => {
@@ -113,8 +113,8 @@ io.on('connection', (socket) => {
 
     socket.on('send_message', (data) => {
         if (sendMessage(data.room, data.message, data.from, data.to, socket)) {
+            io.to(data.room).emit('receive_message', data)
         }
-        io.to(data.room).emit('receive_message', data)
     })
 
     socket.on('leave_room', (data) => {
@@ -172,6 +172,7 @@ app.get('/api/comment/:postId', getCommentByIdPostId)
 app.get('/api/rooms/:userId', getRoomsByParticipants)
 app.post('/api/rooms/:id', getRoomById)
 app.get('/api/lastmessage/:roomId', getLastMessage)
+app.get('/api/messages/:roomId', getMessagesByRoomId)
 
 server.listen(PORT || 3000, () => {
     console.log('Server is running on port ' + PORT)

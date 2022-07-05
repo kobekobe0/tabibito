@@ -85,6 +85,17 @@ const getLastMessage = async (req, res) => {
     res.json(message)
 }
 
+const getMessagesByRoomId = async (req, res) => {
+    const { roomId } = req.params
+    const messages = await Message.find({
+        roomId: roomId,
+    })
+        .sort({ date: -1 })
+        .limit(10) //add pagination
+
+    res.json(messages)
+}
+
 module.exports = {
     sendMessage,
     receiveMessage,
@@ -92,4 +103,5 @@ module.exports = {
     getRoomById,
     getLastMessage,
     getRoomsByParticipants,
+    getMessagesByRoomId,
 }
