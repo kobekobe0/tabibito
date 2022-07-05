@@ -4,6 +4,8 @@ import SingleMessage from './SingleMessage'
 import MessageCard from './MessageCard'
 import axios from 'axios'
 import jwtDecode from 'jwt-decode'
+import './message.css'
+import Navbar from '../Navbar/Navbar'
 
 function Message({ socket }) {
     const [room, setRoom] = useState('')
@@ -33,16 +35,23 @@ function Message({ socket }) {
 
     //make a route that finds a room by userId and otherPersonId
     //pass the roomId as props
-
-    // this will have ul of message boxes
-    // then when you click one of the boxes it will emit a join_room event
-    // and the server will emit a join_room event to specific client with the room name
+    //make a route that returns userId
+    //after search and click on a user, if the two parties doesn't have a joint room,
+    //create one and then redirect to the chatroom, otherwise redirect to the existing room
     return (
         <>
             <div className="travel-page" style={{ color: 'white' }}>
                 <div className="main">
-                    <h1>CHATS</h1>
-                    <ul>
+                    <div className="messages-header">
+                        <h1 className="messages-header-text">Messages</h1>
+                        <input
+                            type="text"
+                            placeholder="search people"
+                            className="messages-search-box"
+                        />
+                    </div>
+
+                    <ul className="messages-list">
                         {rooms.map((room) => (
                             <MessageCard
                                 room={room}
@@ -52,8 +61,8 @@ function Message({ socket }) {
                         ))}
                     </ul>
                 </div>
-                <div className="messages"></div>
             </div>
+            <Navbar />
         </>
     )
 }
