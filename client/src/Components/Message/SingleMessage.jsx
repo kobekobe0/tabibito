@@ -10,6 +10,7 @@ function SingleMessage({ socket }) {
     const [message, setMessage] = useState('')
     const [otherPersonId, setOtherPersonId] = useState('')
     const [otherUser, setOtherUser] = useState('')
+    const [messages, setMessages] = useState([])
     useEffect(() => {
         const userId = jwt_decode(localStorage.getItem('user')).id
         axios
@@ -19,7 +20,11 @@ function SingleMessage({ socket }) {
             .then((res) => {
                 setOtherPersonId(res.data.otherPersonId)
                 console.log(res.data)
-            })
+            }) //query to get other person id you're talking to
+
+        axios.get(`/messages/${roomId}`).then((res) => {
+            setMessages((prev) => res.data?.reverse())
+        })
 
         socket.emit('join_room', { room: roomId })
     }, [])
@@ -34,7 +39,7 @@ function SingleMessage({ socket }) {
     useEffect(() => {
         socket.on('receive_message', (data) => {
             console.log(data)
-            setMessage(data.message)
+            setMessages((prev) => [...prev, data])
         })
     }, [socket])
 
@@ -47,20 +52,40 @@ function SingleMessage({ socket }) {
                 to: otherPersonId,
             })
 
-            socket.emit('p2p_notification', {
-                userId: otherPersonId,
-                message: message,
-                notification: true,
-            })
+            console.log(otherPersonId)
+
             setMessage('')
         }
     }
     //use roomId params to get messages and otherPerson's ID
     return (
-        <div>
-            {roomId}
-            <input type="text" onChange={(e) => setMessage(e.target.value)} />
-            <button onClick={handleSendMessage}>Send</button>
+        <div className="travel-page">
+            <div className="main">
+                <div className="chatroom-details">
+                    <img
+                        src={`http://localhost:3000/${otherUser?.pfp?.replace(
+                            'pfp',
+                            ''
+                        )}`}
+                        alt=""
+                    />
+                    <div className="chatroom-details-texts">
+                        <h3>{otherUser.name}</h3>
+                    </div>
+                </div>
+                <div className="chatroom-messages">
+                    {messages.map((message) => (
+                        <p>{message.message}</p>
+                    ))}
+                </div>
+                <div className="chatroom-input">
+                    <input
+                        type="text"
+                        onChange={(e) => setMessage(e.target.value)}
+                    />
+                    <button onClick={handleSendMessage}>Send</button>
+                </div>
+            </div>
         </div>
     )
 }

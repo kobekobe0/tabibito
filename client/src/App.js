@@ -22,14 +22,16 @@ const queryClient = new QueryClient()
 function App() {
     const [notification, setNotification] = useState([])
     useEffect(() => {
-        const userId = jwt_decode(localStorage.getItem('user')).id
-        socket.emit('p2p_connection', {
-            userId: jwt_decode(localStorage.getItem('user')).id,
-        })
-        socket.on('p2p_message_receive', (data) => {
-            console.log(data)
-        })
-    }, [socket])
+        if (localStorage.getItem('user')) {
+            const userId = jwt_decode(localStorage.getItem('user')).id
+            socket.emit('p2p_connection', {
+                userId: userId,
+            })
+            socket.on('p2p_message_receive', (data) => {
+                console.log(data)
+            })
+        }
+    }, [socket, localStorage.getItem('user')])
     return (
         <>
             <QueryClientProvider client={queryClient}>

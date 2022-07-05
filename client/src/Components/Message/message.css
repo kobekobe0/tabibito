@@ -1,0 +1,120 @@
+.messages-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    border-bottom: 1px solid #535353;
+    outline: 0;
+    border-radius: 10px;
+}
+
+.messages-header-text {
+    margin: 0;
+}
+.messages-search-box {
+    margin: 0;
+    align-self: center;
+}
+
+.messages-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    outline: 0;
+}
+
+.messages-list-card {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.messages-list-card-contents {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1em;
+    padding: 1em;
+    border: 1px solid #535353;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.1s ease-in-out;
+}
+.messages-list-card-contents:hover {
+    background-color: #535353;
+}
+
+.messages-list-card-contents img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 1em;
+    object-fit: cover;
+}
+.messages-card-texts h3,
+p {
+    margin: 0;
+}
+
+.messages-card-texts h3 {
+    color: white;
+    outline: none;
+    font-size: 1.2rem;
+}
+
+.messages-card-texts p {
+    color: rgb(155, 155, 155);
+    outline: none;
+}
+
+.chatroom-details {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem;
+    padding-bottom: 1rem;
+    padding-top: 1rem;
+    background-color: #535353;
+    margin-top: 1em;
+    border-bottom: 1px solid #535353;
+    outline: 0;
+    border-radius: 10px;
+    flex: 10%;
+    color: white;
+}
+
+.chatroom-details img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-right: 1em;
+    object-fit: cover;
+}
+
+.chatroom-messages {
+    display: flex;
+    flex-direction: column;
+    padding: 0.5rem;
+    padding-top: 1rem;
+    outline: 0;
+
+    flex: 75%;
+    max-height: 80vh;
+    overflow: scroll;
+    background-color: rgb(44, 44, 44);
+}
+.chatroom-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0.5rem;
+    padding-top: 1rem;
+    outline: 0;
+    flex: 15%;
+}

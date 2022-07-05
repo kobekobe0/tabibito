@@ -32,19 +32,22 @@ function MessageCard({ room, socket }) {
     }, [socket])
 
     return (
-        <li key={room._id}>
-            <Link to={`/chatroom/${room._id}`}>
-                <img
-                    src={`http://localhost:3000/${pfp}`}
-                    style={{
-                        width: '50px',
-                        height: '50px',
-                        objectFit: 'cover',
-                    }}
-                    alt=""
-                />
-                <h3>{name}</h3>
-                <p>{lastMessage == '' ? 'send hi' : lastMessage}</p>
+        <li key={room._id} className="messages-list-card">
+            <Link
+                to={`/chatroom/${room._id}`}
+                className="messages-list-card-contents"
+            >
+                <img src={`http://localhost:3000/${pfp}`} />
+                <div className="messages-card-texts">
+                    <h3>{name}</h3>
+                    <p>
+                        {lastMessage == ''
+                            ? 'send hi'
+                            : lastMessage.length > 30
+                            ? lastMessage.slice(0, 30) + '...'
+                            : lastMessage}
+                    </p>
+                </div>
             </Link>
         </li>
     )
