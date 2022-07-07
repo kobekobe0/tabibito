@@ -2,9 +2,12 @@ import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import jwt_decode from 'jwt-decode'
 import axios from 'axios'
+import { MdArrowBackIos } from 'react-icons/md'
+
 //send message request here (emit in socket io)
 //jpin room here
 //for every message, update room dateModified
+
 function SingleMessage({ socket }) {
     const { roomId } = useParams()
     const [message, setMessage] = useState('')
@@ -62,22 +65,37 @@ function SingleMessage({ socket }) {
         <div className="travel-page">
             <div className="main">
                 <div className="chatroom-details">
-                    <img
-                        src={`http://localhost:3000/${otherUser?.pfp?.replace(
-                            'pfp',
-                            ''
-                        )}`}
-                        alt=""
+                    <MdArrowBackIos
+                        size="2em"
+                        style={{ marginLeft: '1.5em' }}
                     />
+
                     <div className="chatroom-details-texts">
                         <h3>{otherUser.name}</h3>
+                        <img
+                            src={`http://localhost:3000/${otherUser?.pfp?.replace(
+                                'pfp',
+                                ''
+                            )}`}
+                            alt=""
+                        />
                     </div>
                 </div>
                 <div className="chatroom-messages">
                     {messages.map((message) => (
-                        <p>{message.message}</p>
+                        <div
+                            className="message-block"
+                            id={
+                                message.from !== otherPersonId
+                                    ? 'self'
+                                    : 'other'
+                            }
+                        >
+                            <p>{message.message}</p>
+                            <p>{message.from}</p>
+                        </div>
                     ))}
-                </div>
+                </div>{' '}
                 <div className="chatroom-input">
                     <input
                         type="text"
