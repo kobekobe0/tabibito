@@ -7,7 +7,7 @@ import Card from './Components/Card'
 
 import { CheckUserExistsOther } from '../../CheckUserExists'
 
-function PublicFeed() {
+function PublicFeed({ content }) {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [profileImg, setProfileImg] = useState('')
@@ -44,18 +44,40 @@ function PublicFeed() {
 
     useEffect(() => {
         try {
-            axios
-                .get(`/travel/public?page=${page}&limit=${limit}`)
-                .then((res) => {
-                    setData((prev) => [...prev, ...res.data.result])
-                    console.log(res.data)
-                    setLoading(false)
+            switch (content) {
+                case 'public':
+                    axios
+                        .get(`/travel/public?page=${page}&limit=${limit}`)
+                        .then((res) => {
+                            setData((prev) => [...prev, ...res.data.result])
+                            console.log(res.data)
+                            setLoading(false)
 
-                    if (res.data.lengthData === page) {
-                        return setHasMore(false)
-                    }
-                    setHasMore(true)
-                })
+                            if (res.data.lengthData === page) {
+                                return setHasMore(false)
+                            }
+                            setHasMore(true)
+                        })
+                case 'following':
+                    const token = localStorage.getItem('user')
+                    const user = jwt_decode(token)
+                    const userId = user.id
+
+                    axios
+                        .get(
+                            `/travel/following/${userId}?page=${page}&limit=${limit}`
+                        )
+                        .then((res) => {
+                            setData((prev) => [...prev, ...res.data.result])
+                            console.log(res.data)
+                            setLoading(false)
+
+                            if (res.data.lengthData === page) {
+                                return setHasMore(false)
+                            }
+                            setHasMore(true)
+                        })
+            }
         } catch (e) {}
     }, [page])
 

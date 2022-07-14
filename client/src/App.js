@@ -46,7 +46,16 @@ function App() {
                             element={<TravelPage />}
                         />
                         <Route exact path="/profile/:id" element={<Home />} />
-                        <Route exact path="/public" element={<PublicFeed />} />
+                        <Route
+                            exact
+                            path="/public"
+                            element={<PublicFeed content="public" />}
+                        />
+                        <Route
+                            exact
+                            path="/following"
+                            element={<PublicFeed content="following" />}
+                        />
                         <Route exact path="/search" element={<Search />} />
                         <Route
                             exact
