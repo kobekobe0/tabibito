@@ -49,6 +49,59 @@ const getPublicTravels = async (req, res) => {
     return res.json(results)
 }
 
+const getFollowingTravels = async (req, res) => {
+    //?page=2&limit=3
+    const page = parseInt(req.query.page)
+    const limit = parseInt(req.query.limit)
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
+
+    // travel/following/:id?page=2&limit=3
+    const user = await Userdata.findById(req.params.id)
+    const followings = user.following
+
+    let results = {}
+
+    if (startIndex > 0) {
+        results.prev = {
+            page: page - 1,
+            limit: limit,
+        }
+    }
+    if (
+        endIndex <
+        (await Travel.countDocuments({
+            //public === false
+            //private === true
+            private: false,
+            userId: { $in: followings },
+        }))
+    ) {
+        results.next = {
+            page: page + 1,
+            limit: limit,
+        }
+    }
+
+    let lengthTravel =
+        (await Travel.countDocuments({
+            private: false,
+            deleted: false,
+        })) / limit
+
+    results.lengthData = Math.ceil(lengthTravel)
+
+    results.result = await Travel.find({
+        private: false,
+        userId: { $in: followings },
+    })
+        .limit(limit)
+        .skip(startIndex)
+        .sort({ createdAt: -1 })
+
+    return res.json(results)
+}
+
 const getFollowedTravels = async (req, res) => {
     const userId = req.params.id
     try {
@@ -619,4 +672,5 @@ module.exports = {
     searchAnything,
     searchMoreUser,
     searchMoreTravel,
+    getFollowingTravels,
 }

@@ -43,6 +43,7 @@ const {
     searchAnything,
     searchMoreUser,
     searchMoreTravel,
+    getFollowingTravels,
 } = require('./controllers/travel/travel.controller')
 
 const {
@@ -92,6 +93,7 @@ io.on('connection', (socket) => {
     })
 
     //const pipeline = [{ $match: {} }]
+    //handle this shit some other time
     const changeStream = Message.watch() //listen for canges in message collection
     changeStream.on('change', (changeEvent) => {
         console.log('something has change')
@@ -139,6 +141,7 @@ app.put('/api/user/:id', UpdateProfileImg, updateUser)
 app.post('/api/user/follow', follow)
 app.get('/api/user/:id', getUserById)
 app.get('/api/travel/public', getPublicTravels)
+app.get('/api/travel/following/:id', getFollowingTravels)
 app.get('/api/travel/user/:id', getUserTravels)
 app.post('/api/travel/preview/', getPreviewImage)
 app.get('/api/travel/:id', getTravelById)
