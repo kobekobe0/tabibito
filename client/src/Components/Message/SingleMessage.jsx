@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import jwt_decode from 'jwt-decode'
 import axios from 'axios'
@@ -14,6 +14,7 @@ function SingleMessage({ socket }) {
     const [otherPersonId, setOtherPersonId] = useState('')
     const [otherUser, setOtherUser] = useState('')
     const [messages, setMessages] = useState([])
+    const navigate = useNavigate()
     useEffect(() => {
         const userId = jwt_decode(localStorage.getItem('user')).id
         axios
@@ -46,6 +47,10 @@ function SingleMessage({ socket }) {
         })
     }, [socket])
 
+    const handleBack = () => {
+        navigate('/message')
+    }
+
     const handleSendMessage = () => {
         if (message !== '') {
             socket.emit('send_message', {
@@ -68,6 +73,7 @@ function SingleMessage({ socket }) {
                     <MdArrowBackIos
                         size="2em"
                         style={{ marginLeft: '1.5em' }}
+                        onClick={handleBack}
                     />
 
                     <div className="chatroom-details-texts">
@@ -82,8 +88,9 @@ function SingleMessage({ socket }) {
                     </div>
                 </div>
                 <div className="chatroom-messages">
-                    {messages.map((message) => (
+                    {messages.map((message, index) => (
                         <div
+                            key={index}
                             className="message-block"
                             id={
                                 message.from !== otherPersonId
@@ -92,13 +99,14 @@ function SingleMessage({ socket }) {
                             }
                         >
                             <p>{message.message}</p>
-                            <p>{message.from}</p>
                         </div>
                     ))}
                 </div>{' '}
                 <div className="chatroom-input">
                     <input
                         type="text"
+                        placeholder="enter your message"
+                        value={message}
                         onChange={(e) => setMessage(e.target.value)}
                     />
                     <button onClick={handleSendMessage}>Send</button>

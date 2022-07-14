@@ -31,6 +31,9 @@ function Message({ socket }) {
         socket.on('receive_message', (data) => {
             console.log(data)
         })
+        return () => {
+            socket.off('receive_message')
+        }
     }, [socket])
 
     //make a route that finds a room by userId and otherPersonId
