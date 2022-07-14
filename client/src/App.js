@@ -11,6 +11,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import Search from './Components/Search/Search'
 import VerifyPage from './Components/Verify/VerifyPage'
 import Message from './Components/Message/Message'
+import FollowingFeed from './Components/Feed/FollowingFeed'
 import SingleMessage from './Components/Message/SingleMessage'
 import io from 'socket.io-client'
 import { useEffect, useState } from 'react'
@@ -54,7 +55,7 @@ function App() {
                         <Route
                             exact
                             path="/following"
-                            element={<PublicFeed content="following" />}
+                            element={<FollowingFeed content="following" />}
                         />
                         <Route exact path="/search" element={<Search />} />
                         <Route
