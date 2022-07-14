@@ -13,6 +13,7 @@ function CommentList({ comments, deleteComment, ownPost }) {
                         comment={comment.comment}
                         key={comment._id}
                         ownPost={ownPost}
+                        date={comment.date}
                     />
                 ))}
                 {comments.length === 0 && (

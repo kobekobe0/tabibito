@@ -3,13 +3,22 @@ import axios from 'axios'
 import { AiFillSave } from 'react-icons/ai'
 import { BsThreeDots } from 'react-icons/bs'
 import jwt_decode from 'jwt-decode'
-function CommentCard({ deleteComment, id, userId, likes, comment, ownPost }) {
+function CommentCard({
+    deleteComment,
+    id,
+    userId,
+    likes,
+    comment,
+    ownPost,
+    date,
+}) {
     const [pfp, setPfp] = useState('')
     const [username, setUsername] = useState('')
     const [edit, setEdit] = useState(false)
     const [commentToDisplay, setCommentToDisplay] = useState(comment)
     const [editComment, setEditComment] = useState(comment)
     const [owner, setOwner] = useState(false)
+    const [dateToShow, setDateToShow] = useState('')
 
     useEffect(() => {
         axios.get(`/user/${userId}`).then((res) => {
@@ -22,6 +31,27 @@ function CommentCard({ deleteComment, id, userId, likes, comment, ownPost }) {
         if (decoded.id === userId) {
             setOwner(true)
         }
+
+        const months = [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec',
+        ]
+
+        const splitted = date.split('-')
+        const last = splitted[2].split('T')[0]
+        setDateToShow(
+            months[parseInt(splitted[1]) - 1] + ' ' + last + ', ' + splitted[0]
+        ) //converts date from db to desired format
     }, [])
 
     const updateComment = (e) => {
@@ -65,7 +95,7 @@ function CommentCard({ deleteComment, id, userId, likes, comment, ownPost }) {
                         <div className="comment-single-top-texts">
                             <div className="comment-details">
                                 <h4>{username}</h4>
-                                <h5>1hr ago(dummy time)</h5>
+                                <h5>{dateToShow}</h5>
                             </div>
 
                             {edit ? (
