@@ -52,7 +52,7 @@ function TravelPage() {
                 setImage((prev) => [...prev, imagePath])
             })
         }
-        let dateObj = new Date('2021-09-16T10:20:00.000Z')
+        let dateObj = new Date(data.Date)
         let year = dateObj.getFullYear()
         let month = dateObj.getMonth()
         let dt = dateObj.getDate()
