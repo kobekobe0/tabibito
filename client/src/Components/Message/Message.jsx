@@ -6,25 +6,20 @@ import axios from 'axios'
 import jwtDecode from 'jwt-decode'
 import './message.css'
 import Navbar from '../Navbar/Navbar'
+import MessageResultCard from './MessageResultCard'
 
 function Message({ socket }) {
-    const [room, setRoom] = useState('')
-    const [name, setName] = useState('')
     const [rooms, setRooms] = useState([]) //query the database for all rooms
-
-    const handleSubmit = (e) => {
-        e.preventDefault()
-
-        socket.emit('join_room', { name, room })
-    }
+    const [userId, setUserId] = useState('')
+    const [searchResults, setSearchResults] = useState([])
 
     useEffect(() => {
-        axios
-            .get(`/rooms/${jwtDecode(localStorage.getItem('user')).id}`)
-            .then((res) => {
-                console.log(res.data)
-                setRooms((prev) => res.data)
-            })
+        const tempId = jwtDecode(localStorage.getItem('user')).id
+        axios.get(`/rooms/${tempId}`).then((res) => {
+            console.log(res.data)
+            setRooms((prev) => res.data)
+        })
+        setUserId(tempId)
     }, [])
 
     useEffect(() => {
@@ -35,6 +30,17 @@ function Message({ socket }) {
             socket.off('receive_message')
         }
     }, [socket])
+
+    const handleSearchPeople = (e) => {
+        setSearchResults([])
+        //searchpeopleroute
+        axios
+            .get(`/rooms/search/${userId}?searchQuery=${e.target.value}`)
+            .then((res) => {
+                console.log(res.data)
+                setSearchResults(res.data)
+            })
+    }
 
     //make a route that finds a room by userId and otherPersonId
     //pass the roomId as props
@@ -49,19 +55,26 @@ function Message({ socket }) {
                         <h1 className="messages-header-text">Messages</h1>
                         <input
                             type="text"
-                            placeholder="search people"
+                            placeholder="search your patrons or supported people"
                             className="messages-search-box"
+                            onSubmit={handleSearchPeople}
                         />
+                        <button onClick={handleSearchPeople}>Search</button>
                     </div>
 
                     <ul className="messages-list">
-                        {rooms.map((room) => (
-                            <MessageCard
-                                room={room}
-                                socket={socket}
-                                key={room._id}
-                            />
+                        {searchResults.map((room) => (
+                            <MessageResultCard />
                         ))}
+
+                        {searchResults.length == 0 &&
+                            rooms.map((room) => (
+                                <MessageCard
+                                    room={room}
+                                    socket={socket}
+                                    key={room._id}
+                                />
+                            ))}
                     </ul>
                 </div>
             </div>
