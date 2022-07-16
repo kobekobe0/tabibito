@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import jwt_decode from 'jwt-decode'
 import axios from 'axios'
 import { MdArrowBackIos } from 'react-icons/md'
@@ -15,22 +15,79 @@ function SingleMessage({ socket }) {
     const [otherUser, setOtherUser] = useState('')
     const [messages, setMessages] = useState([])
     const navigate = useNavigate()
+
+    const [hasMore, setHasMore] = useState(false)
+    const [page, setPage] = useState(1)
+    const [limit, setLimit] = useState(10)
+    const [loading, setLoading] = useState(true)
+    const [triggerBottom, setTriggerBottom] = useState(false)
+
+    const lastMessageRef = useRef(null)
+
+    // const lastMessage = useCallback(
+    //     (node) => {
+    //         if (observer.current) observer.current.disconnect()
+    //         observer.current = new IntersectionObserver((entries) => {
+    //             if (entries[0].isIntersecting) {
+    //                 if (hasMore) setPage((prevPage) => prevPage + 1)
+    //             }
+    //         })
+    //         if (node) observer.current.observe(node)
+    //     },
+    //     [loading]
+    // )
+
+    const loadMoreMessages = async () => {
+        setLoading(true)
+        try {
+            await axios
+                .get(`/messages/${roomId}?page=${page}&limit=${limit}`)
+                .then((res) => {
+                    console.log(res.data)
+                    setMessages((prev) => [
+                        ...res.data.result.reverse(),
+                        ...prev,
+                    ])
+                    setPage(res?.data?.next?.page)
+                    setLoading(false)
+                    if (res.data.lengthData === page) setHasMore(false)
+                })
+        } catch (err) {
+            console.log(err)
+            alert(err)
+            setLoading(false)
+        }
+    }
+
     useEffect(() => {
-        const userId = jwt_decode(localStorage.getItem('user')).id
+        if (otherPersonId == '') {
+            const userId = jwt_decode(localStorage.getItem('user')).id
+            axios
+                .post(`/rooms/${roomId}`, {
+                    userId: userId,
+                })
+                .then((res) => {
+                    setOtherPersonId(res.data.otherPersonId)
+                    console.log(res.data)
+                }) //query to get other person id you're talking to
+            socket.emit('join_room', { room: roomId })
+        }
+
         axios
-            .post(`/rooms/${roomId}`, {
-                userId: userId,
-            })
+            .get(`/messages/${roomId}?page=${page}&limit=${limit}`)
             .then((res) => {
-                setOtherPersonId(res.data.otherPersonId)
                 console.log(res.data)
-            }) //query to get other person id you're talking to
-
-        axios.get(`/messages/${roomId}`).then((res) => {
-            setMessages((prev) => res.data?.reverse())
-        })
-
-        socket.emit('join_room', { room: roomId })
+                setMessages((prev) => [...prev, ...res.data?.result.reverse()])
+                setLoading(false)
+                if (res.data.lengthData === page) {
+                    return setHasMore(false)
+                }
+                setHasMore(true)
+                setPage(res?.data?.next.page)
+                setTimeout(() => {
+                    setTriggerBottom(!triggerBottom)
+                }, 500)
+            })
     }, [])
 
     useEffect(() => {
@@ -44,12 +101,18 @@ function SingleMessage({ socket }) {
         socket.on('receive_message', (data) => {
             console.log(data)
             setMessages((prev) => [...prev, data])
+            setTriggerBottom(!triggerBottom)
+            lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' })
         })
     }, [socket])
 
     const handleBack = () => {
         navigate('/message')
     }
+
+    useEffect(() => {
+        lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' })
+    }, [triggerBottom])
 
     const handleSendMessage = () => {
         if (message !== '') {
@@ -61,7 +124,7 @@ function SingleMessage({ socket }) {
             })
 
             console.log(otherPersonId)
-
+            setTriggerBottom(!triggerBottom)
             setMessage('')
         }
     }
@@ -88,19 +151,37 @@ function SingleMessage({ socket }) {
                     </div>
                 </div>
                 <div className="chatroom-messages">
-                    {messages.map((message, index) => (
-                        <div
-                            key={index}
-                            className="message-block"
-                            id={
-                                message.from !== otherPersonId
-                                    ? 'self'
-                                    : 'other'
-                            }
+                    {loading && (
+                        <div className="load-more-messages">Loading...</div>
+                    )}
+                    {hasMore && !loading ? (
+                        <button
+                            className="load-more-messages"
+                            onClick={loadMoreMessages}
                         >
-                            <p>{message.message}</p>
-                        </div>
-                    ))}
+                            Load more
+                        </button>
+                    ) : null}
+                    {messages.map((message, index) => {
+                        return (
+                            <div
+                                ref={
+                                    messages.length - 1 === index
+                                        ? lastMessageRef
+                                        : null
+                                }
+                                key={index}
+                                className="message-block"
+                                id={
+                                    message?.from !== otherPersonId
+                                        ? 'self'
+                                        : 'other'
+                                }
+                            >
+                                <p>{message?.message}</p>
+                            </div>
+                        )
+                    })}
                 </div>{' '}
                 <div className="chatroom-input">
                     <input
