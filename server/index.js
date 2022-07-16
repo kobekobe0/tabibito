@@ -52,8 +52,9 @@ const {
     createRoom,
     getRoomById,
     getLastMessage,
-    getRoomsByParticipants,
+    getRoomsByUserId,
     getMessagesByRoomId,
+    getRoomsByUsername,
 } = require('./controllers/message/message.controller')
 const bodyParser = require('body-parser')
 const path = require('path')
@@ -172,10 +173,11 @@ app.post('/api/comment/:commentId', deleteComment) //delete
 app.put('/api/comment/:commentId', editComment)
 app.get('/api/comment/:postId', getCommentByIdPostId)
 
-app.get('/api/rooms/:userId', getRoomsByParticipants)
+app.get('/api/rooms/:userId', getRoomsByUserId)
 app.post('/api/rooms/:id', getRoomById)
 app.get('/api/lastmessage/:roomId', getLastMessage)
 app.get('/api/messages/:roomId', getMessagesByRoomId)
+app.get('/api/rooms/search/:userId', getRoomsByUsername)
 
 server.listen(PORT || 3000, () => {
     console.log('Server is running on port ' + PORT)

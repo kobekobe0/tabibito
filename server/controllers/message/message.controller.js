@@ -1,5 +1,6 @@
 const Message = require('../../models/message.model')
 const Room = require('../../models/room.model')
+const Userdata = require('../../models/register.model')
 
 const sendMessage = async (roomId, message, from, to, socket) => {
     try {
@@ -59,9 +60,7 @@ const getRoomById = async (req, res) => {
     res.json(toReturn)
 }
 
-Room.on
-
-const getRoomsByParticipants = async (req, res) => {
+const getRoomsByUserId = async (req, res) => {
     //returns all rooms that user is in
     const { userId } = req.params
 
@@ -76,6 +75,7 @@ const getRoomsByParticipants = async (req, res) => {
 }
 
 const getLastMessage = async (req, res) => {
+    //for chat list window
     const { roomId } = req.params
     const message = await Message.findOne({
         roomId: roomId,
@@ -87,13 +87,63 @@ const getLastMessage = async (req, res) => {
 
 const getMessagesByRoomId = async (req, res) => {
     const { roomId } = req.params
-    const messages = await Message.find({
-        roomId: roomId,
-    })
-        .sort({ date: -1 })
-        .limit(10) //add pagination
+    const page = parseInt(req.query.page) || 1
+    const limit = parseInt(req.query.limit) || 10
+    const startIndex = (page - 1) * limit
+    const endIndex = page * limit
 
-    res.json(messages)
+    let results = {}
+
+    if (startIndex > 0) {
+        results.prev = {
+            page: page - 1,
+            limit: limit,
+        }
+    }
+    if (
+        endIndex <
+        (await Message.countDocuments({
+            roomId: roomId,
+        }))
+    ) {
+        results.next = {
+            page: page + 1,
+            limit: limit,
+        }
+    }
+
+    let lengthMessage =
+        (await Message.countDocuments({
+            roomId: roomId,
+        })) / limit
+
+    results.lengthData = Math.ceil(lengthMessage)
+
+    results.result = await Message.find({ roomId: roomId })
+        .limit(limit)
+        .skip(startIndex)
+        .sort({ date: -1 })
+
+    return res.json(results)
+}
+
+const getRoomsByUsername = async (req, res) => {
+    const userId = req.params.userId
+    const usernameQuery = req.query.searchQuery
+    const user = await Userdata.findOne({
+        _id: userId,
+    })
+
+    let idToQuery = user.following.concat(user.followers)
+
+    const usersResult = await Userdata.find({
+        _id: { $in: idToQuery },
+        name: { $regex: usernameQuery, $options: 'i' },
+    })
+
+    //if(user.following.contains)
+
+    res.json(usersResult)
 }
 
 module.exports = {
@@ -102,6 +152,7 @@ module.exports = {
     createRoom,
     getRoomById,
     getLastMessage,
-    getRoomsByParticipants,
+    getRoomsByUserId,
     getMessagesByRoomId,
+    getRoomsByUsername,
 }
