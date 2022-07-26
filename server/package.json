@@ -4,8 +4,7 @@
     "description": "",
     "main": "server.js",
     "engines": {
-        "node": "16.13.2",
-        "npm": "8.14.0"
+        "node": "16.x"
     },
     "scripts": {
         "start": "node index.js"
