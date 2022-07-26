@@ -12,6 +12,4 @@ TODOS
 -separate routes using node router
 -comment section conditionals
 -add 'engine' field in package json server
--comment date
--post date
 -finsish messaging first before worrying about notifications

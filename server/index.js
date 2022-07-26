@@ -179,7 +179,9 @@ app.get('/api/lastmessage/:roomId', getLastMessage)
 app.get('/api/messages/:roomId', getMessagesByRoomId)
 app.get('/api/rooms/search/:userId', getRoomsByUsername)
 
-server.listen(PORT || 3000, () => {
+require('dotenv').config()
+
+server.listen(process.env.PORT || 3000, () => {
     console.log('Server is running on port ' + PORT)
 })
 
