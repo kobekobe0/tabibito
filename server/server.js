@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
@@ -129,6 +130,11 @@ io.on('connection', (socket) => {
         console.log('user disconnected')
     })
 })
+
+app.get('/', (req, res) => {
+    res.send('Server is running')
+})
+
 app.post('/api/users/register', registerUser)
 app.post('/api/users/login', loginUser)
 app.get('/api/users/login', verifyLogin)
@@ -178,8 +184,6 @@ app.post('/api/rooms/:id', getRoomById)
 app.get('/api/lastmessage/:roomId', getLastMessage)
 app.get('/api/messages/:roomId', getMessagesByRoomId)
 app.get('/api/rooms/search/:userId', getRoomsByUsername)
-
-require('dotenv').config()
 
 server.listen(process.env.PORT || 3000, () => {
     console.log('Server is running on port ' + PORT)
