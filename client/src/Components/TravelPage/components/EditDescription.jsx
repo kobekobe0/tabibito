@@ -108,7 +108,7 @@ function EditDescription({ userData, date, data }) {
                                     <img
                                         src={
                                             userData.pfp &&
-                                            `http://localhost:3000/${userData.pfp.replace(
+                                            `https://tabibit-o.herokuapp.com/${userData.pfp.replace(
                                                 'pfp',
                                                 ''
                                             )}`

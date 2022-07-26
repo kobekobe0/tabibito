@@ -76,7 +76,7 @@ function FollowingFeed() {
 
                         <img
                             onClick={goToProfile}
-                            src={`http://localhost:3000/${
+                            src={`https://tabibit-o.herokuapp.com/${
                                 profileImg && profileImg.replace('pfp', '')
                             }`}
                             alt=""

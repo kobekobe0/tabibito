@@ -142,7 +142,7 @@ function SingleMessage({ socket }) {
                     <div className="chatroom-details-texts">
                         <h3>{otherUser.name}</h3>
                         <img
-                            src={`http://localhost:3000/${otherUser?.pfp?.replace(
+                            src={`https://tabibit-o.herokuapp.com/${otherUser?.pfp?.replace(
                                 'pfp',
                                 ''
                             )}`}

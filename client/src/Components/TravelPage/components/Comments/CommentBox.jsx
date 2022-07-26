@@ -33,7 +33,11 @@ function CommentBox({ pfp, id, setComments, comments }) {
             <div className="comment-profile-img">
                 <img
                     src={
-                        pfp && `http://localhost:3000/${pfp.replace('pfp', '')}`
+                        pfp &&
+                        `https://tabibit-o.herokuapp.com/${pfp.replace(
+                            'pfp',
+                            ''
+                        )}`
                     }
                     style={{
                         width: '50px',

@@ -58,7 +58,7 @@ const EditProfile = ({
                     <img
                         src={
                             bg &&
-                            `http://localhost:3000/${bg.replace(
+                            `https://tabibit-o.herokuapp.com/${bg.replace(
                                 'background',
                                 ''
                             )}`
@@ -82,7 +82,7 @@ const EditProfile = ({
                         <img src={pfpImg} alt="" />
                     ) : (
                         <img
-                            src={`http://localhost:3000/${
+                            src={`https://tabibit-o.herokuapp.com/${
                                 pfp && pfp.replace('pfp', '')
                             }`}
                             alt=""
@@ -214,7 +214,7 @@ const VisitProfile = ({
             )}
             <div className="backgroundImg">
                 <img
-                    src={`http://localhost:3000/${
+                    src={`https://tabibit-o.herokuapp.com/${
                         bg && bg.replace('background', '')
                     }`}
                 />
@@ -222,7 +222,7 @@ const VisitProfile = ({
             <div className="profile">
                 <div className="profileImg">
                     <img
-                        src={`http://localhost:3000/${
+                        src={`https://tabibit-o.herokuapp.com/${
                             pfp && pfp.replace('pfp', '')
                         }`}
                         onClick={() => console.log(propsIsFollowing)}
@@ -354,7 +354,7 @@ function ProfileBar({
                         <img
                             src={
                                 bg &&
-                                `http://localhost:3000/${bg.replace(
+                                `https://tabibit-o.herokuapp.com/${bg.replace(
                                     'background',
                                     ''
                                 )}`
@@ -365,7 +365,7 @@ function ProfileBar({
                     <div className="profile">
                         <div className="profileImg">
                             <img
-                                src={`http://localhost:3000/${
+                                src={`https://tabibit-o.herokuapp.com/${
                                     pfp && pfp.replace('pfp', '')
                                 }`}
                                 alt=""

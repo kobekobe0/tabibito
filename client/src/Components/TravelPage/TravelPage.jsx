@@ -103,7 +103,7 @@ function TravelPage() {
 
                 <img
                     onClick={goToProfile}
-                    src={`http://localhost:3000/${pfp}`}
+                    src={`https://tabibit-o.herokuapp.com/${pfp}`}
                     alt=""
                 />
             </div>

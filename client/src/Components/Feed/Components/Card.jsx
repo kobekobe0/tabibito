@@ -112,7 +112,7 @@ function Card({ innerRef, data }) {
                             i == index ? (
                                 <img
                                     key={i}
-                                    src={`http://localhost:3000/${item.replace(
+                                    src={`https://tabibit-o.herokuapp.com/${item.replace(
                                         'uploads',
                                         ''
                                     )}`}
@@ -140,7 +140,7 @@ function Card({ innerRef, data }) {
                 <div className="feed-description-header">
                     <div className="feed-description-header-user">
                         <img
-                            src={`http://localhost:3000/${pfp}`}
+                            src={`https://tabibit-o.herokuapp.com/${pfp}`}
                             alt=""
                             width={'40px'}
                         />

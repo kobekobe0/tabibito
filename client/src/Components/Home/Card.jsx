@@ -42,7 +42,10 @@ function Card({ data, edit, removeTravel }) {
                 </div>
             )}
 
-            <img src={`http://localhost:3000/${image}`} alt="travel" />
+            <img
+                src={`https://tabibit-o.herokuapp.com/${image}`}
+                alt="travel"
+            />
             <h5>
                 {data.locationTown}, {data.locationCity}
             </h5>

@@ -16,11 +16,17 @@ function Travels({ userId, town, city, img, title, id }) {
         <div className="travels-data" key={img} onClick={handleClick}>
             <img
                 className="background-travel-result"
-                src={`http://localhost:3000/${img.replace('uploads', '')}`}
+                src={`https://tabibit-o.herokuapp.com/${img.replace(
+                    'uploads',
+                    ''
+                )}`}
             />
             <div className="overlay-travel-result">
                 <img
-                    src={`http://localhost:3000/${pfp.replace('pfp', '')}`}
+                    src={`https://tabibit-o.herokuapp.com/${pfp.replace(
+                        'pfp',
+                        ''
+                    )}`}
                     alt=""
                     style={{ width: '50px', height: '50px' }}
                 />

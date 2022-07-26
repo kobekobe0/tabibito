@@ -17,7 +17,7 @@ import io from 'socket.io-client'
 import { useEffect, useState } from 'react'
 import jwt_decode from 'jwt-decode'
 
-const socket = io('http://localhost:3000')
+const socket = io('https://tabibit-o.herokuapp.com/')
 const queryClient = new QueryClient()
 
 function App() {

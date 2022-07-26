@@ -25,7 +25,7 @@ function Images({
                         ? image.map((image, index) => (
                               <>
                                   <img
-                                      src={`http://localhost:3000/${image}`}
+                                      src={`https://tabibit-o.herokuapp.com/${image}`}
                                       alt="travel"
                                       style={{
                                           display:
@@ -86,7 +86,7 @@ function Images({
                     </div>
                     <div className="imagemodal-image">
                         <img
-                            src={`http://localhost:3000/${image[counter]}`}
+                            src={`https://tabibit-o.herokuapp.com/${image[counter]}`}
                             alt=""
                         />
                         {image.length > counter && (
@@ -112,7 +112,7 @@ function Images({
                 </div>
                 {image.map((image, index) => (
                     <img
-                        src={`http://localhost:3000/${image}`}
+                        src={`https://tabibit-o.herokuapp.com/${image}`}
                         alt=""
                         style={{
                             width: '25px',

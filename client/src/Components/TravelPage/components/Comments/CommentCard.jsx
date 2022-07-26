@@ -82,7 +82,10 @@ function CommentCard({
                     <img
                         src={
                             pfp &&
-                            `http://localhost:3000/${pfp.replace('pfp', '')}`
+                            `https://tabibit-o.herokuapp.com/${pfp.replace(
+                                'pfp',
+                                ''
+                            )}`
                         }
                         style={{
                             width: '50px',

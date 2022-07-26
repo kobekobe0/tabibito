@@ -21,7 +21,10 @@ function List({ id }) {
     return (
         <li onClick={handleListClick}>
             <img
-                src={`http://localhost:3000/${pfp.replace('pfp', '')}`}
+                src={`https://tabibit-o.herokuapp.com/${pfp.replace(
+                    'pfp',
+                    ''
+                )}`}
                 alt={username}
                 style={{
                     width: '50px',

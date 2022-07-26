@@ -37,7 +37,7 @@ function MessageCard({ room, socket }) {
                 to={`/chatroom/${room._id}`}
                 className="messages-list-card-contents"
             >
-                <img src={`http://localhost:3000/${pfp}`} />
+                <img src={`https://tabibit-o.herokuapp.com/${pfp}`} />
                 <div className="messages-card-texts">
                     <h3>{name}</h3>
                     <p>

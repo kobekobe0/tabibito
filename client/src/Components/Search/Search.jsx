@@ -180,7 +180,7 @@ function Search() {
                                                         }
                                                     >
                                                         <img
-                                                            src={`http://localhost:3000/${user.pfp.replace(
+                                                            src={`https://tabibit-o.herokuapp.com/${user.pfp.replace(
                                                                 'pfp',
                                                                 ''
                                                             )}`}
