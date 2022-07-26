@@ -3,7 +3,6 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const cors = require('cors')
-const PORT = 3000
 const process = require('node:process')
 const server = require('http').createServer(app)
 app.use(cors())
@@ -186,7 +185,9 @@ app.get('/api/lastmessage/:roomId', getLastMessage)
 app.get('/api/messages/:roomId', getMessagesByRoomId)
 app.get('/api/rooms/search/:userId', getRoomsByUsername)
 
-server.listen(process.env.PORT || 3000, () => {
+const PORT = process.env.PORT || 3000
+
+server.listen(PORT, () => {
     console.log('Server is running on port ' + PORT)
 })
 
