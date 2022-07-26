@@ -67,6 +67,7 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
 const uri =
+    process.env.MONGODB_URI ||
     'mongodb+srv://kobekoblanca:Chixxmagnet00@cluster0.kcbgjsu.mongodb.net/?retryWrites=true&w=majority'
 
 const db = mongoose
