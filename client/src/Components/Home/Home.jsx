@@ -57,7 +57,6 @@ function Home() {
             formData.append('bio', bio)
             formData.append('background', user.background)
             formData.append('pfp', user.pfp)
-            console.log(uploadBg)
             if (uploadBg !== '') {
                 formData.append('backgroundUpload', uploadBg)
             }
@@ -66,7 +65,6 @@ function Home() {
             }
 
             axios.put(`/user/${user.id}`, formData).then((res) => {
-                console.log(res)
                 //ask user if he/she's sure
 
                 //update user in local storage

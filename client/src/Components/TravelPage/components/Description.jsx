@@ -26,17 +26,16 @@ function Description({ data, date, id }) {
             axios
                 .get(`/user/${data.userId}`)
                 .then((res) => {
-                    console.log({ name: res.data.name, pfp: res.data.pfp })
                     setUserData({
                         name: res.data.name,
                         pfp: res.data.pfp,
                     })
                 })
                 .catch((err) => {
-                    console.log(err)
+                    alert(err)
                 })
         } else {
-            console.log('no user id')
+            alert('no user id')
         }
         if (data.userId === jwt_decode(localStorage.getItem('user')).id) {
             setOwn(true)

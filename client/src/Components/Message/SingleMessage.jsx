@@ -43,7 +43,6 @@ function SingleMessage({ socket }) {
             await axios
                 .get(`/messages/${roomId}?page=${page}&limit=${limit}`)
                 .then((res) => {
-                    console.log(res.data)
                     setMessages((prev) => [
                         ...res.data.result.reverse(),
                         ...prev,
@@ -53,7 +52,6 @@ function SingleMessage({ socket }) {
                     if (res.data.lengthData === page) setHasMore(false)
                 })
         } catch (err) {
-            console.log(err)
             alert(err)
             setLoading(false)
         }
@@ -68,7 +66,6 @@ function SingleMessage({ socket }) {
                 })
                 .then((res) => {
                     setOtherPersonId(res.data.otherPersonId)
-                    console.log(res.data)
                 }) //query to get other person id you're talking to
             socket.emit('join_room', { room: roomId })
         }
@@ -76,7 +73,6 @@ function SingleMessage({ socket }) {
         axios
             .get(`/messages/${roomId}?page=${page}&limit=${limit}`)
             .then((res) => {
-                console.log(res.data)
                 setMessages((prev) => [...prev, ...res.data?.result.reverse()])
                 setLoading(false)
                 if (res.data.lengthData === page) {
@@ -92,14 +88,12 @@ function SingleMessage({ socket }) {
 
     useEffect(() => {
         axios.get(`/user/${otherPersonId}`).then((res) => {
-            console.log(res.data)
             setOtherUser(res.data)
         })
     }, [otherPersonId])
 
     useEffect(() => {
         socket.on('receive_message', (data) => {
-            console.log(data)
             setMessages((prev) => [...prev, data])
             setTriggerBottom(!triggerBottom)
             lastMessageRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -123,7 +117,6 @@ function SingleMessage({ socket }) {
                 to: otherPersonId,
             })
 
-            console.log(otherPersonId)
             setTriggerBottom(!triggerBottom)
             setMessage('')
         }

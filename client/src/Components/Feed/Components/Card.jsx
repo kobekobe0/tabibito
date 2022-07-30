@@ -20,11 +20,9 @@ function Card({ innerRef, data }) {
     useEffect(() => {
         const USER = jwt_decode(localStorage.getItem('user'))
         axios.get(`/user/${data.userId}`).then((res) => {
-            console.log(res.data)
             setPfp(res.data.pfp.replace('pfp', ''))
             setUsername(res.data.name)
             setID(USER.id)
-            console.log(USER.id)
 
             if (res.data._id === jwt_decode(localStorage.getItem('user')).id) {
                 setOwn(true)
@@ -48,26 +46,22 @@ function Card({ innerRef, data }) {
     }
 
     const handleLike = () => {
-        console.log(ID)
         axios
             .put(`/travel/${data._id}/like`, {
                 userId: ID,
                 method: 'like',
             })
             .then((res) => {
-                console.log(res.data)
                 setLiked(true)
             })
     }
     const handleUnLike = () => {
-        console.log(ID)
         axios
             .put(`/travel/${data._id}/like`, {
                 userId: ID,
                 method: 'unlike',
             })
             .then((res) => {
-                console.log(res.data)
                 setLiked(false)
             })
     }
@@ -79,7 +73,6 @@ function Card({ innerRef, data }) {
                 method: 'save',
             })
             .then((res) => {
-                console.log(res.data)
                 setSaved(true)
             })
     }
@@ -91,7 +84,6 @@ function Card({ innerRef, data }) {
                 method: 'unsave',
             })
             .then((res) => {
-                console.log(res.data)
                 setSaved(false)
             })
     }

@@ -16,16 +16,13 @@ function Message({ socket }) {
     useEffect(() => {
         const tempId = jwtDecode(localStorage.getItem('user')).id
         axios.get(`/rooms/${tempId}`).then((res) => {
-            console.log(res.data)
             setRooms((prev) => res.data)
         })
         setUserId(tempId)
     }, [])
 
     useEffect(() => {
-        socket.on('receive_message', (data) => {
-            console.log(data)
-        })
+        socket.on('receive_message', (data) => {})
         return () => {
             socket.off('receive_message')
         }
@@ -37,7 +34,6 @@ function Message({ socket }) {
         axios
             .get(`/rooms/search/${userId}?searchQuery=${e.target.value}`)
             .then((res) => {
-                console.log(res.data)
                 setSearchResults(res.data)
             })
     }

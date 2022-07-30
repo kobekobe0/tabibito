@@ -9,7 +9,6 @@ function CommentBox({ pfp, id, setComments, comments }) {
     const handlePost = (e) => {
         e.preventDefault()
         const userId = jwt_decode(localStorage.getItem('user')).id
-        console.log('clicked')
         if (comment !== '') {
             return axios
                 .post('/comment', {
@@ -18,7 +17,6 @@ function CommentBox({ pfp, id, setComments, comments }) {
                     comment: comment,
                 })
                 .then((res) => {
-                    console.log(res)
                     setComments((prev) => [...prev, res.data])
                     setComment('')
                 })

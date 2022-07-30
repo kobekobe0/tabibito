@@ -38,7 +38,7 @@ function FollowingFeed() {
         CheckUserExistsOther()
         const token = localStorage.getItem('user')
         const decoded = jwt_decode(token)
-        console.log(decoded)
+
         setProfileImg(decoded.pfp)
     }, [])
 
@@ -52,7 +52,7 @@ function FollowingFeed() {
                 .get(`/travel/following/${userId}?page=${page}&limit=${limit}`)
                 .then((res) => {
                     setData((prev) => [...prev, ...res.data.result])
-                    console.log(res.data)
+
                     setLoading(false)
 
                     if (res.data.lengthData === page) {

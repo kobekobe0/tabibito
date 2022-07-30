@@ -71,7 +71,7 @@ function CommentCard({
                     setCommentToDisplay(editComment)
                 })
                 .catch((err) => {
-                    console.log(err)
+                    alert(err)
                 })
         }
     }

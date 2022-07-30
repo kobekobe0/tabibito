@@ -40,7 +40,6 @@ function Register() {
                 email: email,
                 password: password,
             })
-            console.log(res)
             if (res.statusText === 'OK') {
                 window.location.href = `/verify/${res.data.VerificationTicket}`
             }
@@ -54,7 +53,6 @@ function Register() {
         if (token) {
             //decode jwt token
             let user = jwt_decode(token)
-            console.log(user)
             if (user) {
                 window.location.href = '/'
             }
@@ -71,7 +69,6 @@ function Register() {
 
     const changestringVal = (event) => {
         setName(removeEmptySpaces(event.target.value))
-        console.log(name)
     }
 
     return (

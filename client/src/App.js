@@ -29,7 +29,7 @@ function App() {
                 userId: userId,
             })
             socket.on('p2p_message_receive', (data) => {
-                console.log(data)
+                //trigger notification
             })
         }
     }, [socket, localStorage.getItem('user')])

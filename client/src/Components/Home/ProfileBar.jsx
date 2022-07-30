@@ -168,40 +168,29 @@ const VisitProfile = ({
     const [followBack, setFollowBack] = useState(false)
     const [propsIsFollowing, setPropsIsFollowing] = useState(isFollowing)
     const follow = () => {
-        axios
-            .post('/user/follow', {
-                follower: followerID,
-                following: id,
-                method: 'follow',
-            })
-            .then((res) => {
-                console.log(res.data)
-            })
+        axios.post('/user/follow', {
+            follower: followerID,
+            following: id,
+            method: 'follow',
+        })
 
         setPropsIsFollowing(true)
     }
     const unfollow = () => {
-        axios
-            .post('/user/follow', {
-                follower: followerID,
-                following: id,
-                method: 'unfollow',
-            })
-            .then((res) => {
-                console.log(res.data)
-            })
+        axios.post('/user/follow', {
+            follower: followerID,
+            following: id,
+            method: 'unfollow',
+        })
         setPropsIsFollowing(false)
     }
 
     useEffect(() => {
         const userToken = localStorage.getItem('user')
         const follower = jwt_decode(userToken)
-        console.log(follower.id)
-        console.log(id)
 
         setFollowerID(follower.id)
         setPropsIsFollowing(isFollowing)
-        console.log(propsIsFollowing)
     }, [isFollowing])
     return (
         <section className="userInfo">
@@ -225,7 +214,6 @@ const VisitProfile = ({
                         src={`https://tabibit-o.herokuapp.com/${
                             pfp && pfp.replace('pfp', '')
                         }`}
-                        onClick={() => console.log(propsIsFollowing)}
                     />
                 </div>
                 <div className="profileInfo">
@@ -308,18 +296,14 @@ function ProfileBar({
     useEffect(() => {
         const userToken = localStorage.getItem('user')
         const user = jwt_decode(userToken)
-        console.log(user)
+
         if (id)
             axios.get(`/user/${id}`).then((res) => {
-                console.log(res.data)
                 setUserData(res.data)
                 setPatrons(res.data.followers)
                 setSupporting(res.data.following)
 
                 //wait for setUserData to be set
-
-                console.log(res.data.followers.includes(user.id))
-                console.log(res.data.followers)
                 if (res.data.followers.includes(user.id)) {
                     setIsFollowing(true)
                 }

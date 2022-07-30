@@ -11,8 +11,6 @@ function PreviewCard({
     const deleteCard = () => {
         deletePreview(image.name)
         handleDelete(selectedImages)
-        console.log(image.name)
-        console.log(selectedImages)
     }
     return (
         <div key={index} className="preview-card">

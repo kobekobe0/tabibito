@@ -42,11 +42,9 @@ function Search() {
         //make url serach?search=query then extract it and pass it to the api
 
         if (query.length >= 3) {
-            console.log(query)
             return axios
                 .get(`/search?search=${query}`)
                 .then((res) => {
-                    console.log(res.data)
                     setTravelsResult(res.data.travels)
                     setUsersResult(res.data.users)
                     setSearchQuery(query)
@@ -62,7 +60,6 @@ function Search() {
                         setNoResults(true)
                 })
                 .catch((e) => {
-                    console.log(e)
                     setLoading(false)
                     setError(true)
                 })
@@ -95,7 +92,6 @@ function Search() {
                 setHasMoreUsersLoading(false)
             })
             .catch((e) => {
-                console.log(e)
                 setHasMoreUsersLoading(false)
             })
     }
@@ -110,7 +106,6 @@ function Search() {
                 setHasMoreTravelsLoading(false)
             })
             .catch((e) => {
-                console.log(e)
                 setHasMoreTravelsLoading(false)
             })
     }

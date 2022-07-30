@@ -23,10 +23,8 @@ function Login() {
                 password: password,
             })
             .then((res) => {
-                console.log(res.data)
                 if (res.data.isVerified == true) {
                     localStorage.setItem('user', JSON.stringify(res.data.user))
-                    console.log(res.data.user)
                     window.location.href = '/'
                 } else if (res.data.isVerified == false) {
                     window.location.href = `/verify/${res.data.ticketId}`
@@ -41,7 +39,6 @@ function Login() {
         if (token) {
             //decode jwt token
             let user = jwt_decode(token)
-            console.log(user)
             if (user) {
                 window.location.href = '/'
             }

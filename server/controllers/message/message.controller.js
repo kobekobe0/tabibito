@@ -14,7 +14,6 @@ const sendMessage = async (roomId, message, from, to, socket) => {
         socket.emit('send_message')
         return true
     } catch (error) {
-        console.log(error)
         return false
     }
 }

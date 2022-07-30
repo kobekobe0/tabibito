@@ -35,7 +35,6 @@ function EditDescription({ userData, date, data }) {
         setHeadCount(data.travelerCount)
     }, [data])
     const handleSave = () => {
-        console.log(data._id)
         if (window.confirm('Are you sure you want to save these changes?')) {
             data._id &&
                 axios
@@ -56,11 +55,9 @@ function EditDescription({ userData, date, data }) {
                         travelerCount: headCount,
                     })
                     .then((res) => {
-                        console.log(res.data)
                         window.location.reload()
                     })
                     .catch((err) => {
-                        console.log(err)
                         alert(err)
                     })
         }

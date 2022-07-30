@@ -10,7 +10,6 @@ function List({ id }) {
         axios.get(`/user/${id}`).then((res) => {
             setPfp(res.data.pfp)
             setUsername(res.data.name)
-            console.log(res.data)
         })
     }, [id])
 

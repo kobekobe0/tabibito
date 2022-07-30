@@ -36,19 +36,15 @@ function TravelPage() {
         axios
             .get(`travel/${id}`)
             .then((res) => {
-                console.log(res.data)
                 setData(res.data)
             })
-            .catch((err) => {
-                console.log(err)
-            })
+            .catch((err) => {})
     }, [])
     useEffect(() => {
         setImage([])
         if (data.images) {
             data.images.forEach((image) => {
                 const imagePath = image.replace('uploads', '')
-                console.log(imagePath)
                 setImage((prev) => [...prev, imagePath])
             })
         }
@@ -65,7 +61,6 @@ function TravelPage() {
         )
 
         setPfp(pfp)
-        console.log(pfp)
     }, [data])
 
     const next = async (i) => {
@@ -76,16 +71,12 @@ function TravelPage() {
         if (counter === image.length - 1) {
             setCounter(0)
         }
-        console.log(counter + 1)
-        console.log(typeof image.length)
     }
 
     const prev = (i) => {
         if (counter > 0) {
             setCounter(counter - 1)
         }
-
-        console.log(counter)
     }
 
     const goToProfile = () => {

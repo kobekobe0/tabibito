@@ -14,7 +14,6 @@ function TravelCards({ id, edit }) {
 
     useEffect(() => {
         axios.get(`travel/user/${userId}`).then((res) => {
-            console.log(res)
             setTravels(res.data)
             setLoading(false)
         })

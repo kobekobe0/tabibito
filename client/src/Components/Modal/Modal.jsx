@@ -50,7 +50,6 @@ function Modal() {
         const userIdToken = localStorage.getItem('user')
 
         const userId = jwt_decode(userIdToken).id
-        console.log(userId)
         const formData = new FormData()
 
         formData.append('userId', userId)
@@ -80,7 +79,6 @@ function Modal() {
         for (let i = 0, len = merged.length; i < len; i++) {
             formData.append(`imageUpload`, merged[i])
         } //make the image uploads an array
-        console.log(images)
 
         try {
             await axios.post('travel', formData).then((res) => {
@@ -118,7 +116,6 @@ function Modal() {
 
         for (let i = 0; i < selectedFilesArray.length; i++) {
             setImageLoading(true)
-            console.log(selectedFilesArray[i])
             new Compressor(selectedFilesArray[i], {
                 quality: 0.6,
                 convertTypes: ['image/jpeg'],
@@ -148,7 +145,6 @@ function Modal() {
 
     const handleDelete = (image) => {
         setSelectedImages(selectedImages.filter((e) => e !== image))
-        console.log(tempCompressed)
     }
 
     const handleBack = () => {
@@ -157,8 +153,6 @@ function Modal() {
 
     const show = () => {
         let merged = [].concat.apply([], tempCompressed) //merges all the arrays into one
-        console.log(tempCompressed)
-        console.log(selectedImages)
     }
 
     return (

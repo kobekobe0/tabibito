@@ -10,10 +10,9 @@ function Comments({ pfp, id, ownPost }) {
             .get(`/comment/${id}`)
             .then((res) => {
                 setComments(res.data)
-                console.log(res.data)
             })
             .catch((err) => {
-                console.log(err)
+                alert(err)
             })
     }, [])
 
@@ -26,14 +25,13 @@ function Comments({ pfp, id, ownPost }) {
                     postId: id,
                 })
                 .then((res) => {
-                    console.log(commentId !== res.data._id)
                     //delete comment on comments array
                     setComments((prev) =>
                         prev.filter((comment) => comment._id !== commentId)
                     )
                 })
                 .catch((err) => {
-                    console.log(err.message)
+                    alert(err.message)
                 })
         }
     }

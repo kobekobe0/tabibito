@@ -17,7 +17,6 @@ function MessageCard({ room, socket }) {
     }, [])
 
     useEffect(() => {
-        console.log(otherPersonId)
         axios.get(`/user/${otherPersonId}`).then((res) => {
             setPfp(() => res.data.pfp.replace('pfp', ''))
             setName(() => res.data.name)

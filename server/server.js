@@ -99,11 +99,8 @@ io.on('connection', (socket) => {
     const changeStream = Message.watch() //listen for canges in message collection
     changeStream.on('change', (changeEvent) => {
         console.log('something has change')
-        console.log(changeEvent.operationType)
-
         if (changeEvent.operationType === 'insert') {
             //limit emit to one
-            console.log(changeEvent.fullDocument.to)
             io.to(changeEvent.fullDocument.to).emit('p2p_message_receive', {
                 userId: changeEvent.fullDocument,
             })

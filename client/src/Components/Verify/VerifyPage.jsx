@@ -40,7 +40,6 @@ function VerifyPage() {
         axios
             .get(`/verify/${ticketId}`)
             .then((res) => {
-                console.log(res.data)
                 if (res.data.status == 400) {
                     return setNotFound(true)
                 }
