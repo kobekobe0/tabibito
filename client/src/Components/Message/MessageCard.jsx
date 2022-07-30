@@ -46,6 +46,7 @@ function MessageCard({ room, socket }) {
                             ? lastMessage.slice(0, 30) + '...'
                             : lastMessage}
                     </p>
+                    <p>{new Date(room.dateModified).getTime()}</p>
                 </div>
             </Link>
         </li>

@@ -7,11 +7,14 @@ import jwtDecode from 'jwt-decode'
 import './message.css'
 import Navbar from '../Navbar/Navbar'
 import MessageResultCard from './MessageResultCard'
+import { BiSearch } from 'react-icons/bi'
 
 function Message({ socket }) {
     const [rooms, setRooms] = useState([]) //query the database for all rooms
     const [userId, setUserId] = useState('')
     const [searchResults, setSearchResults] = useState([])
+    const [searchQuery, setSearchQuery] = useState('')
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         const tempId = jwtDecode(localStorage.getItem('user')).id
@@ -30,11 +33,17 @@ function Message({ socket }) {
 
     const handleSearchPeople = (e) => {
         setSearchResults([])
-        //searchpeopleroute
+        setLoading(true)
         axios
-            .get(`/rooms/search/${userId}?searchQuery=${e.target.value}`)
+            .get(`/rooms/search/${userId}?searchQuery=${searchQuery}`)
             .then((res) => {
                 setSearchResults(res.data)
+                setSearchQuery('')
+                setLoading(false)
+            })
+            .catch((err) => {
+                console.log(err)
+                setLoading(false)
             })
     }
 
@@ -49,28 +58,47 @@ function Message({ socket }) {
                 <div className="main">
                     <div className="messages-header">
                         <h1 className="messages-header-text">Messages</h1>
-                        <input
-                            type="text"
-                            placeholder="search your patrons or supported people"
-                            className="messages-search-box"
-                            onSubmit={handleSearchPeople}
-                        />
-                        <button onClick={handleSearchPeople}>Search</button>
+                        <div className="search-messages">
+                            <input
+                                type="text"
+                                placeholder="search your patrons or supported people"
+                                className="messages-search-box"
+                                value={searchQuery}
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                            />
+                            <button onClick={handleSearchPeople}>
+                                <BiSearch size={27} color="white" />
+                            </button>
+                        </div>
                     </div>
 
                     <ul className="messages-list">
-                        {searchResults.map((room) => (
-                            <MessageResultCard />
-                        ))}
-
-                        {searchResults.length == 0 &&
-                            rooms.map((room) => (
-                                <MessageCard
+                        {loading ? (
+                            <div className="loading-message">
+                                <h1>Loading...</h1>
+                            </div>
+                        ) : null}
+                        {searchResults.map((room) => {
+                            console.log(room)
+                            return (
+                                <MessageResultCard
                                     room={room}
                                     socket={socket}
                                     key={room._id}
+                                    userId={userId}
                                 />
-                            ))}
+                            )
+                        })}
+
+                        {searchResults.length == 0 && !loading
+                            ? rooms.map((room) => (
+                                  <MessageCard
+                                      room={room}
+                                      socket={socket}
+                                      key={room._id}
+                                  />
+                              ))
+                            : null}
                     </ul>
                 </div>
             </div>
