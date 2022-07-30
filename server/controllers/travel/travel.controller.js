@@ -25,6 +25,7 @@ const getPublicTravels = async (req, res) => {
             //public === false
             //private === true
             private: false,
+            deleted: false,
         }))
     ) {
         results.next = {
@@ -41,7 +42,7 @@ const getPublicTravels = async (req, res) => {
 
     results.lengthData = Math.ceil(lengthTravel)
 
-    results.result = await Travel.find({ private: false })
+    results.result = await Travel.find({ private: false, deleted: false })
         .limit(limit)
         .skip(startIndex)
         .sort({ createdAt: -1 })

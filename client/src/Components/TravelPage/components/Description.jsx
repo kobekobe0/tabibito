@@ -35,7 +35,7 @@ function Description({ data, date, id }) {
                     alert(err)
                 })
         } else {
-            alert('no user id')
+            console.log('no user id')
         }
         if (data.userId === jwt_decode(localStorage.getItem('user')).id) {
             setOwn(true)
