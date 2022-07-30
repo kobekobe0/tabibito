@@ -50,6 +50,7 @@ const {
     sendMessage,
     receiveMessage,
     createRoom,
+    findRoom,
     getRoomById,
     getLastMessage,
     getRoomsByUserId,
@@ -82,7 +83,7 @@ const { Server } = require('socket.io')
 
 const io = new Server(server, {
     cors: {
-        origin: 'http://localhost:3001', //placeholder
+        origin: 'http://localhost:3001' || 'https://tabibi-to.herokuapp.com/', //placeholder
         methods: 'GET, POST, PUT, DELETE, OPTIONS',
     },
 })
@@ -180,6 +181,7 @@ app.put('/api/comment/:commentId', editComment)
 app.get('/api/comment/:postId', getCommentByIdPostId)
 
 app.get('/api/rooms/:userId', getRoomsByUserId)
+app.post('/api/search/rooms/:userId/:otherUserId', findRoom)
 app.post('/api/rooms/:id', getRoomById)
 app.get('/api/lastmessage/:roomId', getLastMessage)
 app.get('/api/messages/:roomId', getMessagesByRoomId)
