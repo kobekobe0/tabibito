@@ -13,3 +13,4 @@ TODOS
 -comment section conditionals
 -add 'engine' field in package json server
 -finsish messaging first before worrying about notifications
+-search messages functions || last thing to do before posting. YEY

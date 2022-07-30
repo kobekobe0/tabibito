@@ -11,6 +11,19 @@ const sendMessage = async (roomId, message, from, to, socket) => {
             message: message,
         })
 
+        const room = await Room.findOneAndUpdate(
+            {
+                _id: roomId,
+            },
+            {
+                $set: {
+                    dateModified: Date.now(),
+                },
+            }
+        )
+
+        console.log('msg', room.dateModified)
+
         socket.emit('send_message')
         return true
     } catch (error) {
@@ -28,17 +41,29 @@ const receiveMessage = async (msgFieldId) => {
 
 const createRoom = async (participant1, participant2) => {
     const existingRoom = await Room.findOne({
-        participant1,
-        participant2,
+        $or: [
+            { participant1: participant1, participant2: participant2 },
+            { participant1: participant2, participant2: participant1 },
+        ],
     })
+
     if (existingRoom) {
+        console.log('existing room')
         return existingRoom
     }
+    console.log('not existing')
     const room = await Room.create({
         participant1,
         participant2,
     })
     return room
+}
+
+const findRoom = async (req, res) => {
+    const { userId, otherUserId } = req.params
+
+    const roomRes = await createRoom(userId, otherUserId)
+    res.json(roomRes)
 }
 
 const getRoomById = async (req, res) => {
@@ -67,7 +92,17 @@ const getRoomsByUserId = async (req, res) => {
     try {
         const rooms = await Room.find({
             $or: [{ participant1: userId }, { participant2: userId }],
-        }) //pagination here
+        }).sort({ dateModified: -1 })
+
+        console.log(
+            'rooms',
+            rooms.sort((a, b) => {
+                return b.dateModified - a.dateModified
+            })
+        )
+
+        console.log(rooms[0].dateModified < rooms[1].dateModified)
+
         res.json(rooms)
     } catch (err) {
         res.status(500).json({ message: 'Server error' })
@@ -128,13 +163,14 @@ const getMessagesByRoomId = async (req, res) => {
 }
 
 const getRoomsByUsername = async (req, res) => {
+    //query for rooms that user is in
     const userId = req.params.userId
     const usernameQuery = req.query.searchQuery
     const user = await Userdata.findOne({
         _id: userId,
     })
 
-    let idToQuery = user.following.concat(user.followers)
+    let idToQuery = user.following.concat(user.followers) // combines two array for easier query
 
     const usersResult = await Userdata.find({
         _id: { $in: idToQuery },
@@ -150,6 +186,7 @@ module.exports = {
     sendMessage,
     receiveMessage,
     createRoom,
+    findRoom,
     getRoomById,
     getLastMessage,
     getRoomsByUserId,

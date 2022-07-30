@@ -189,3 +189,44 @@ p {
     margin-bottom: 1em;
     background-color: transparent;
 }
+
+.messages-header .search-messages {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+.messages-header .search-messages input {
+    padding-left: 1em;
+
+    padding-top: 0.5em;
+    padding-bottom: 0.5em;
+    border: solid black 1px;
+    border-right: none;
+    outline: none;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color: #525252;
+    color: white;
+}
+.messages-header .search-messages button {
+    border: solid black 1px;
+    border-left: none;
+    background-color: #525252;
+    display: flex;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+.messages-header .search-messages button:hover {
+    background-color: rgb(142, 170, 170);
+}
+
+@media (max-width: 500px) {
+    .messages-header {
+        flex-direction: column;
+    }
+    .messages-header .search-messages {
+        margin-top: 1em;
+    }
+}
