@@ -21,6 +21,7 @@ I built the backend by myself. Truly a great experience, I learned a lot buildin
 * REST API
 * Server authentication
 * Hashing
+* JWT
 * Websockets
 * Managing Nosql Database
 * Email Verification
