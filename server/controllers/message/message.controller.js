@@ -92,19 +92,9 @@ const getRoomsByUserId = async (req, res) => {
         const rooms = await Room.find({
             $or: [{ participant1: userId }, { participant2: userId }],
         }).sort({ dateModified: -1 })
-
-        console.log(
-            'rooms',
-            rooms.sort((a, b) => {
-                return b.dateModified - a.dateModified
-            })
-        )
-
-        console.log(rooms[0].dateModified < rooms[1].dateModified)
-
         res.json(rooms)
     } catch (err) {
-        res.status(500).json({ message: 'Server error' })
+        res.status(500).json({ message: `Server error: ${err.message}` })
     }
 }
 
