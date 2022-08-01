@@ -23,6 +23,7 @@ I built the backend by myself. Truly a great experience, I learned a lot buildin
 * Hashing
 * Websockets
 * Managing Nosql Database
+* Email Verification
 
 
 ## Author
