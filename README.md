@@ -26,6 +26,8 @@ I built the backend by myself. Truly a great experience, I learned a lot buildin
 * Managing Nosql Database
 * Email Verification
 
+##### Bugs to fix:
+*Instead of storing images in the backend server, upload the images to a cloud storage then get the link/path for that image then store that to the db.(pref. aws s3)
 
 ## Author
 
